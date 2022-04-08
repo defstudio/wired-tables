@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace DefStudio\WiredTables\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class WiredTablesCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'wired-tables';
 
     public $description = 'My command';
 
