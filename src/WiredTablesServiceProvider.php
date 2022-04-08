@@ -2,9 +2,9 @@
 
 namespace DefStudio\WiredTables;
 
+use DefStudio\WiredTables\Commands\WiredTablesCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use DefStudio\WiredTables\Commands\WiredTablesCommand;
 
 class WiredTablesServiceProvider extends PackageServiceProvider
 {

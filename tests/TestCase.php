@@ -2,9 +2,9 @@
 
 namespace DefStudio\WiredTables\Tests;
 
+use DefStudio\WiredTables\WiredTablesServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
-use DefStudio\WiredTables\WiredTablesServiceProvider;
 
 class TestCase extends Orchestra
 {
