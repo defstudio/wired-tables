@@ -2,7 +2,6 @@
 
 namespace DefStudio\WiredTables;
 
-use DefStudio\WiredTables\Commands\WiredTablesCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -17,7 +16,7 @@ class WiredTablesServiceProvider extends PackageServiceProvider
 
     public function packageBooted()
     {
-      $this->bootViews();
+        $this->bootViews();
     }
 
     protected function bootViews(): void
