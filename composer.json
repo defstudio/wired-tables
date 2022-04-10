@@ -36,8 +36,7 @@
     },
     "autoload": {
         "psr-4": {
-            "DefStudio\\WiredTables\\": "src",
-            "DefStudio\\WiredTables\\Database\\Factories\\": "database/factories"
+            "DefStudio\\WiredTables\\": "src"
         }
     },
     "autoload-dev": {
@@ -71,10 +70,7 @@
         "laravel": {
             "providers": [
                 "DefStudio\\WiredTables\\WiredTablesServiceProvider"
-            ],
-            "aliases": {
-                "WiredTables": "DefStudio\\WiredTables\\Facades\\WiredTables"
-            }
+            ]
         }
     },
     "minimum-stability": "dev",

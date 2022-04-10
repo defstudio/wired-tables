@@ -85,3 +85,25 @@ Please review [our security policy](../../security/policy) on how to report secu
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+
+
+
+## TODO DOCS
+
+### Views can be overridden by publishing them
+```bash
+php artisan vendor:publish --tag="wired-tables-views"
+```
+
+### Views can be overridden on a single table also:
+```php
+MyTable extends WiredTable{
+    public function mainView(): string
+    {
+        return 'custom-main-view';
+    }
+```
+
+the following view methods can be overridden:
+- `mainView()`: the main container view for the table
+- `tableView()`: the main table view

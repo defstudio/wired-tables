@@ -2,13 +2,20 @@
 
 namespace DefStudio\WiredTables;
 
+use DefStudio\WiredTables\Concerns\HasColumns;
+use DefStudio\WiredTables\Concerns\HasConfiguration;
+use DefStudio\WiredTables\Concerns\HasViews;
+use Illuminate\Contracts\View\View;
 use Livewire\Component;
-use View;
 
-class WiredTable extends Component
+abstract class WiredTable extends Component
 {
+    use HasViews;
+    use HasConfiguration;
+    use HasColumns;
+
     public function render(): View
     {
-        return view("wired-tables:main");
+        return view($this->mainView());
     }
 }
