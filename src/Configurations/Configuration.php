@@ -19,6 +19,7 @@ abstract class Configuration
     public function set(Config $key, mixed $value): static
     {
         $this->config[$key->name] = $value;
+
         return $this;
     }
 

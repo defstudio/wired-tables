@@ -1,5 +1,7 @@
 <?php
+
 namespace DefStudio\WiredTables\Enums;
+
 enum Config
 {
     case font_size_class;

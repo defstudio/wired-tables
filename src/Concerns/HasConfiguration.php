@@ -2,10 +2,8 @@
 
 namespace DefStudio\WiredTables\Concerns;
 
-use DefStudio\WiredTables\Configurations\Configuration;
 use DefStudio\WiredTables\Configurations\TableConfiguration;
 use DefStudio\WiredTables\WiredTable;
-use Illuminate\Support\Collection;
 
 /**
  * @mixin WiredTable

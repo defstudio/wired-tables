@@ -1,4 +1,6 @@
-<?php /** @noinspection PhpUnhandledExceptionInspection */
+<?php
+
+/** @noinspection PhpUnhandledExceptionInspection */
 
 namespace DefStudio\WiredTables\Concerns;
 
@@ -19,7 +21,7 @@ trait HasColumns
         $this->columns();
         $this->columnsLocked = true;
 
-        if(empty($this->columns)){
+        if (empty($this->columns)) {
             throw ColumnException::noColumnDefined(static::class);
         }
     }
@@ -28,11 +30,12 @@ trait HasColumns
 
     protected function column(string $name, string $dbColumn = null): Column
     {
-        if($this->columnsLocked){
+        if ($this->columnsLocked) {
             throw ColumnException::locked();
         }
 
         $this->columns[] = $column = new Column($name, $dbColumn);
+
         return $column;
     }
 }

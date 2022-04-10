@@ -61,5 +61,4 @@ trait HasTextConfiguration
     {
         return $this->set(Config::text_align_class, 'text-justify');
     }
-
 }

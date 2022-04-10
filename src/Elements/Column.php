@@ -28,7 +28,8 @@ class Column extends Configuration
         return $this->name;
     }
 
-    public function dbColumn(): string{
+    public function dbColumn(): string
+    {
         return $this->dbColumn ?? Str::of($this->name)->snake();
     }
 

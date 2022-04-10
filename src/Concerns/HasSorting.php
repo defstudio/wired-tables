@@ -25,8 +25,8 @@ trait HasSorting
         $direction = $direction->next();
 
         if ($this->supportMultipleSorting()) {
-           $this->sorting = Arr::except($this->sorting, $dbColumn);
-        }else{
+            $this->sorting = Arr::except($this->sorting, $dbColumn);
+        } else {
             $this->sorting = [];
         }
 

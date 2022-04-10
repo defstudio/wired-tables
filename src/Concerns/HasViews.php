@@ -1,8 +1,9 @@
-<?php /** @noinspection PhpUnhandledExceptionInspection */
+<?php
+
+/** @noinspection PhpUnhandledExceptionInspection */
 
 namespace DefStudio\WiredTables\Concerns;
 
-use DefStudio\WiredTables\Exceptions\TemplateException;
 use DefStudio\WiredTables\WiredTable;
 
 /**
@@ -24,6 +25,4 @@ trait HasViews
     {
         return $this->configuration->template('header');
     }
-
-
 }
