@@ -8,7 +8,6 @@ namespace DefStudio\WiredTables\Configurations;
 
 use DefStudio\WiredTables\Concerns\HasTextConfiguration;
 use DefStudio\WiredTables\Enums\Config;
-use DefStudio\WiredTables\Exceptions\PaginationException;
 use DefStudio\WiredTables\Exceptions\TemplateException;
 
 class TableConfiguration extends Configuration

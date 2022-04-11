@@ -6,9 +6,7 @@ use DefStudio\WiredTables\Concerns\HasTextConfiguration;
 use DefStudio\WiredTables\Configurations\Configuration;
 use DefStudio\WiredTables\Enums\Config;
 use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\HtmlString;
 use Str;
 
@@ -81,7 +79,7 @@ class Column extends Configuration implements Arrayable
     {
         $value = $this->value();
 
-        if (!empty($formatClosure = $this->get(Config::format_closure))) {
+        if (! empty($formatClosure = $this->get(Config::format_closure))) {
             $value = call_user_func($formatClosure, $this->model, $value, $this);
         }
 

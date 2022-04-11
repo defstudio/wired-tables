@@ -23,5 +23,4 @@ class HeaderConfiguration extends Configuration
             ->textLeft()
             ->textColorClass('text-gray-500');
     }
-
 }

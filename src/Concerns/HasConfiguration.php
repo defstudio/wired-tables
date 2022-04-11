@@ -38,5 +38,4 @@ trait HasConfiguration
     {
         return $this->configuration()->header->get($key, $default);
     }
-
 }

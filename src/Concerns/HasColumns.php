@@ -8,8 +8,6 @@ use DefStudio\WiredTables\Elements\Column;
 use DefStudio\WiredTables\Exceptions\ColumnException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\Relation;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 
 trait HasColumns
 {
@@ -54,7 +52,7 @@ trait HasColumns
     protected function getColumnFromDb(string $dbColumn): Column|null
     {
         foreach ($this->_columns as $column) {
-            if($column->dbColumn() === $dbColumn){
+            if ($column->dbColumn() === $dbColumn) {
                 return $column;
             }
         }
@@ -65,10 +63,10 @@ trait HasColumns
     protected function applyEagerLoading(Builder|Relation $query): void
     {
         $relations = [];
-        foreach ($this->_columns as $column){
-           if($column->isRelationship()){
-               $relations[] = $column->getRelationship();
-           }
+        foreach ($this->_columns as $column) {
+            if ($column->isRelationship()) {
+                $relations[] = $column->getRelationship();
+            }
         }
         $relations = array_filter($relations);
 

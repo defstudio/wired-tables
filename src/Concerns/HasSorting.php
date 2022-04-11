@@ -26,12 +26,13 @@ trait HasSorting
         $direction = $this->getSortDirection($dbColumn);
         $direction = $direction->next();
 
-        if (!$this->supportMultipleSorting()){
+        if (! $this->supportMultipleSorting()) {
             $this->sorting = [];
         }
 
-        if($direction === Sorting::none){
+        if ($direction === Sorting::none) {
             unset($this->sorting[$dbColumn]);
+
             return;
         }
 
@@ -49,7 +50,7 @@ trait HasSorting
     {
         $column = is_string($column) ? $column : $column->dbColumn();
 
-        if(!array_key_exists($column, $this->sorting)){
+        if (! array_key_exists($column, $this->sorting)) {
             return 0;
         }
 
@@ -59,14 +60,14 @@ trait HasSorting
 
     protected function applySorting(Builder|Relation $query): void
     {
-        foreach ($this->sorting as $dbColumn => $dir){
+        foreach ($this->sorting as $dbColumn => $dir) {
             $column = $this->getColumnFromDb($dbColumn);
 
-            if(empty($column)){
+            if (empty($column)) {
                 return;
             }
 
-            if(!$column->isRelationship()){
+            if (! $column->isRelationship()) {
                 $query->orderBy($column->getField(), $dir);
             }
         }
