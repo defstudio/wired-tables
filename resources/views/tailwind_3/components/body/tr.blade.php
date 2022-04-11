@@ -9,21 +9,12 @@ use DefStudio\WiredTables\WiredTable;
 /** @var Column $column */
 /** @var ComponentAttributeBag $attributes */
 
-$attributes = $attributes->class([
-    "px-6 py-3",
-    "font-medium",
-    "whitespace-nowrap",
-    $column->getTextClasses(),
-]);
 ?>
 
 @aware(['component'])
-@props(['column'])
+@props(['model'])
 
-<?php
-
-?>
-<td {{$attributes}}>
-    {{$column->render()}}
-</td>
+<tr {{$attributes->class(['odd:bg-white even:bg-gray-50' => $component->config(\DefStudio\WiredTables\Enums\Config::striped)])}}>
+    {{$slot}}
+</tr>
 

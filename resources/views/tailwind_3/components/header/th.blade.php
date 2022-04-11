@@ -41,10 +41,10 @@ $sortable = $column->get(Config::is_sortable);
             @endif
 
 
-            <div class="min-w-[30px]">
+            <div class="min-w-[30px] h-full">
                 @php($position = $component->getSortPosition($column))
                 @if($position)
-                    <span class="mb-2 font-bold text-xs text-gray-400 group-hover:text-gray-600">{{$position}}{{date("S", mktime(0, 0, 0, 0, $position, 0))}}</span>
+                    <span class="absolute top-1 font-bold text-[8px] text-gray-400 group-hover:text-gray-600">{{$position}}{{date("S", mktime(0, 0, 0, 0, $position, 0))}}</span>
                 @endif
             </div>
 

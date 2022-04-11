@@ -7,8 +7,9 @@ use DefStudio\WiredTables\WiredTable;
 
 @aware(['component'])
 
-@if($component->configuration()->get(\DefStudio\WiredTables\Enums\Config::debug))
+@if($component->config(\DefStudio\WiredTables\Enums\Config::debug))
     <div class="m-2 p-2 border rounded-md">
+        <strong><u>Debug Info</u></strong>
         <div class="flex flex-column" x-data="{section: 'table', column: 0}">
             <ul>
                <li class="py-2 px-4 text-gray-700" :class="{'bg-gray-200': section === 'table'}"><button @click="section = 'table'" role="button">Table Configuration</button></li>

@@ -6,6 +6,10 @@ namespace DefStudio\WiredTables\Concerns;
 
 use DefStudio\WiredTables\Elements\Column;
 use DefStudio\WiredTables\Exceptions\ColumnException;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 trait HasColumns
 {
@@ -45,5 +49,29 @@ trait HasColumns
         $this->_columns[] = $column = new Column($name, $dbColumn);
 
         return $column;
+    }
+
+    protected function getColumnFromDb(string $dbColumn): Column|null
+    {
+        foreach ($this->_columns as $column) {
+            if($column->dbColumn() === $dbColumn){
+                return $column;
+            }
+        }
+
+        return null;
+    }
+
+    protected function applyEagerLoading(Builder|Relation $query): void
+    {
+        $relations = [];
+        foreach ($this->_columns as $column){
+           if($column->isRelationship()){
+               $relations[] = $column->getRelationship();
+           }
+        }
+        $relations = array_filter($relations);
+
+        $query->with($relations);
     }
 }

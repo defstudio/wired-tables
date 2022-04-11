@@ -3,6 +3,7 @@
 namespace DefStudio\WiredTables\Concerns;
 
 use DefStudio\WiredTables\Configurations\TableConfiguration;
+use DefStudio\WiredTables\Enums\Config;
 use DefStudio\WiredTables\WiredTable;
 
 /**
@@ -15,7 +16,7 @@ trait HasConfiguration
     public function bootedHasConfiguration(): void
     {
         $this->configuration = new TableConfiguration();
-        $this->config($this->configuration);
+        $this->configure($this->configuration);
     }
 
     public function configuration(): TableConfiguration
@@ -23,8 +24,19 @@ trait HasConfiguration
         return $this->configuration;
     }
 
-    protected function config(TableConfiguration $configuration): void
+    protected function configure(TableConfiguration $configuration): void
     {
         // Uses standard options by default
     }
+
+    public function config(Config $key, mixed $default = null): mixed
+    {
+        return $this->configuration()->get($key, $default);
+    }
+
+    public function headerConfig(Config $key, mixed $default = null): mixed
+    {
+        return $this->configuration()->header->get($key, $default);
+    }
+
 }
