@@ -30,7 +30,9 @@ class TableConfiguration extends Configuration
 
     private function initDefaults(): void
     {
-        $this->fontBase()
+        $this
+            ->set(Config::support_multiple_sorting, false)
+            ->fontBase()
             ->textLeft()
             ->textColorClass('text-gray-800');
     }
@@ -40,6 +42,15 @@ class TableConfiguration extends Configuration
         return $this->set(Config::support_multiple_sorting, true);
     }
 
+    public function debug(): static
+    {
+        if (config('app.debug')) {
+            $this->set(Config::debug, true);
+        }
+
+        return $this;
+    }
+
     public function template(string $key): string
     {
         return $this->templates[$key] ?? throw TemplateException::invalidTemplate($key);
@@ -47,12 +58,19 @@ class TableConfiguration extends Configuration
 
     public function overrideTemplate(string $key, string $viewName): static
     {
-        if (! in_array($key, $this->templates)) {
+        if (!in_array($key, $this->templates)) {
             throw TemplateException::invalidTemplate($key);
         }
 
         $this->templates[$key] = $viewName;
 
         return $this;
+    }
+
+    public function dump(): void
+    {
+        parent::dump();
+
+        dump($this->templates);
     }
 }

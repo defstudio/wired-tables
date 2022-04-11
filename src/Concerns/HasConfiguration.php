@@ -15,7 +15,7 @@ trait HasConfiguration
     public function bootedHasConfiguration(): void
     {
         $this->configuration = new TableConfiguration();
-        $this->setup($this->configuration);
+        $this->config($this->configuration);
     }
 
     public function configuration(): TableConfiguration
@@ -23,7 +23,7 @@ trait HasConfiguration
         return $this->configuration;
     }
 
-    protected function setup(TableConfiguration $options): void
+    protected function config(TableConfiguration $configuration): void
     {
         // Uses standard options by default
     }

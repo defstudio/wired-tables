@@ -9,8 +9,12 @@ use DefStudio\WiredTables\WiredTable;
 /** @var Column $column */
 /** @var ComponentAttributeBag $attributes */
 
-
-$classes = "uppercase font-medium whitespace-nowrap tracking-wider {$column->getTextClasses()}";
+$attributes = $attributes->class([
+    "px-6 py-3",
+    "font-medium",
+    "whitespace-nowrap",
+    $column->getTextClasses(),
+]);
 
 $sortable = $column->get(Config::is_sortable);
 ?>
@@ -21,9 +25,9 @@ $sortable = $column->get(Config::is_sortable);
 <?php
 
 ?>
-<th {{$attributes->merge(['scope' => 'col'])->class(["px-6 py-3"])}}>
+<td {{$attributes}}>
     @if($sortable)
-        <button wire:click="sort('{{$column->dbColumn()}}')" class="flex items-center group {{$classes}}">
+        <button wire:click="sort('{{$column->dbColumn()}}')" class="flex items-center group">
             {{$column->name()}}
 
             @if($component->getSortDirection($column) === \DefStudio\WiredTables\Enums\Sorting::asc)
@@ -40,19 +44,12 @@ $sortable = $column->get(Config::is_sortable);
                 </svg>
             @endif
 
-
-            <div class="min-w-[30px]">
-                @php($position = $component->getSortPosition($column))
-                @if($position)
-                    <span class="mb-2 font-bold text-xs text-gray-400 group-hover:text-gray-600">{{$position}}{{date("S", mktime(0, 0, 0, 0, $position, 0))}}</span>
-                @endif
-            </div>
-
+            @if($position = $component->getSortPosition($column))
+                <span class="mb-2 font-bold text-xs text-gray-400 group-hover:text-gray-600">{{$position}}{{date("S", mktime(0, 0, 0, 0, $position, 0))}}</span>
+            @endif
         </button>
     @else
-        <div class="{{$classes}}">
-            {{$column->name()}}
-        </div>
+        {{$column->name()}}
     @endif
-</th>
+</td>
 

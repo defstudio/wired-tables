@@ -25,6 +25,16 @@ abstract class Configuration
 
     public function get(Config $key, mixed $default = null): mixed
     {
-        return data_get($this->config, $key->name, $this->parentConfiguration?->get($key) ?? $default);
+        return data_get($this->config, $key->name, $this->parentConfiguration?->get($key)) ?? $default;
+    }
+
+    public function dump(): void
+    {
+        dump($this->toArray());
+    }
+
+    public function toArray(): array
+    {
+        return $this->config;
     }
 }
