@@ -58,7 +58,7 @@ class TableConfiguration extends Configuration
 
     public function overrideTemplate(string $key, string $viewName): static
     {
-        if (!in_array($key, $this->templates)) {
+        if (! in_array($key, $this->templates)) {
             throw TemplateException::invalidTemplate($key);
         }
 

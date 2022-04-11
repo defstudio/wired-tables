@@ -50,6 +50,4 @@ class Column extends Configuration implements Arrayable
 
         return $config;
     }
-
-
 }
