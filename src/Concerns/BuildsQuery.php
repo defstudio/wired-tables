@@ -2,9 +2,13 @@
 
 namespace DefStudio\WiredTables\Concerns;
 
+use DefStudio\WiredTables\Enums\Config;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\Str;
+use Illuminate\Support\Stringable;
 
 /**
  * @template TModel of Illuminate\Database\Eloquent\Model
@@ -41,10 +45,41 @@ trait BuildsQuery
     }
 
     /**
-     * @return Collection<int, TModel>
+     * @return Collection<int, TModel>|LengthAwarePaginator
      */
-    public function getRowsProperty(): Collection
+    public function paginatedResults(): Collection|LengthAwarePaginator
     {
-        return $this->rowsQuery()->get();
+        $query = $this->rowsQuery()->clone();
+
+        if (!$this->paginationEnabled()) {
+            return $query->get();
+        }
+
+        if ($this->pageSize === 'all') {
+            return $query->get();
+        }
+
+        return $query->paginate($this->pageSize);
+    }
+
+    /**
+     * @return Collection<int, TModel>|LengthAwarePaginator
+     */
+    public function getRowsProperty(): Collection|LengthAwarePaginator
+    {
+        return $this->paginatedResults();
+    }
+
+    public function debugQuery(): string
+    {
+        if (!config('app.debug')) {
+            return "";
+        }
+
+        return Str::of($this->rowsQuery()->toSql())
+            ->replaceArray('?', collect($this->rowsQuery()->getBindings())->map(function ($binding) {
+                return is_numeric($binding) ? $binding : "'{$binding}'";
+            })->toArray())
+            ->when($this->paginationEnabled(), fn(Stringable $str) => $str->append(' limit ', $this->pageSize, ' offset ', $this->pageSize * ($this->page - 1)));
     }
 }

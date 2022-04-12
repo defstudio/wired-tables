@@ -13,15 +13,18 @@ use Livewire\Component;
 
 abstract class WiredTable extends Component
 {
-    use HasViews;
     use HasConfiguration;
     use HasColumns;
     use HasSorting;
     use BuildsQuery;
     use HasPagination;
 
+    public $queryString = [
+        'sorting' => ['except' => [], 'as' => 'sort'],
+    ];
+
     public function render(): View
     {
-        return view($this->mainView());
+        return view('wired-tables::main');
     }
 }

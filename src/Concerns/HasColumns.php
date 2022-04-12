@@ -44,7 +44,7 @@ trait HasColumns
             throw ColumnException::locked();
         }
 
-        $this->_columns[] = $column = new Column($name, $dbColumn);
+        $this->_columns[] = $column = new Column($this, $name, $dbColumn);
 
         return $column;
     }

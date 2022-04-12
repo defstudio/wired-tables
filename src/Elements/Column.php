@@ -5,6 +5,8 @@ namespace DefStudio\WiredTables\Elements;
 use DefStudio\WiredTables\Concerns\HasTextConfiguration;
 use DefStudio\WiredTables\Configurations\Configuration;
 use DefStudio\WiredTables\Enums\Config;
+use DefStudio\WiredTables\WiredTable;
+use Hash;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\HtmlString;
@@ -15,14 +17,19 @@ class Column extends Configuration implements Arrayable
     use HasTextConfiguration;
 
     private Model $model;
+    private string $id;
 
     public function __construct(
+        WiredTable $table,
         string $name,
         string|null $dbColumn = null
     ) {
+
         $this->initDefaults();
+
         $this->set(Config::name, $name)
-            ->set(Config::db_column, $dbColumn);
+            ->set(Config::db_column, $dbColumn)
+            ->set(Config::id, Hash::make($this->name() . $this->dbColumn().$table->id));
     }
 
     protected function initDefaults(): void
@@ -44,6 +51,11 @@ class Column extends Configuration implements Arrayable
     public function dbColumn(): string
     {
         return $this->get(Config::db_column, Str::of($this->name())->snake()->toString());
+    }
+
+    public function id(): string
+    {
+        return $this->get(Config::id);
     }
 
     public function sortable(): static

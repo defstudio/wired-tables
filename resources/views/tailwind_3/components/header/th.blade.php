@@ -21,9 +21,9 @@ $sortable = $column->get(Config::is_sortable);
 <?php
 
 ?>
-<th {{$attributes->merge(['scope' => 'col'])->class(["px-6 py-3"])}}>
+<th {{$attributes->merge(['scope' => 'col'])->class(["px-6 py-3 relative"])}}>
     @if($sortable)
-        <button wire:click="sort('{{$column->dbColumn()}}')" class="flex items-center group {{$classes}}">
+        <button wire:key="wt-th-sort-{{$column->id()}}" wire:click="sort('{{$column->dbColumn()}}')" class="flex items-center group {{$classes}}">
             {{$column->name()}}
 
             @if($component->getSortDirection($column) === \DefStudio\WiredTables\Enums\Sorting::asc)

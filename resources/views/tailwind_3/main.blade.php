@@ -5,16 +5,16 @@ use DefStudio\WiredTables\WiredTable;
 /** @var WiredTable $this */
 ?>
 
-<x-wired-tables::wrapper :component="$this">
-    <x-wired-tables::debug/>
+<x-wired-tables::wrapper wire:key="wt-wrapper-{{$this->id}}" :component="$this">
+    <x-wired-tables::debug wire:key="wt-debug-{{$this->id}}"/>
 
-    <x-wired-tables::table>
+    <x-wired-tables::table wire:key="wt-{{$this->id}}">
         <x-slot name="header">
-            <x-wired-tables::header>
+            <x-wired-tables::header wire:key="wt-header-{{$this->id}}">
                 <tr>
                     @foreach($this->columns as $column)
                         @php($column->setParentConfiguration($this->configuration()->header))
-                        <x-wired-tables::header.th :column="$column"/>
+                        <x-wired-tables::header.th  wire:key="wt-th-{{$column->id()}}" :column="$column"/>
                     @endforeach
                 </tr>
             </x-wired-tables::header>
@@ -33,6 +33,8 @@ use DefStudio\WiredTables\WiredTable;
         </x-wired-tables::body>
 
     </x-wired-tables::table>
+
+    <x-wired-tables::pagination />
 
 </x-wired-tables::wrapper>
 

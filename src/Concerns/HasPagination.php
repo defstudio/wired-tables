@@ -5,17 +5,27 @@ namespace DefStudio\WiredTables\Concerns;
 use DefStudio\WiredTables\Enums\Config;
 use DefStudio\WiredTables\Exceptions\PaginationException;
 use DefStudio\WiredTables\WiredTable;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\Relation;
+use Livewire\WithPagination;
 
 /**
  * @mixin WiredTable
  */
 trait HasPagination
 {
+    use WithPagination;
+
     public int|string $pageSize;
 
     public function mountHasPagination(): void
     {
         $this->setPageSize($this->config(Config::default_page_size));
+    }
+
+    public function updatedPageSize(): void
+    {
+        $this->resetPage();
     }
 
     public function setPageSize(int|string $size): void
@@ -25,5 +35,14 @@ trait HasPagination
         }
 
         $this->pageSize = $size;
+    }
+
+    public function paginationEnabled(): bool
+    {
+        if(empty(Config::available_page_sizes)){
+            return false;
+        }
+
+        return true;
     }
 }
