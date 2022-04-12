@@ -34,7 +34,7 @@ trait BuildsQuery
      */
     public function rowsQuery(): Builder|Relation
     {
-        $query = $this->query();
+        $query = $this->_query->clone();
 
         $this->applyEagerLoading($query);
         $this->applySorting($query);
