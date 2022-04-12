@@ -5,8 +5,6 @@ namespace DefStudio\WiredTables\Concerns;
 use DefStudio\WiredTables\Enums\Config;
 use DefStudio\WiredTables\Exceptions\PaginationException;
 use DefStudio\WiredTables\WiredTable;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Relations\Relation;
 use Livewire\WithPagination;
 
 /**
@@ -39,7 +37,7 @@ trait HasPagination
 
     public function paginationEnabled(): bool
     {
-        if(empty(Config::available_page_sizes)){
+        if (empty(Config::available_page_sizes)) {
             return false;
         }
 

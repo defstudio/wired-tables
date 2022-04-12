@@ -24,7 +24,6 @@ class Column extends Configuration implements Arrayable
         string $name,
         string|null $dbColumn = null
     ) {
-
         $this->initDefaults();
 
         $this->set(Config::name, $name)

@@ -7,7 +7,6 @@ use DefStudio\WiredTables\Concerns\HasColumns;
 use DefStudio\WiredTables\Concerns\HasConfiguration;
 use DefStudio\WiredTables\Concerns\HasPagination;
 use DefStudio\WiredTables\Concerns\HasSorting;
-use DefStudio\WiredTables\Concerns\HasViews;
 use Illuminate\Contracts\View\View;
 use Livewire\Component;
 

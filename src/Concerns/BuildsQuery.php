@@ -2,7 +2,6 @@
 
 namespace DefStudio\WiredTables\Concerns;
 
-use DefStudio\WiredTables\Enums\Config;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -51,7 +50,7 @@ trait BuildsQuery
     {
         $query = $this->rowsQuery()->clone();
 
-        if (!$this->paginationEnabled()) {
+        if (! $this->paginationEnabled()) {
             return $query->get();
         }
 
@@ -72,7 +71,7 @@ trait BuildsQuery
 
     public function debugQuery(): string
     {
-        if (!config('app.debug')) {
+        if (! config('app.debug')) {
             return "";
         }
 
@@ -80,6 +79,6 @@ trait BuildsQuery
             ->replaceArray('?', collect($this->rowsQuery()->getBindings())->map(function ($binding) {
                 return is_numeric($binding) ? $binding : "'{$binding}'";
             })->toArray())
-            ->when($this->paginationEnabled(), fn(Stringable $str) => $str->append(' limit ', $this->pageSize, ' offset ', $this->pageSize * ($this->page - 1)));
+            ->when($this->paginationEnabled(), fn (Stringable $str) => $str->append(' limit ', $this->pageSize, ' offset ', $this->pageSize * ($this->page - 1)));
     }
 }

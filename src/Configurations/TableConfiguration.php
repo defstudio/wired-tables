@@ -8,7 +8,6 @@ namespace DefStudio\WiredTables\Configurations;
 
 use DefStudio\WiredTables\Concerns\HasTextConfiguration;
 use DefStudio\WiredTables\Enums\Config;
-use DefStudio\WiredTables\Exceptions\TemplateException;
 
 class TableConfiguration extends Configuration
 {
@@ -28,7 +27,7 @@ class TableConfiguration extends Configuration
             ->set(Config::support_multiple_sorting, false)
             ->rowDividers()
             ->striped()
-            ->pageSize(10,)
+            ->pageSize(10, )
             ->fontSm()
             ->textLeft()
             ->textColorClass('text-gray-800');
