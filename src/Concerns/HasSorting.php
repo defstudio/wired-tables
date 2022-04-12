@@ -1,4 +1,6 @@
-<?php /** @noinspection PhpUnhandledExceptionInspection */
+<?php
+
+/** @noinspection PhpUnhandledExceptionInspection */
 
 namespace DefStudio\WiredTables\Concerns;
 
@@ -30,7 +32,7 @@ trait HasSorting
         $direction = $this->getSortDirection($dbColumn);
         $direction = $direction->next();
 
-        if (!$this->supportMultipleSorting()) {
+        if (! $this->supportMultipleSorting()) {
             $this->sorting = [];
         }
 
@@ -54,7 +56,7 @@ trait HasSorting
     {
         $column = is_string($column) ? $column : $column->dbColumn();
 
-        if (!array_key_exists($column, $this->sorting)) {
+        if (! array_key_exists($column, $this->sorting)) {
             return 0;
         }
 
@@ -73,6 +75,7 @@ trait HasSorting
 
             if (($sortClosure = $column->get(Config::sort_closure))) {
                 $sortClosure($query, $dir);
+
                 return;
             }
 
@@ -87,7 +90,7 @@ trait HasSorting
 
                 $relationship = $relationships[0];
 
-                if (!method_exists($model, $relationship)) {
+                if (! method_exists($model, $relationship)) {
                     throw SortingException::relationDoesntExist($relationship);
                 }
 

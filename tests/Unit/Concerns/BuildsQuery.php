@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
 test('query is booted', function () {
-    $table = new class extends WiredTable {
+    $table = new class () extends WiredTable {
         protected function query(): Builder|Relation
         {
             return Car::query();
