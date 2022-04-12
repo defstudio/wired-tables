@@ -13,7 +13,7 @@ use Illuminate\View\ComponentAttributeBag;
     <div class="m-2 p-2 border rounded-md" {{$attributes}}>
         <strong><u>Debug Info</u></strong>
         <div class="flex flex-column" x-data="{section: 'table', column: 0}">
-            <ul>
+            <ul class="min-w-[190px]">
                 <li class="py-2 px-4 text-gray-700" :class="{'bg-gray-200': section === 'table'}">
                     <button @click="section = 'table'" role="button">Table Configuration</button>
                 </li>
@@ -66,7 +66,7 @@ use Illuminate\View\ComponentAttributeBag;
                     </div>
                 </div>
                 <div class="p-4" x-show="section === 'query'">
-                    {{ $component->debugQuery()}}
+                    <pre>{{ $component->debugQuery()}}</pre>
                 </div>
             </div>
         </div>

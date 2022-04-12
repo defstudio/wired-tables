@@ -21,4 +21,5 @@ enum Config
     case name;
     case db_column;
     case format_closure;
+    case sort_closure;
 }

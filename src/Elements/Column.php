@@ -57,9 +57,10 @@ class Column extends Configuration implements Arrayable
         return $this->get(Config::id);
     }
 
-    public function sortable(): static
+    public function sortable(callable $sortClosure = null): static
     {
-        return $this->set(Config::is_sortable, true);
+        return $this->set(Config::is_sortable, true)
+            ->set(Config::sort_closure, $sortClosure);
     }
 
     /**
@@ -91,7 +92,7 @@ class Column extends Configuration implements Arrayable
         $value = $this->value();
 
         if (! empty($formatClosure = $this->get(Config::format_closure))) {
-            $value = call_user_func($formatClosure, $this->model, $value, $this);
+            $value = $formatClosure($this->model, $value, $this);
         }
 
         return new HtmlString($value);
