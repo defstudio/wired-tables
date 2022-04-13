@@ -68,6 +68,7 @@ trait HasColumns
                 $relations[] = $column->getRelationship();
             }
         }
+
         $relations = array_filter($relations);
 
         $query->with($relations);

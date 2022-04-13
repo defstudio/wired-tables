@@ -2,6 +2,7 @@
 
 namespace DefStudio\WiredTables\Elements;
 
+use Closure;
 use DefStudio\WiredTables\Concerns\HasTextConfiguration;
 use DefStudio\WiredTables\Configurations\Configuration;
 use DefStudio\WiredTables\Enums\Config;
@@ -17,7 +18,6 @@ class Column extends Configuration implements Arrayable
     use HasTextConfiguration;
 
     private Model $model;
-    private string $id;
 
     public function __construct(
         WiredTable $table,
@@ -63,12 +63,17 @@ class Column extends Configuration implements Arrayable
             ->set(Config::sort_closure, $sortClosure);
     }
 
+    public function is_sortable(): bool
+    {sostituire le chiamate a $this->get(Config::is_sortable, con questa funzione
+        return $this->get(Config::is_sortable, false);
+    }
+
     /**
-     * @param callable(Column $column) $formatClosure
+     * @param Closure(Column $column): string $formatClosure
      *
-     * @return $this
+     * @return static
      */
-    public function format(callable $formatClosure): static
+    public function format(Closure $formatClosure): static
     {
         return $this->set(Config::format_closure, $formatClosure);
     }
@@ -78,6 +83,10 @@ class Column extends Configuration implements Arrayable
         $config = $this->config;
 
         $config['db_column'] = $this->dbColumn();
+        $config['field'] = $this->getField();
+        $config['is_relationship'] = $this->isRelationship();
+        $config['relationship'] = $this->getRelationship();
+
 
         return $config;
     }
@@ -91,7 +100,7 @@ class Column extends Configuration implements Arrayable
     {
         $value = $this->value();
 
-        if (! empty($formatClosure = $this->get(Config::format_closure))) {
+        if (!empty($formatClosure = $this->get(Config::format_closure))) {
             $value = $formatClosure($this->model, $value, $this);
         }
 

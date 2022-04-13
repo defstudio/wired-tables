@@ -18,4 +18,9 @@ class SortingException extends \Exception
     {
         return new SortingException("Auto sorting is not supported for [$relationClass] relationships");
     }
+
+    public static function columnNotFound(string $dbColumn): SortingException
+    {
+        return new SortingException("Failed to sort by [$dbColumn]: Column not found");
+    }
 }

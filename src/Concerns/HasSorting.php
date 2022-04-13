@@ -29,10 +29,18 @@ trait HasSorting
 
     public function sort(string $dbColumn): void
     {
+        $column = $this->getColumnFromDb($dbColumn);
+
+        if($column === null){
+            throw SortingException::columnNotFound($dbColumn);
+        }
+
+        if($column->sortable())
+
         $direction = $this->getSortDirection($dbColumn);
         $direction = $direction->next();
 
-        if (! $this->supportMultipleSorting()) {
+        if (!$this->supportMultipleSorting()) {
             $this->sorting = [];
         }
 
@@ -56,7 +64,7 @@ trait HasSorting
     {
         $column = is_string($column) ? $column : $column->dbColumn();
 
-        if (! array_key_exists($column, $this->sorting)) {
+        if (!array_key_exists($column, $this->sorting)) {
             return 0;
         }
 
@@ -66,7 +74,9 @@ trait HasSorting
 
     protected function applySorting(Builder|Relation $query): void
     {
-        foreach ($this->sorting as $dbColumn => $dir) {
+
+        foreach ($this->sorting as $dbColumn =>  $dir) {
+
             $column = $this->getColumnFromDb($dbColumn);
 
             if (empty($column)) {
@@ -90,7 +100,7 @@ trait HasSorting
 
                 $relationship = $relationships[0];
 
-                if (! method_exists($model, $relationship)) {
+                if (!method_exists($model, $relationship)) {
                     throw SortingException::relationDoesntExist($relationship);
                 }
 
@@ -99,6 +109,8 @@ trait HasSorting
                     BelongsTo::class => $this->applySortingToBelongsTo($query, $column, $relation, $dir),
                     default => throw SortingException::autosortRelationNotSupported($model->{$relationship}()::class),
                 };
+
+                return;
             }
 
             $query->orderBy($column->getField(), $dir);

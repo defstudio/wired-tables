@@ -10,7 +10,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Stringable;
 
 /**
- * @template TModel of Illuminate\Database\Eloquent\Model
+ * @template TModel of \Illuminate\Database\Eloquent\Model
  */
 trait BuildsQuery
 {
@@ -50,7 +50,7 @@ trait BuildsQuery
     {
         $query = $this->rowsQuery()->clone();
 
-        if (! $this->paginationEnabled()) {
+        if (!$this->paginationEnabled()) {
             return $query->get();
         }
 
@@ -71,12 +71,13 @@ trait BuildsQuery
 
     public function debugQuery(): string
     {
-        if (! config('app.debug')) {
+        if (!config('app.debug')) {
             return "";
         }
 
-        return Str::of($this->rowsQuery()->toSql())
-            ->replaceArray('?', collect($this->rowsQuery()->getBindings())->map(function ($binding) {
+        $query = $this->rowsQuery()->clone();
+        return Str::of($query->toSql())
+            ->replaceArray('?', collect($query->getBindings())->map(function ($binding) {
                 return is_numeric($binding) ? $binding : "'{$binding}'";
             })->toArray())
             ->when($this->paginationEnabled(), fn (Stringable $str) => $str->append(' limit ', $this->pageSize, ' offset ', $this->pageSize * ($this->page - 1)));

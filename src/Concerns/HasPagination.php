@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpUnhandledExceptionInspection */
 
 namespace DefStudio\WiredTables\Concerns;
 
@@ -28,16 +28,17 @@ trait HasPagination
 
     public function setPageSize(int|string $size): void
     {
-        if (! in_array($size, $this->config(Config::available_page_sizes))) {
-            PaginationException::unallowedSize($size);
+        if ($size !== 'all' && !in_array($size, $this->config(Config::available_page_sizes))) {
+            throw PaginationException::unallowedSize($size);
         }
 
         $this->pageSize = $size;
+        $this->updatedPageSize();
     }
 
     public function paginationEnabled(): bool
     {
-        if (empty(Config::available_page_sizes)) {
+        if (empty($this->config(Config::available_page_sizes))) {
             return false;
         }
 

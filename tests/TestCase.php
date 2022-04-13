@@ -4,6 +4,8 @@ namespace DefStudio\WiredTables\Tests;
 
 use DefStudio\WiredTables\WiredTablesServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Foundation\Application;
+use Illuminate\Foundation\Testing\RefreshDatabaseState;
 use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 
@@ -12,10 +14,6 @@ class TestCase extends Orchestra
     protected function setUp(): void
     {
         parent::setUp();
-
-        Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'DefStudio\\WiredTables\\Database\\Factories\\'.class_basename($modelName).'Factory'
-        );
     }
 
     protected function getPackageProviders($app)
@@ -28,6 +26,38 @@ class TestCase extends Orchestra
 
     public function getEnvironmentSetUp($app)
     {
-        config()->set('database.default', 'testing');
+        $app['config']->set('app.key', 'base64:Hupx3yAySikrM2/edkZQNQHslgDWYfiBfCuSThJ5SK8=');
+
+        $app['config']->set('database.default', 'testbench');
+        $app['config']->set('database.connections.testbench', [
+            'driver' => 'sqlite',
+            'database' => ':memory:',
+            'prefix' => '',
+        ]);
+
+
+        $this->setupMigrations($app);
+    }
+
+    protected function setupMigrations(Application $app): void
+    {
+        $database = $app->make('db');
+
+        $database->beforeExecuting(function () {
+            if (RefreshDatabaseState::$lazilyRefreshed) {
+                return;
+            }
+
+            RefreshDatabaseState::$lazilyRefreshed = true;
+
+            foreach (\File::files(__DIR__ . "/Support/Migrations") as $migration) {
+                $migration = include($migration);
+                $migration->up();
+            }
+        });
+
+        $this->beforeApplicationDestroyed(function () {
+            RefreshDatabaseState::$lazilyRefreshed = false;
+        });
     }
 }
