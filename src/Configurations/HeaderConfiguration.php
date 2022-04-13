@@ -17,10 +17,7 @@ class HeaderConfiguration extends Configuration
 
     private function initDefaults(): void
     {
-        $this
-            ->set(Config::support_multiple_sorting, false)
-            ->fontXs()
-            ->textLeft()
+        $this->fontXs()
             ->textColorClass('text-gray-500');
     }
 }

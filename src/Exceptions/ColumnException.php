@@ -13,4 +13,9 @@ class ColumnException extends \Exception
     {
         return new ColumnException("Columns can be added only inside WiredTable::columns() method");
     }
+
+    public static function duplicatedColumn(string $name): ColumnException
+    {
+        return new ColumnException("Duplicated column [$name]");
+    }
 }

@@ -47,9 +47,7 @@ test('default configuration is loaded', function () {
     ]);
 
     expect($table->configuration()->header->toArray())->toBe([
-        'support_multiple_sorting' => false,
         'font_size_class' => 'text-xs',
-        'text_align_class' => 'text-left',
         'text_color_class' => 'text-gray-500'
     ]);
 });

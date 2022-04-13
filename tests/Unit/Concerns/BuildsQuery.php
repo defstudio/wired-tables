@@ -1,4 +1,6 @@
-<?php /** @noinspection PhpUnhandledExceptionInspection */
+<?php /** @noinspection ALL */
+
+/** @noinspection PhpUnhandledExceptionInspection */
 
 use DefStudio\WiredTables\Configurations\TableConfiguration;
 use DefStudio\WiredTables\WiredTable;
@@ -61,12 +63,12 @@ it('applies sorting', function(){
 
         protected function columns(): void
         {
-            $this->column('Name');
+            $this->column('Name')->sortable();
             $this->column('Owner', 'owner.name');
         }
     });
 
-    $table->sort('name');
+    $table->sort('Name');
 
     expect($table)->rawQuery()->toContain('order by "name" asc');
 });

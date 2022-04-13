@@ -11,8 +11,6 @@ use DefStudio\WiredTables\WiredTable;
 
 
 $classes = "uppercase font-medium whitespace-nowrap tracking-wider {$column->getTextClasses()}";
-
-$sortable = $column->get(Config::is_sortable);
 ?>
 
 @aware(['component'])
@@ -22,8 +20,8 @@ $sortable = $column->get(Config::is_sortable);
 
 ?>
 <th {{$attributes->merge(['scope' => 'col'])->class(["px-6 py-3 relative"])}}>
-    @if($sortable)
-        <button wire:key="wt-th-sort-{{$column->id()}}" wire:click="sort('{{$column->dbColumn()}}')" class="flex items-center group {{$classes}}">
+    @if($column->isSortable())
+        <button wire:key="wt-th-sort-{{$column->id()}}" wire:click="sort('{{$column->name()}}')" class="flex items-center group {{$classes}}">
             {{$column->name()}}
 
             @if($component->getSortDirection($column) === \DefStudio\WiredTables\Enums\Sorting::asc)

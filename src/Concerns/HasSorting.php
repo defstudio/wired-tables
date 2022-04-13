@@ -27,42 +27,42 @@ trait HasSorting
         return $this->configuration()->get(Config::support_multiple_sorting, false);
     }
 
-    public function sort(string $dbColumn): void
+    public function sort(string $columnName): void
     {
-        $column = $this->getColumnFromDb($dbColumn);
+        $column = $this->getColumn($columnName);
 
         if($column === null){
-            throw SortingException::columnNotFound($dbColumn);
+            throw SortingException::columnNotFound($columnName);
         }
 
-        if($column->sortable())
+        if(!$column->isSortable()){
+            throw SortingException::columnNotSortable($column->name());
+        }
 
-        $direction = $this->getSortDirection($dbColumn);
-        $direction = $direction->next();
+        $direction = $this->getSortDirection($column->name())->next();
 
         if (!$this->supportMultipleSorting()) {
             $this->sorting = [];
         }
 
         if ($direction === Sorting::none) {
-            unset($this->sorting[$dbColumn]);
-
+            unset($this->sorting[$column->name()]);
             return;
         }
 
-        $this->sorting[$dbColumn] = $direction->value;
+        $this->sorting[$column->name()] = $direction->value;
     }
 
     public function getSortDirection(Column|string $column): Sorting
     {
-        $column = is_string($column) ? $column : $column->dbColumn();
+        $column = is_string($column) ? $column : $column->name();
 
         return Sorting::tryFrom($this->sorting[$column] ?? null) ?? Sorting::none;
     }
 
     public function getSortPosition(Column|string $column): int
     {
-        $column = is_string($column) ? $column : $column->dbColumn();
+        $column = is_string($column) ? $column : $column->name();
 
         if (!array_key_exists($column, $this->sorting)) {
             return 0;
@@ -74,18 +74,19 @@ trait HasSorting
 
     protected function applySorting(Builder|Relation $query): void
     {
-
-        foreach ($this->sorting as $dbColumn =>  $dir) {
-
-            $column = $this->getColumnFromDb($dbColumn);
+        foreach ($this->sorting as $columnName =>  $dir) {
+            $column = $this->getColumn($columnName);
 
             if (empty($column)) {
                 return;
             }
 
+            if(!$column->isSortable()){
+                throw SortingException::columnNotSortable($column->name());
+            }
+
             if (($sortClosure = $column->get(Config::sort_closure))) {
                 $sortClosure($query, $dir);
-
                 return;
             }
 

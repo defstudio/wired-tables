@@ -44,15 +44,19 @@ trait HasColumns
             throw ColumnException::locked();
         }
 
+        if($this->getColumn($name) !== null){
+            throw ColumnException::duplicatedColumn($name);
+        }
+
         $this->_columns[] = $column = new Column($this, $name, $dbColumn);
 
         return $column;
     }
 
-    protected function getColumnFromDb(string $dbColumn): Column|null
+    protected function getColumn(string $name): Column|null
     {
         foreach ($this->_columns as $column) {
-            if ($column->dbColumn() === $dbColumn) {
+            if ($column->name() === $name) {
                 return $column;
             }
         }

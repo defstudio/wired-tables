@@ -28,13 +28,12 @@ class Column extends Configuration implements Arrayable
 
         $this->set(Config::name, $name)
             ->set(Config::db_column, $dbColumn)
-            ->set(Config::id, Hash::make($this->name() . $this->dbColumn().$table->id));
+            ->set(Config::uuid, Hash::make($this->name() . $this->dbColumn().$table->id));
     }
 
     protected function initDefaults(): void
     {
-        $this
-            ->set(Config::is_sortable, false);
+        $this->set(Config::is_sortable, false);
     }
 
     public function setModel(Model $model): void
@@ -54,7 +53,7 @@ class Column extends Configuration implements Arrayable
 
     public function id(): string
     {
-        return $this->get(Config::id);
+        return $this->get(Config::uuid);
     }
 
     public function sortable(callable $sortClosure = null): static
@@ -63,8 +62,8 @@ class Column extends Configuration implements Arrayable
             ->set(Config::sort_closure, $sortClosure);
     }
 
-    public function is_sortable(): bool
-    {sostituire le chiamate a $this->get(Config::is_sortable, con questa funzione
+    public function isSortable(): bool
+    {
         return $this->get(Config::is_sortable, false);
     }
 
