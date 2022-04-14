@@ -16,6 +16,7 @@ enum Config
     case striped;
     case available_page_sizes;
     case default_page_size;
+    case always_show_actions;
 
     case id;
     case name;
@@ -25,4 +26,7 @@ enum Config
     case is_sortable;
     case sort_closure;
     case search_closure;
+
+    case method;
+    case with_row_selection;
 }

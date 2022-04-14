@@ -28,6 +28,7 @@ class TableConfiguration extends Configuration
             ->rowDividers()
             ->striped()
             ->pageSize(10, )
+            ->alwaysShowBulkActions(false)
             ->fontSm()
             ->textLeft()
             ->textColorClass('text-gray-800');
@@ -58,6 +59,12 @@ class TableConfiguration extends Configuration
     public function multipleSorting(bool $enable = true): static
     {
         return $this->set(Config::support_multiple_sorting, $enable);
+    }
+
+    public function alwaysShowBulkActions(bool $enable = true): static
+    {
+        $this->set(Config::always_show_actions, $enable);
+        return $this;
     }
 
     public function debug(bool $enable = true): static

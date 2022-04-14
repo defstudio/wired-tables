@@ -20,11 +20,7 @@ class Column extends Configuration implements Arrayable
 
     private Model $model;
 
-    public function __construct(
-        WiredTable $table,
-        string $name,
-        string|null $dbColumn = null
-    ) {
+    public function __construct(WiredTable $table, string $name, string|null $dbColumn = null) {
         $this->initDefaults();
 
         $this->set(Config::name, $name)
@@ -161,5 +157,9 @@ class Column extends Configuration implements Arrayable
     public function getField(): string
     {
         return Str::of($this->dbColumn())->afterLast('.');
+    }
+
+    public function hidden(Closure|bool $when){
+        //TODO
     }
 }

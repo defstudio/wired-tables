@@ -2,10 +2,9 @@
 
 use DefStudio\WiredTables\Elements\Column;
 use Illuminate\View\ComponentAttributeBag;
-use DefStudio\WiredTables\Enums\Config;
 use DefStudio\WiredTables\WiredTable;
 
-/** @var WiredTable $component */
+/** @var WiredTable $this */
 /** @var Column $column */
 /** @var ComponentAttributeBag $attributes */
 
@@ -17,7 +16,6 @@ $attributes = $attributes->class([
 ]);
 ?>
 
-@aware(['component'])
 @props(['column'])
 
 <?php

@@ -18,6 +18,7 @@ test('default configuration is loaded', function () {
         'striped' => true,
         'available_page_sizes' => [10, 20, 50, 100, 'all'],
         'default_page_size' => 10,
+        'always_show_bulk_actions' => false,
         'font_size_class' => 'text-sm',
         'text_align_class' => 'text-left',
         'text_color_class' => 'text-gray-800',

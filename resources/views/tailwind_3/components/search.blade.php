@@ -2,12 +2,11 @@
 
 use DefStudio\WiredTables\WiredTable;
 
-/** @var WiredTable $component */
+/** @var WiredTable $this */
 ?>
 
-@aware(['component'])
 
-@if($component->isSearchable())
+@if($this->isSearchable())
     <div class="sm:flex" x-data=>
         <div class="relative">
             <div class="absolute inset-y-0 left-0 flex items-center pl-2">
@@ -16,8 +15,8 @@ use DefStudio\WiredTables\WiredTable;
                 </svg>
             </div>
 
-            <input wire:key="wt-page-size-{{$component->id}}"
-                   id="wt-search-{{$component->id}}"
+            <input wire:key="wt-page-size-{{$this->id}}"
+                   id="wt-search-{{$this->id}}"
                    type="text"
                    placeholder="search..."
                    class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm text-sm placeholder:text-slate-400 text-gray-800 px-7 py-2"

@@ -2,17 +2,15 @@
 
 use DefStudio\WiredTables\WiredTable;
 
-/** @var WiredTable $component */
+/** @var WiredTable $this */
 ?>
 
-@aware(['component'])
-
-@if($component->paginationEnabled())
+@if($this->paginationEnabled())
     <div class="sm:flex items-center p-3 pt-0">
 
-        @if($component->pageSize !== 'all')
+        @if($this->pageSize !== 'all')
             <div class="grow">
-                {{$component->rows->links()}}
+                {{$this->rows->links()}}
             </div>
         @endif
 

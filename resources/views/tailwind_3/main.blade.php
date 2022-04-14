@@ -5,7 +5,7 @@ use DefStudio\WiredTables\WiredTable;
 /** @var WiredTable $this */
 ?>
 
-<x-wired-tables::wrapper wire:key="wt-wrapper-{{$this->id}}" :component="$this">
+<x-wired-tables::wrapper wire:key="wt-wrapper-{{$this->id}}">
 
 
     <x-wired-tables::top wire:key="wt-top-{{$this->id}}" />
@@ -14,6 +14,7 @@ use DefStudio\WiredTables\WiredTable;
         <x-slot name="header">
             <x-wired-tables::header wire:key="wt-header-{{$this->id}}">
                 <tr>
+                    <x-wired-tables::header.rows-selector  wire:key="wt-th-rows-selector-{{$this->id}}" />
                     @foreach($this->columns as $column)
                         @php($column->setParentConfiguration($this->configuration()->header))
                         <x-wired-tables::header.th  wire:key="wt-th-{{$column->id()}}" :column="$column"/>
