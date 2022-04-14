@@ -13,7 +13,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 
 /**
  * @mixin WiredTable
@@ -76,6 +75,8 @@ trait HasSorting
     protected function applySorting(Builder|Relation $query): void
     {
         foreach ($this->sorting as $columnName => $dir) {
+            $dir = Sorting::from($dir);
+
             $column = $this->getColumn($columnName);
 
             if (empty($column)) {
@@ -86,8 +87,8 @@ trait HasSorting
                 throw SortingException::columnNotSortable($column->name());
             }
 
-            if (($sortClosure = $column->get(Config::sort_closure))) {
-                $sortClosure($query, $dir);
+            if ($column->hasSortClosure()) {
+                $column->applySortClosure($query, $dir);
 
                 return;
             }
@@ -95,13 +96,11 @@ trait HasSorting
             if ($column->isRelation()) {
                 $model = $query->getModel();
 
-                $relations = Str::of($column->getRelation())->explode('.');
-
-                if (count($relations) > 1) {
+                if ($column->getRelationNesting() > 1) {
                     throw SortingException::autosortNotSupportedForNestedRelations($column->getRelation());
                 }
 
-                $relation = $relations[0];
+                $relation = $column->getRelation();
 
                 if (!method_exists($model, $relation)) {
                     throw SortingException::relationDoesntExist($relation);
@@ -116,11 +115,11 @@ trait HasSorting
                 return;
             }
 
-            $query->orderBy($column->getField(), $dir);
+            $query->orderBy($column->getField(), $dir->value);
         }
     }
 
-    protected function applySortingToBelongsTo(Builder|Relation $query, Column $column, BelongsTo $relation, string $dir): void
+    protected function applySortingToBelongsTo(Builder|Relation $query, Column $column, BelongsTo $relation, Sorting $dir): void
     {
         $relatedModel = $relation->getModel();
         $relatedTable = $relatedModel->getTable();
@@ -128,7 +127,7 @@ trait HasSorting
 
         $query->orderBy(
             DB::table($relatedTable)->select($column->getField())->whereColumn($foreignKey, "$relatedTable.id"),
-            $dir,
+            $dir->value,
         );
     }
 }

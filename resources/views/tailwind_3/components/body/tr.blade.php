@@ -14,7 +14,7 @@ use DefStudio\WiredTables\WiredTable;
 @aware(['component'])
 @props(['model'])
 
-<tr {{$attributes->class(['odd:bg-white even:bg-gray-50' => $component->config(\DefStudio\WiredTables\Enums\Config::striped)])}}>
+<tr {{$attributes->merge(['wire:loading.class' => 'opacity-50'])->class(['odd:bg-white even:bg-gray-50' => $component->config(\DefStudio\WiredTables\Enums\Config::striped)])}}>
     {{$slot}}
 </tr>
 

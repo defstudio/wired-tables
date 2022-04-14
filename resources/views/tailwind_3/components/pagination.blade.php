@@ -8,24 +8,17 @@ use DefStudio\WiredTables\WiredTable;
 @aware(['component'])
 
 @if($component->paginationEnabled())
-    <div class="sm:flex px-3">
-        <div class="grow my-3">
-            <select id="pageSize-{{$component->id}}" class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm pl-2 pr-7 py-2" wire:model="pageSize">
-                @foreach($component->config(\DefStudio\WiredTables\Enums\Config::available_page_sizes) as $availPagSize)
-                    <option value="{{$availPagSize}}">{{ucfirst($availPagSize)}}</option>
-                @endforeach
-            </select>
-            <label for="pageSize-{{$component->id}}" class="ml-1">
-                    results
-                      @if($component->pageSize !== 'all')
-                    per page
-                @endif
-                </label>
-        </div>
+    <div class="sm:flex items-center p-3 pt-0">
+
         @if($component->pageSize !== 'all')
-            <div class="grow my-3">
+            <div class="grow">
                 {{$component->rows->links()}}
             </div>
         @endif
+
+        <div class="grow flex">
+            <x-wired-tables::page-size-selector class="ml-auto" wire:key="wt-page-size-selector-bottom-{{$this->id}}"/>
+        </div>
+
     </div>
 @endif

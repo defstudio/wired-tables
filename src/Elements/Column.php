@@ -6,8 +6,10 @@ use Closure;
 use DefStudio\WiredTables\Concerns\HasTextConfiguration;
 use DefStudio\WiredTables\Configurations\Configuration;
 use DefStudio\WiredTables\Enums\Config;
+use DefStudio\WiredTables\Enums\Sorting;
 use DefStudio\WiredTables\WiredTable;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\HtmlString;
 use Str;
@@ -33,6 +35,7 @@ class Column extends Configuration implements Arrayable
     protected function initDefaults(): void
     {
         $this->set(Config::is_sortable, false);
+        $this->set(Config::is_searchable, false);
     }
 
     public function setModel(Model $model): void
@@ -64,6 +67,37 @@ class Column extends Configuration implements Arrayable
     public function isSortable(): bool
     {
         return $this->get(Config::is_sortable, false);
+    }
+
+    public function hasSortClosure(): bool
+    {
+        return is_callable($this->get(Config::sort_closure));
+    }
+
+    public function applySortClosure(Builder $query, Sorting $dir): void
+    {
+        $this->get(Config::sort_closure)($query, $dir);
+    }
+
+    public function searchable(callable $searchClosure = null): static
+    {
+        return $this->set(Config::is_searchable, true)
+            ->set(Config::search_closure, $searchClosure);
+    }
+
+    public function isSearchable(): bool
+    {
+        return $this->get(Config::is_searchable);
+    }
+
+    public function hasSearchClosure(): bool
+    {
+        return is_callable($this->get(Config::search_closure));
+    }
+
+    public function applySearchClosure(Builder $query, string $term): void
+    {
+        $this->get(Config::search_closure)($query, $term);
     }
 
     /**
@@ -108,6 +142,11 @@ class Column extends Configuration implements Arrayable
     public function isRelation(): bool
     {
         return  Str::of($this->dbColumn())->contains('.');
+    }
+
+    public function getRelationNesting(): int
+    {
+        return count(Str::of($this->getRelation())->explode('.'));
     }
 
     public function getRelation(): string

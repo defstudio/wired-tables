@@ -10,14 +10,21 @@ use DefStudio\WiredTables\WiredTable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
-it('tells if pagination is enabled', function () {
+it('tells if multiple sorting is enabled', function () {
     $table = fakeTable();
 
     expect($table->supportMultipleSorting())->toBeFalse();
 
     $table->configuration()->multipleSorting();
 
-    expect($table->paginationEnabled())->toBeTrue();
+    expect($table->supportMultipleSorting())->toBeTrue();
+});
+
+it("doesn't apply sorting to non sortable columns", function () {
+    $table = fakeTable();
+
+    expect(fn () => $table->sort('Not Sortable'))
+        ->toThrow(SortingException::class);
 });
 
 it('can sort a column', function () {
@@ -92,13 +99,6 @@ it('returns a column sort position', function () {
     expect($table->getSortPosition('Owner'))->toBe(1);
 });
 
-it("doesn't apply sorting to non sortable columns", function () {
-    $table = fakeTable();
-
-    expect(fn () => $table->sort('Not Sortable'))
-        ->toThrow(SortingException::class);
-});
-
 it('applies closure sorting', function () {
     $table = fakeTable(new class () extends WiredTable {
         protected function query(): Builder|Relation
@@ -111,7 +111,7 @@ it('applies closure sorting', function () {
             $this->column('Name');
             $this->column('Owner', 'owner.name')
                 ->sortable(function (Builder $query, $dir) {
-                    $query->orderBy('foo', $dir);
+                    $query->orderBy('foo', $dir->value);
                 });
         }
     });
@@ -124,9 +124,8 @@ it('sorts first level relationships', function () {
     $table = fakeTable();
 
     $table->sort('Owner');
-    expect($table)->rawQuery()->toBe('select * from "cars" order by (select "name" from "users" where "cars"."owner_id" = "users"."id") asc limit 10 offset 0');
+    expect($table)->rawQuery()->toBe('select * from "cars" order by (select "name" from "users" where "cars"."user_id" = "users"."id") asc limit 10 offset 0');
 });
-
 
 it('sorts by field', function () {
     $table = fakeTable();

@@ -10,8 +10,7 @@ use Illuminate\View\ComponentAttributeBag;
 @aware(['component'])
 
 @if($component->config(\DefStudio\WiredTables\Enums\Config::debug))
-    <div class="m-2 p-2 border rounded-md" {{$attributes}}>
-        <strong><u>Debug Info</u></strong>
+    <div {{$attributes->class("my-3 border rounded-md overflow-hidden")}}>
         <div class="flex flex-column" x-data="{section: 'table', column: 0}">
             <ul class="min-w-[190px]">
                 <li class="py-2 px-4 text-gray-700" :class="{'bg-gray-200': section === 'table'}">
@@ -66,7 +65,7 @@ use Illuminate\View\ComponentAttributeBag;
                     </div>
                 </div>
                 <div class="p-4" x-show="section === 'query'">
-                    <pre>{{ $component->debugQuery()}}</pre>
+                  {{ $component->debugQuery()}}
                 </div>
             </div>
         </div>

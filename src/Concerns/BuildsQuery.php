@@ -1,5 +1,8 @@
 <?php
 
+/** @noinspection PhpDocMissingThrowsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+
 namespace DefStudio\WiredTables\Concerns;
 
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -37,6 +40,7 @@ trait BuildsQuery
         $query = $this->_query->clone();
 
         $this->applyEagerLoading($query);
+        $this->applySearch($query);
         $this->applySorting($query);
 
 

@@ -2,6 +2,7 @@
 
 use DefStudio\WiredTables\Elements\Column;
 use DefStudio\WiredTables\Enums\Config;
+use DefStudio\WiredTables\Enums\Sorting;
 use Illuminate\Database\Eloquent\Builder;
 
 test('defaults', function () {
@@ -12,6 +13,7 @@ test('defaults', function () {
 
     expect($column->toArray())->toBe([
         'is_sortable' => false,
+        'is_searchable' => false,
         'name' => 'Test',
         'db_column' => 'test',
         'id' => 'e562ec174202bbd67b8ba02e26e57dc9',
@@ -81,6 +83,32 @@ it('can check if it is sortable', function () {
     $column->sortable();
 
     expect($column->isSortable())->toBeTrue();
+});
+
+it('can check if it has a sort closure', function () {
+    $column = new Column(fakeTable(), "Foo Bar");
+
+    expect($column->hasSortClosure())->toBeFalse();
+
+    $column->sortable(function (Builder $query) {
+    });
+
+    expect($column->hasSortClosure())->toBeTrue();
+});
+
+it('can apply its sort closure', function () {
+    $applied = false;
+
+    $column = new Column(fakeTable(), "Foo Bar");
+    $column->sortable(function (Builder $query, Sorting $dir) use (&$applied) {
+        expect($query)->toBeInstanceOf(Builder::class);
+        expect($dir)->toBe(Sorting::asc);
+        $applied = true;
+    });
+
+    $column->applySortClosure(Car::query(), Sorting::asc);
+
+    expect($applied)->toBeTrue();
 });
 
 it('can format its value', function () {
@@ -153,4 +181,56 @@ it('can return its field', function () {
 
     $column = new Column(fakeTable(), "Owner", 'owner.wife.name');
     expect($column->getField())->toBe('name');
+});
+
+it('can be set as searchable', function () {
+    $column = new Column(fakeTable(), "Test");
+
+    expect($column->get(Config::is_searchable))->toBeFalse();
+
+    $column->searchable();
+
+    expect($column->get(Config::is_searchable))->toBeTrue();
+});
+
+it('can be set as searchable through a closure', function () {
+    $column = new Column(fakeTable(), "Foo Bar");
+
+    $column->searchable(function (Builder $query) {
+    });
+
+    expect($column->get(Config::search_closure))->toBeCallable();
+});
+
+it('can check if it is searchable', function () {
+    $column = new Column(fakeTable(), "Foo Bar");
+    $column->searchable();
+
+    expect($column->isSearchable())->toBeTrue();
+});
+
+it('can check if it has a search closure', function () {
+    $column = new Column(fakeTable(), "Foo Bar");
+
+    expect($column->hasSearchClosure())->toBeFalse();
+
+    $column->searchable(function (Builder $query, string $term) {
+    });
+
+    expect($column->hasSearchClosure())->toBeTrue();
+});
+
+it('can apply its search closure', function () {
+    $applied = false;
+
+    $column = new Column(fakeTable(), "Foo Bar");
+    $column->searchable(function (Builder $query, string $term) use (&$applied) {
+        expect($query)->toBeInstanceOf(Builder::class);
+        expect($term)->toBe('quuz');
+        $applied = true;
+    });
+
+    $column->applySearchClosure(Car::query(), 'quuz');
+
+    expect($applied)->toBeTrue();
 });

@@ -23,6 +23,7 @@ function fakeTable(WiredTable $table = null): WiredTable
             $this->column('Name')->sortable();
             $this->column('Owner', 'owner.name')->sortable();
             $this->column('Not Sortable');
+            $this->column('Not Searchable');
         }
     };
 

@@ -6,6 +6,7 @@ use DefStudio\WiredTables\Concerns\BuildsQuery;
 use DefStudio\WiredTables\Concerns\HasColumns;
 use DefStudio\WiredTables\Concerns\HasConfiguration;
 use DefStudio\WiredTables\Concerns\HasPagination;
+use DefStudio\WiredTables\Concerns\HasSearch;
 use DefStudio\WiredTables\Concerns\HasSorting;
 use DefStudio\WiredTables\Elements\Column;
 use Illuminate\Contracts\View\View;
@@ -24,6 +25,7 @@ abstract class WiredTable extends Component
     use HasSorting;
     use BuildsQuery;
     use HasPagination;
+    use HasSearch;
 
     public $queryString = [
         'sorting' => ['except' => [], 'as' => 'sort'],

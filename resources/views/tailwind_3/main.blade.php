@@ -6,9 +6,11 @@ use DefStudio\WiredTables\WiredTable;
 ?>
 
 <x-wired-tables::wrapper wire:key="wt-wrapper-{{$this->id}}" :component="$this">
-    <x-wired-tables::debug wire:key="wt-debug-{{$this->id}}"/>
 
-    <x-wired-tables::table wire:key="wt-{{$this->id}}">
+
+    <x-wired-tables::top wire:key="wt-top-{{$this->id}}" />
+
+    <x-wired-tables::table wire:key="wt-{{$this->id}}" class="my-3">
         <x-slot name="header">
             <x-wired-tables::header wire:key="wt-header-{{$this->id}}">
                 <tr>
@@ -34,7 +36,7 @@ use DefStudio\WiredTables\WiredTable;
 
     </x-wired-tables::table>
 
-    <x-wired-tables::pagination />
+    <x-wired-tables::pagination wire:key="wt-pagination-{{$this->id}}"/>
 
 </x-wired-tables::wrapper>
 
