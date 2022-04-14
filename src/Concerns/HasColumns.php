@@ -68,8 +68,8 @@ trait HasColumns
     {
         $relations = [];
         foreach ($this->_columns as $column) {
-            if ($column->isRelationship()) {
-                $relations[] = $column->getRelationship();
+            if ($column->isRelation()) {
+                $relations[] = $column->getRelation();
             }
         }
 

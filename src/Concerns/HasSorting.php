@@ -90,25 +90,25 @@ trait HasSorting
                 return;
             }
 
-            if ($column->isRelationship()) {
+            if ($column->isRelation()) {
                 $model = $query->getModel();
 
-                $relationships = Str::of($column->getRelationship())->explode('.');
+                $relations = Str::of($column->getRelation())->explode('.');
 
-                if (count($relationships) > 1) {
-                    throw SortingException::autosortNotSupportedForNestedRelations($column->getRelationship());
+                if (count($relations) > 1) {
+                    throw SortingException::autosortNotSupportedForNestedRelations($column->getRelation());
                 }
 
-                $relationship = $relationships[0];
+                $relation = $relations[0];
 
-                if (!method_exists($model, $relationship)) {
-                    throw SortingException::relationDoesntExist($relationship);
+                if (!method_exists($model, $relation)) {
+                    throw SortingException::relationDoesntExist($relation);
                 }
 
-                $relation = $model->{$relationship}();
+                $relation = $model->{$relation}();
                 match ($relation::class) {
                     BelongsTo::class => $this->applySortingToBelongsTo($query, $column, $relation, $dir),
-                    default => throw SortingException::autosortRelationNotSupported($model->{$relationship}()::class),
+                    default => throw SortingException::autosortRelationNotSupported($model->{$relation}()::class),
                 };
 
                 return;

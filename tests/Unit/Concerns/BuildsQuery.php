@@ -35,19 +35,7 @@ test('query is booted', function () {
 });
 
 it('applies eager loading', function () {
-    $table = fakeTable(new class () extends WiredTable {
-        protected function query(): Builder|Relation
-        {
-            return Car::query();
-        }
-
-        protected function columns(): void
-        {
-            $this->column('Name');
-            $this->column('Owner', 'owner.name');
-        }
-    });
-
+    $table = fakeTable();
 
     expect($table->rowsQuery()->getEagerLoads())->toHaveKeys([
         'owner',
@@ -55,18 +43,7 @@ it('applies eager loading', function () {
 });
 
 it('applies sorting', function(){
-    $table = fakeTable(new class () extends WiredTable {
-        protected function query(): Builder|Relation
-        {
-            return Car::query();
-        }
-
-        protected function columns(): void
-        {
-            $this->column('Name')->sortable();
-            $this->column('Owner', 'owner.name');
-        }
-    });
+    $table = fakeTable();
 
     $table->sort('Name');
 
@@ -76,18 +53,7 @@ it('applies sorting', function(){
 it('applies pagination', function(){
     Car::factory(11)->create();
 
-    $table = fakeTable(new class () extends WiredTable {
-        protected function query(): Builder|Relation
-        {
-            return Car::query();
-        }
-
-        protected function columns(): void
-        {
-            $this->column('Name');
-            $this->column('Owner', 'owner.name');
-        }
-    });
+    $table = fakeTable();
 
     expect($table->paginatedResults())
         ->toBeInstanceOf(LengthAwarePaginator::class)
@@ -98,18 +64,7 @@ it('applies pagination', function(){
 it("doesn't apply pagination if page size is 'all'", function(){
     Car::factory(11)->create();
 
-    $table = fakeTable(new class () extends WiredTable {
-        protected function query(): Builder|Relation
-        {
-            return Car::query();
-        }
-
-        protected function columns(): void
-        {
-            $this->column('Name');
-            $this->column('Owner', 'owner.name');
-        }
-    });
+    $table = fakeTable();
 
     $table->setPageSize('all');
 
@@ -121,23 +76,8 @@ it("doesn't apply pagination if page size is 'all'", function(){
 it("doesn't apply pagination if disabled", function(){
     Car::factory(11)->create();
 
-    $table = fakeTable(new class () extends WiredTable {
-        protected function configure(TableConfiguration $configuration): void
-        {
-            $configuration->disablePagination();
-        }
-
-        protected function query(): Builder|Relation
-        {
-            return Car::query();
-        }
-
-        protected function columns(): void
-        {
-            $this->column('Name');
-            $this->column('Owner', 'owner.name');
-        }
-    });
+    $table = fakeTable();
+    $table->configuration()->disablePagination();
 
     expect($table->paginatedResults())
         ->toBeInstanceOf(Collection::class)
@@ -147,23 +87,8 @@ it("doesn't apply pagination if disabled", function(){
 it("returns rows property", function(){
     Car::factory(11)->create();
 
-    $table = fakeTable(new class () extends WiredTable {
-        protected function configure(TableConfiguration $configuration): void
-        {
-            $configuration->disablePagination();
-        }
-
-        protected function query(): Builder|Relation
-        {
-            return Car::query();
-        }
-
-        protected function columns(): void
-        {
-            $this->column('Name');
-            $this->column('Owner', 'owner.name');
-        }
-    });
+    $table = fakeTable();
+    $table->configuration()->disablePagination();
 
     expect($table->rows)
         ->toBeInstanceOf(Collection::class)

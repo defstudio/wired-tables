@@ -11,17 +11,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
 it('tells if pagination is enabled', function () {
-    $table = fakeTable(new class () extends WiredTable {
-        protected function query(): Builder|Relation
-        {
-            return Car::query();
-        }
-
-        protected function columns(): void
-        {
-            $this->column('name');
-        }
-    });
+    $table = fakeTable();
 
     expect($table->supportMultipleSorting())->toBeFalse();
 
@@ -31,18 +21,7 @@ it('tells if pagination is enabled', function () {
 });
 
 it('can sort a column', function () {
-    $table = fakeTable(new class () extends WiredTable {
-        protected function query(): Builder|Relation
-        {
-            return Car::query();
-        }
-
-        protected function columns(): void
-        {
-            $this->column('Name')->sortable();
-            $this->column('Owner', 'owner.name');
-        }
-    });
+    $table = fakeTable();
 
     $table->sort('Name');
     expect($table)->rawQuery()->toContain('order by "name" asc');
@@ -55,23 +34,8 @@ it('can sort a column', function () {
 });
 
 it('can sort two columns', function () {
-    $table = fakeTable(new class () extends WiredTable {
-        protected function configure(TableConfiguration $configuration): void
-        {
-            $configuration->multipleSorting();
-        }
-
-        protected function query(): Builder|Relation
-        {
-            return Car::query();
-        }
-
-        protected function columns(): void
-        {
-            $this->column('Name')->sortable();
-            $this->column('Owner', 'owner.name')->sortable();
-        }
-    });
+    $table = fakeTable();
+    $table->configuration()->multipleSorting();
 
     $table->sort('Name');
     expect($table->sorting)->toBe([
@@ -104,23 +68,8 @@ it('can sort two columns', function () {
 });
 
 it('returns a column sort direction', function () {
-    $table = fakeTable(new class () extends WiredTable {
-        protected function configure(TableConfiguration $configuration): void
-        {
-            $configuration->multipleSorting();
-        }
-
-        protected function query(): Builder|Relation
-        {
-            return Car::query();
-        }
-
-        protected function columns(): void
-        {
-            $this->column('Name')->sortable();
-            $this->column('Owner', 'owner.name')->sortable();
-        }
-    });
+    $table = fakeTable();
+    $table->configuration()->multipleSorting();
 
     $table->sort('Name');
     expect($table->getSortDirection('Name'))->toBe(Sorting::asc);
@@ -133,23 +82,8 @@ it('returns a column sort direction', function () {
 });
 
 it('returns a column sort position', function () {
-    $table = fakeTable(new class () extends WiredTable {
-        protected function configure(TableConfiguration $configuration): void
-        {
-            $configuration->multipleSorting();
-        }
-
-        protected function query(): Builder|Relation
-        {
-            return Car::query();
-        }
-
-        protected function columns(): void
-        {
-            $this->column('Name')->sortable();
-            $this->column('Owner', 'owner.name')->sortable();
-        }
-    });
+    $table = fakeTable();
+    $table->configuration()->multipleSorting();
 
     $table->sort('Owner');
     $table->sort('Name');
@@ -159,20 +93,9 @@ it('returns a column sort position', function () {
 });
 
 it("doesn't apply sorting to non sortable columns", function () {
-    $table = fakeTable(new class () extends WiredTable {
-        protected function query(): Builder|Relation
-        {
-            return Car::query();
-        }
+    $table = fakeTable();
 
-        protected function columns(): void
-        {
-            $this->column('Name');
-            $this->column('Owner', 'owner.name');
-        }
-    });
-
-    expect(fn() => $table->sort('Owner'))
+    expect(fn() => $table->sort('Not Sortable'))
         ->toThrow(SortingException::class);
 });
 
@@ -198,18 +121,7 @@ it('applies closure sorting', function () {
 });
 
 it('sorts first level relationships', function () {
-    $table = fakeTable(new class () extends WiredTable {
-        protected function query(): Builder|Relation
-        {
-            return Car::query();
-        }
-
-        protected function columns(): void
-        {
-            $this->column('Name');
-            $this->column('Owner', 'owner.name')->sortable();
-        }
-    });
+    $table = fakeTable();
 
     $table->sort('Owner');
     expect($table)->rawQuery()->toBe('select * from "cars" order by (select "name" from "users" where "cars"."owner_id" = "users"."id") asc limit 10 offset 0');
@@ -217,18 +129,7 @@ it('sorts first level relationships', function () {
 
 
 it('sorts by field', function () {
-    $table = fakeTable(new class () extends WiredTable {
-        protected function query(): Builder|Relation
-        {
-            return Car::query();
-        }
-
-        protected function columns(): void
-        {
-            $this->column('Name')->sortable();
-            $this->column('Owner', 'owner.name')->sortable();
-        }
-    });
+    $table = fakeTable();
 
     $table->sort('Name');
     expect($table)->rawQuery()->toBe('select * from "cars" order by "name" asc limit 10 offset 0');

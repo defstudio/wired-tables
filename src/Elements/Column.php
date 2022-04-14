@@ -28,7 +28,7 @@ class Column extends Configuration implements Arrayable
 
         $this->set(Config::name, $name)
             ->set(Config::db_column, $dbColumn)
-            ->set(Config::uuid, Hash::make($this->name() . $this->dbColumn().$table->id));
+            ->set(Config::id, md5($this->name() . $this->dbColumn().$table->id));
     }
 
     protected function initDefaults(): void
@@ -53,7 +53,7 @@ class Column extends Configuration implements Arrayable
 
     public function id(): string
     {
-        return $this->get(Config::uuid);
+        return $this->get(Config::id);
     }
 
     public function sortable(callable $sortClosure = null): static
@@ -83,8 +83,8 @@ class Column extends Configuration implements Arrayable
 
         $config['db_column'] = $this->dbColumn();
         $config['field'] = $this->getField();
-        $config['is_relationship'] = $this->isRelationship();
-        $config['relationship'] = $this->getRelationship();
+        $config['is_relation'] = $this->isRelation();
+        $config['relation'] = $this->getRelation();
 
 
         return $config;
@@ -106,13 +106,17 @@ class Column extends Configuration implements Arrayable
         return new HtmlString($value);
     }
 
-    public function isRelationship(): bool
+    public function isRelation(): bool
     {
         return  Str::of($this->dbColumn())->contains('.');
     }
 
-    public function getRelationship(): string
+    public function getRelation(): string
     {
+        if(!$this->isRelation()){
+            return "";
+        }
+
         return Str::of($this->dbColumn())->beforeLast('.');
     }
 

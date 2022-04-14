@@ -5,7 +5,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * @mixin Eloquent
+ * @property string $name
+ *
+ * @mixin Illuminate\Database\Eloquent\Builder
  */
 class Car extends Model
 {

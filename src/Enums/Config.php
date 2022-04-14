@@ -17,7 +17,7 @@ enum Config
     case available_page_sizes;
     case default_page_size;
 
-    case uuid;
+    case id;
     case name;
     case db_column;
     case format_closure;

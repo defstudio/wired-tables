@@ -6,22 +6,11 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
 test('columns are booted', function(){
-    $table = fakeTable(new class () extends WiredTable {
-        protected function query(): Builder|Relation
-        {
-            return Car::query();
-        }
-
-        protected function columns(): void
-        {
-            $this->column('Name');
-            $this->column('Owner', 'owner.name');
-        }
-    });
+    $table = fakeTable();
 
     expect($table->columns)
         ->toBeArray()
-        ->toHaveLength(2);
+        ->not->toBeEmpty();
 });
 
 test('columns must be defined', function(){
