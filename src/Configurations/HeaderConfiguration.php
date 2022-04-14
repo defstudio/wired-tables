@@ -3,7 +3,6 @@
 namespace DefStudio\WiredTables\Configurations;
 
 use DefStudio\WiredTables\Concerns\HasTextConfiguration;
-use DefStudio\WiredTables\Enums\Config;
 
 class HeaderConfiguration extends Configuration
 {

@@ -31,11 +31,11 @@ trait HasSorting
     {
         $column = $this->getColumn($columnName);
 
-        if($column === null){
+        if ($column === null) {
             throw SortingException::columnNotFound($columnName);
         }
 
-        if(!$column->isSortable()){
+        if (!$column->isSortable()) {
             throw SortingException::columnNotSortable($column->name());
         }
 
@@ -47,6 +47,7 @@ trait HasSorting
 
         if ($direction === Sorting::none) {
             unset($this->sorting[$column->name()]);
+
             return;
         }
 
@@ -74,19 +75,20 @@ trait HasSorting
 
     protected function applySorting(Builder|Relation $query): void
     {
-        foreach ($this->sorting as $columnName =>  $dir) {
+        foreach ($this->sorting as $columnName => $dir) {
             $column = $this->getColumn($columnName);
 
             if (empty($column)) {
                 return;
             }
 
-            if(!$column->isSortable()){
+            if (!$column->isSortable()) {
                 throw SortingException::columnNotSortable($column->name());
             }
 
             if (($sortClosure = $column->get(Config::sort_closure))) {
                 $sortClosure($query, $dir);
+
                 return;
             }
 

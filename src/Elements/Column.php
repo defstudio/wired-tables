@@ -7,7 +7,6 @@ use DefStudio\WiredTables\Concerns\HasTextConfiguration;
 use DefStudio\WiredTables\Configurations\Configuration;
 use DefStudio\WiredTables\Enums\Config;
 use DefStudio\WiredTables\WiredTable;
-use Hash;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\HtmlString;
@@ -113,7 +112,7 @@ class Column extends Configuration implements Arrayable
 
     public function getRelation(): string
     {
-        if(!$this->isRelation()){
+        if (!$this->isRelation()) {
             return "";
         }
 

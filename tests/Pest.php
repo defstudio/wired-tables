@@ -1,10 +1,11 @@
-<?php /** @noinspection PhpUnhandledExceptionInspection */
+<?php
+
+/** @noinspection PhpUnhandledExceptionInspection */
 
 use DefStudio\WiredTables\Tests\TestCase;
 use DefStudio\WiredTables\WiredTable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\Relation;
-
 
 uses(TestCase::class)->in(__DIR__ . "/Unit");
 uses(TestCase::class)->in(__DIR__ . "/Feature");
@@ -29,6 +30,7 @@ function fakeTable(WiredTable $table = null): WiredTable
     $table->bootBuildsQuery();
     $table->bootHasColumns();
     $table->mountHasPagination();
+
     return $table;
 }
 

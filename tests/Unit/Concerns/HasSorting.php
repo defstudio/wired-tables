@@ -1,10 +1,10 @@
-<?php /** @noinspection SqlRedundantOrderingDirection */
+<?php
+
+/** @noinspection SqlRedundantOrderingDirection */
 
 /** @noinspection SqlResolve */
 
-use DefStudio\WiredTables\Configurations\TableConfiguration;
 use DefStudio\WiredTables\Enums\Sorting;
-use DefStudio\WiredTables\Exceptions\ColumnException;
 use DefStudio\WiredTables\Exceptions\SortingException;
 use DefStudio\WiredTables\WiredTable;
 use Illuminate\Database\Eloquent\Builder;
@@ -95,7 +95,7 @@ it('returns a column sort position', function () {
 it("doesn't apply sorting to non sortable columns", function () {
     $table = fakeTable();
 
-    expect(fn() => $table->sort('Not Sortable'))
+    expect(fn () => $table->sort('Not Sortable'))
         ->toThrow(SortingException::class);
 });
 
@@ -134,5 +134,3 @@ it('sorts by field', function () {
     $table->sort('Name');
     expect($table)->rawQuery()->toBe('select * from "cars" order by "name" asc limit 10 offset 0');
 });
-
-

@@ -1,8 +1,9 @@
-<?php /** @noinspection ALL */
+<?php
+
+/** @noinspection ALL */
 
 /** @noinspection PhpUnhandledExceptionInspection */
 
-use DefStudio\WiredTables\Configurations\TableConfiguration;
 use DefStudio\WiredTables\WiredTable;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
@@ -42,7 +43,7 @@ it('applies eager loading', function () {
     ]);
 });
 
-it('applies sorting', function(){
+it('applies sorting', function () {
     $table = fakeTable();
 
     $table->sort('Name');
@@ -50,7 +51,7 @@ it('applies sorting', function(){
     expect($table)->rawQuery()->toContain('order by "name" asc');
 });
 
-it('applies pagination', function(){
+it('applies pagination', function () {
     Car::factory(11)->create();
 
     $table = fakeTable();
@@ -61,7 +62,7 @@ it('applies pagination', function(){
         ->lastPage()->toBe(2);
 });
 
-it("doesn't apply pagination if page size is 'all'", function(){
+it("doesn't apply pagination if page size is 'all'", function () {
     Car::factory(11)->create();
 
     $table = fakeTable();
@@ -73,7 +74,7 @@ it("doesn't apply pagination if page size is 'all'", function(){
         ->count()->toBe(11);
 });
 
-it("doesn't apply pagination if disabled", function(){
+it("doesn't apply pagination if disabled", function () {
     Car::factory(11)->create();
 
     $table = fakeTable();
@@ -84,7 +85,7 @@ it("doesn't apply pagination if disabled", function(){
         ->count()->toBe(11);
 });
 
-it("returns rows property", function(){
+it("returns rows property", function () {
     Car::factory(11)->create();
 
     $table = fakeTable();
@@ -95,7 +96,7 @@ it("returns rows property", function(){
         ->count()->toBe(11);
 });
 
-it('returns a debuggable query', function(){
+it('returns a debuggable query', function () {
     Car::factory(11)->create();
 
     $table = fakeTable(new class () extends WiredTable {
@@ -117,7 +118,7 @@ it('returns a debuggable query', function(){
     expect($table->debugQuery())->toBe('select * from "cars" where "name" = \'foo\' limit 10 offset 0');
 });
 
-it("doesn't return a debuggable query if debug is disabled", function(){
+it("doesn't return a debuggable query if debug is disabled", function () {
     Car::factory(11)->create();
 
     $table = fakeTable(new class () extends WiredTable {

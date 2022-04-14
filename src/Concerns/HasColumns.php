@@ -44,7 +44,7 @@ trait HasColumns
             throw ColumnException::locked();
         }
 
-        if($this->getColumn($name) !== null){
+        if ($this->getColumn($name) !== null) {
             throw ColumnException::duplicatedColumn($name);
         }
 

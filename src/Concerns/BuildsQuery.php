@@ -76,6 +76,7 @@ trait BuildsQuery
         }
 
         $query = $this->rowsQuery()->clone();
+
         return Str::of($query->toSql())
             ->replaceArray('?', collect($query->getBindings())->map(function ($binding) {
                 return is_numeric($binding) ? $binding : "'{$binding}'";

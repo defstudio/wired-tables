@@ -3,7 +3,6 @@
 namespace DefStudio\WiredTables\Tests;
 
 use DefStudio\WiredTables\WiredTablesServiceProvider;
-use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Testing\RefreshDatabaseState;
 use Livewire\LivewireServiceProvider;

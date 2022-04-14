@@ -21,7 +21,7 @@ test('defaults', function () {
     ]);
 });
 
-it('can set its current model', function(){
+it('can set its current model', function () {
     $table = fakeTable();
     $column = new Column($table, "Name");
 
@@ -30,19 +30,19 @@ it('can set its current model', function(){
     expect($column->value())->toBe("foo");
 });
 
-it('can return its name', function(){
+it('can return its name', function () {
     $column = new Column(fakeTable(), "Foo");
 
     expect($column->name())->toBe("Foo");
 });
 
-it('can return its dbColumn', function(){
+it('can return its dbColumn', function () {
     $column = new Column(fakeTable(), "Foo", 'model.field');
 
     expect($column->dbColumn())->toBe("model.field");
 });
 
-it('can compute its dbColumn from the name', function(){
+it('can compute its dbColumn from the name', function () {
     $column = new Column(fakeTable(), "Foo Bar");
 
     expect($column->dbColumn())->toBe("foo_bar");
@@ -57,7 +57,7 @@ it('can return its id', function () {
     expect($column->id())->toBe('e562ec174202bbd67b8ba02e26e57dc9');
 });
 
-it('can be set as sortable', function(){
+it('can be set as sortable', function () {
     $column = new Column(fakeTable(), "Foo Bar");
 
     expect($column->get(Config::is_sortable))->toBeFalse();
@@ -67,33 +67,34 @@ it('can be set as sortable', function(){
     expect($column->get(Config::is_sortable))->toBeTrue();
 });
 
-it('can be set as sortable through a closure', function(){
+it('can be set as sortable through a closure', function () {
     $column = new Column(fakeTable(), "Foo Bar");
 
-    $column->sortable(function(Builder $query){});
+    $column->sortable(function (Builder $query) {
+    });
 
     expect($column->get(Config::sort_closure))->toBeCallable();
 });
 
-it('can check if it is sortable', function(){
+it('can check if it is sortable', function () {
     $column = new Column(fakeTable(), "Foo Bar");
     $column->sortable();
 
     expect($column->isSortable())->toBeTrue();
 });
 
-it('can format its value', function(){
+it('can format its value', function () {
     $column = new Column(fakeTable(), "Name");
-    $column->format(function(Column $column){
+    $column->format(function (Column $column) {
         return strtoupper($column->value());
     });
 
     expect($column->get(Config::format_closure))->toBeCallable();
 });
 
-it('can return its value', function(){
+it('can return its value', function () {
     $column = new Column(fakeTable(), "Name");
-    $column->format(function(Column $column){
+    $column->format(function (Column $column) {
         return strtoupper($column->value());
     });
 
@@ -102,7 +103,7 @@ it('can return its value', function(){
     expect($column->value())->toBe('foo');
 });
 
-it('can return a relationship value', function(){
+it('can return a relationship value', function () {
     $column = new Column(fakeTable(), "Owner", 'owner.name');
 
     $relationship = User::make(['name' => 'foo']);
@@ -115,9 +116,9 @@ it('can return a relationship value', function(){
     expect($column->value())->toBe('foo');
 });
 
-it('can render a formatted value', function(){
+it('can render a formatted value', function () {
     $column = new Column(fakeTable(), "Name");
-    $column->format(function(Car $car){
+    $column->format(function (Car $car) {
         return strtoupper($car->name);
     });
 
@@ -127,7 +128,7 @@ it('can render a formatted value', function(){
     expect($column->render()->toHtml())->toBe('FOO');
 });
 
-it('can check if it is a relation column', function(){
+it('can check if it is a relation column', function () {
     $column = new Column(fakeTable(), "Name");
     expect($column->isRelation())->toBeFalse();
 
@@ -135,7 +136,7 @@ it('can check if it is a relation column', function(){
     expect($column->isRelation())->toBeTrue();
 });
 
-it('can return its relation', function(){
+it('can return its relation', function () {
     $column = new Column(fakeTable(), "Owner", 'owner.name');
     expect($column->getRelation())->toBe('owner');
 
@@ -143,7 +144,7 @@ it('can return its relation', function(){
     expect($column->getRelation())->toBe('owner.wife');
 });
 
-it('can return its field', function(){
+it('can return its field', function () {
     $column = new Column(fakeTable(), "Name", 'name');
     expect($column->getField())->toBe('name');
 

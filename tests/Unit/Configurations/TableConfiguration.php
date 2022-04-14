@@ -1,6 +1,5 @@
 <?php
 
-use DefStudio\WiredTables\Configurations\HeaderConfiguration;
 use DefStudio\WiredTables\Configurations\TableConfiguration;
 
 test('defaults', function () {
