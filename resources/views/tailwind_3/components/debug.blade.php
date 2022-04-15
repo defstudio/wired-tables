@@ -9,7 +9,7 @@ use Illuminate\View\ComponentAttributeBag;
 
 @if($this->config(\DefStudio\WiredTables\Enums\Config::debug))
     <div {{$attributes->class("my-3 border rounded-md overflow-hidden")}}>
-        <div class="flex flex-column" x-data="{section: 'table', column: 0, action: 0}">
+        <div class="flex flex-column" x-data="{section: 'table', column: 0, action: 0, 'dumps': 'Misc'}">
             <ul class="min-w-[190px]">
                 <li class="text-gray-700" :class="{'bg-gray-200': section === 'table'}">
                     <button class="py-2 px-4 w-full text-left" @click="section = 'table'" role="button">Table Configuration</button>
@@ -34,6 +34,9 @@ use Illuminate\View\ComponentAttributeBag;
                 </li>
                 <li class="text-gray-700" :class="{'bg-gray-200': section === 'query'}">
                     <button class="py-2 px-4 w-full text-left" @click="section = 'query'" role="button">Query</button>
+                </li>
+                <li class="text-gray-700" :class="{'bg-gray-200': section === 'dumps'}">
+                    <button class="py-2 px-4 w-full text-left" @click="section = 'dumps'" role="button">Dumps</button>
                 </li>
             </ul>
             <div class="grow rounded-t border-l-2">
@@ -98,6 +101,27 @@ use Illuminate\View\ComponentAttributeBag;
                 </div>
                 <div class="p-4" x-show="section === 'query'">
                     {{ $this->debugQuery()}}
+                </div>
+                <div x-show="section === 'dumps'">
+                    <ul class="flex flex-wrap text-sm font-medium text-center">
+                        @foreach($this->dumpLabels() as $label)
+                            <li class="mr-2">
+                                <button class="inline-block p-4 rounded border-t-2"
+                                        :class="{'border-t-indigo-500': dumps === '{{$label}}'}"
+                                        @click="dumps = '{{$label}}'"
+                                >{{$label}}</button>
+                            </li>
+                        @endforeach
+                    </ul>
+                    <div>
+                        @foreach($this->dumpLabels() as $label)
+                            <div x-show="dumps === '{{$label}}'" class="w-full">
+                                @foreach($this->dumps()->where(fn(DefStudio\WiredTables\Elements\Dump $dump) => $dump->getLabel() === $label) as $dump)
+                                    {{$dump->print()}}
+                                @endforeach
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
             </div>
         </div>
