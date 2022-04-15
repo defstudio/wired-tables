@@ -35,7 +35,7 @@ trait BuildsQuery
     /**
      * @return Builder<TModel>|Relation<TModel>
      */
-    public function rowsQuery(): Builder|Relation
+    protected function rowsQuery(): Builder|Relation
     {
         $query = $this->_query->clone();
 
@@ -50,7 +50,7 @@ trait BuildsQuery
     /**
      * @return Collection<int, TModel>|LengthAwarePaginator
      */
-    public function paginatedResults(): Collection|LengthAwarePaginator
+    protected function paginatedResults(): Collection|LengthAwarePaginator
     {
         $query = $this->rowsQuery()->clone();
 
@@ -62,6 +62,7 @@ trait BuildsQuery
             return $query->get();
         }
 
+        ray('rows_computed');
         return $query->paginate($this->pageSize);
     }
 
@@ -70,6 +71,7 @@ trait BuildsQuery
      */
     public function getRowsProperty(): Collection|LengthAwarePaginator
     {
+
         return $this->paginatedResults();
     }
 

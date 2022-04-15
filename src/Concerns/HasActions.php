@@ -6,6 +6,7 @@ use DefStudio\WiredTables\Elements\Action;
 use DefStudio\WiredTables\Enums\Config;
 use DefStudio\WiredTables\Exceptions\ActionException;
 use DefStudio\WiredTables\WiredTable;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * @mixin WiredTable
@@ -18,9 +19,6 @@ trait HasActions
     private array $_actions;
 
     private bool $_actionsLocked = true;
-
-    /** @var array<int, int|string> */
-    public array $selection;
 
     public function bootHasActions(): void
     {
@@ -51,7 +49,7 @@ trait HasActions
         }
 
         if ($this->getAction($name) !== null) {
-            throw ActionException::duplicatedAction($name);
+            throw ActionException::duplicated($name);
         }
 
         $this->_actions[] = $action = new Action($this, $name, $method);
@@ -69,29 +67,14 @@ trait HasActions
         return count($this->_actions) > 0;
     }
 
-    public function shouldShowRowsSelector(): bool
+    public function handleAction($actionName, ...$args): void
     {
-        return collect($this->_actions)->some(fn (Action $action) => $action->requiresRowsSelection());
-    }
+        $action = $this->getAction($actionName);
 
-    public function shouldShowActionsSelector(): bool
-    {
-        if (!$this->hasActions()) {
-            return false;
+        if(empty($action)){
+            throw ActionException::notFound($actionName);
         }
 
-        if ($this->config(Config::always_show_actions)) {
-            return true;
-        }
-
-        if (collect($this->_actions)->some(fn (Action $action) => !$action->requiresRowsSelection())) {
-            return true;
-        }
-
-        if (!empty($this->selection)) {
-            return true;
-        }
-
-        return false;
+        $action->processHandler(...$args);
     }
 }

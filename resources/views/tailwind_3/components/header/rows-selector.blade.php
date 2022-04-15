@@ -11,7 +11,10 @@ use DefStudio\WiredTables\WiredTable;
 ?>
 
 @if($this->shouldShowRowsSelector())
-    <th {{$attributes->merge(['scope' => 'col'])->class(['px-6 py-3'])}}>
-        <input type="checkbox">
+    <th scope="col"
+        wire:key="wt-{{$this->id}}-select-all-header"
+        {{$attributes->class(['pl-6 py-3 text-left align-middle'])}}
+    >
+        <x-wired-tables::elements.checkbox wire:key="wt-{{$this->id}}-select-all" wire:model="allSelected"/>
     </th>
 @endif

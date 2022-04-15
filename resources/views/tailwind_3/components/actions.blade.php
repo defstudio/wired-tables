@@ -6,8 +6,9 @@ use DefStudio\WiredTables\WiredTable;
 ?>
 
 @if($this->shouldShowActionsSelector())
-    <div {{$attributes->class('relative')}} wire:key="wt-page-size-selector-top-{{$this->id}}" x-data="{show: false}" >
+    <div {{$attributes->class('relative')}} wire:key="wt-{{$this->id}}-actions-wrapper" x-data="{show: false}" >
         <button
+            wire:key="wt-{{$this->id}}-actions-dropdown"
             {{$attributes->class("flex border border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm text-sm text-gray-700 px-2 py-2")}}
             @click="show = !show"
         >
@@ -16,12 +17,20 @@ use DefStudio\WiredTables\WiredTable;
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width='1.5' d="M6 8l4 4 4-4"/>
             </svg>
         </button>
-        <div x-show="show" x-on:click.outside="show = false" class="absolute table right-[calc(100%_+_10px)] top-0 bg-white z-10 shadow-md border border-gray-300 py-0.5 px-1 rounded text-sm text-gray-700">
+        <div wire:key="wt-{{$this->id}}-actions-container"
+             x-show="show"
+             x-on:click.outside="show = false"
+             class="absolute table right-[calc(100%_+_10px)] top-0 bg-white z-10 shadow-md border border-gray-300 py-0.5 px-1 rounded text-sm text-gray-700"
+        >
             @foreach(collect($this->actions)->chunk(3) as $action_group)
                 <div class="table-row">
-                    @foreach($action_group as $action)
-                        <div class="table-cell p-1">
-                            <button @click="show = false; $wire.call('{{$action->method()}}')" class="p-2 whitespace-nowrap bg-gray-100 hover:bg-gray-200 w-full rounded focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">{{$action->name()}}</button>
+                    @foreach($action_group as $index => $action)
+                        <?php /** @var \DefStudio\WiredTables\Elements\Column $action */ ?>
+                        <div wire:key="wt-{{$this->id}}-action-{{$index}}-wrapper" class="table-cell p-1">
+                            <button wire:key="wt-{{$this->id}}-action-{{$index}}"
+                                    @click="show = false; $wire.call('{{$action->method()}}' {{$action->methodArguments()->map(fn(string $arg) => ", '$arg'")->join('')}})"
+                                    class="p-2 whitespace-nowrap bg-gray-100 hover:bg-gray-200 w-full rounded focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                            >{{$action->name()}}</button>
                         </div>
                     @endforeach
                 </div>

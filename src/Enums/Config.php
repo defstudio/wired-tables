@@ -10,6 +10,7 @@ enum Config
     case text_color_class;
     case text_align_class;
 
+    case id_field;
 
     case support_multiple_sorting;
     case enable_row_dividers;
@@ -28,5 +29,7 @@ enum Config
     case search_closure;
 
     case method;
+    case handler;
+
     case with_row_selection;
 }

@@ -15,7 +15,7 @@ use DefStudio\WiredTables\WiredTable;
         @endif
 
         <div class="grow flex">
-            <x-wired-tables::page-size-selector class="ml-auto" wire:key="wt-page-size-selector-bottom-{{$this->id}}"/>
+            <x-wired-tables::page-size-selector class="ml-auto" wire:key="wt-{{$this->id}}-page-size-selector-bottom"/>
         </div>
 
     </div>

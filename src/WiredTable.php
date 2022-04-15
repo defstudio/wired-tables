@@ -9,6 +9,7 @@ use DefStudio\WiredTables\Concerns\HasConfiguration;
 use DefStudio\WiredTables\Concerns\HasPagination;
 use DefStudio\WiredTables\Concerns\HasSearch;
 use DefStudio\WiredTables\Concerns\HasSorting;
+use DefStudio\WiredTables\Concerns\SelectsRows;
 use DefStudio\WiredTables\Elements\Action;
 use DefStudio\WiredTables\Elements\Column;
 use Illuminate\Contracts\View\View;
@@ -30,6 +31,7 @@ abstract class WiredTable extends Component
     use HasPagination;
     use HasSearch;
     use HasActions;
+    use SelectsRows;
 
     public $queryString = [
         'sorting' => ['except' => [], 'as' => 'sort'],

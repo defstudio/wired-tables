@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpUnhandledExceptionInspection */
 
 namespace DefStudio\WiredTables\Elements;
 
@@ -8,6 +8,7 @@ use DefStudio\WiredTables\Enums\Config;
 use DefStudio\WiredTables\Exceptions\ActionException;
 use DefStudio\WiredTables\WiredTable;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Str;
 
 class Action extends Configuration implements Arrayable
@@ -39,8 +40,14 @@ class Action extends Configuration implements Arrayable
         return $this->get(Config::with_row_selection, false);
     }
 
-    public function hidden(Closure|bool $when){
+    public function hidden(Closure|bool $when)
+    {
         //TODO
+    }
+
+    public function handle(Closure $handler)
+    {
+        $this->set(Config::handler, $handler);
     }
 
     public function name(): string
@@ -48,31 +55,62 @@ class Action extends Configuration implements Arrayable
         return $this->get(Config::name);
     }
 
+    public function methodArguments(): \Illuminate\Support\Collection
+    {
+        $arguments = [];
+
+        $handler = $this->get(Config::handler);
+        if (is_callable($handler)) {
+            $arguments[] = $this->name();
+        }
+
+        return collect($arguments);
+    }
+
     public function method(): string
     {
+        $handler = $this->get(Config::handler);
+        if (is_callable($handler)) {
+            return "handleAction";
+        }
+
         $method = $this->get(Config::method);
 
-        if($method){
+        if ($method) {
             return $method;
         }
 
-        if(method_exists($this->table, $camel = Str::of($this->name())->camel())){
+        if (method_exists($this->table, $camel = Str::of($this->name())->camel())) {
             return $camel;
         }
 
-        if(method_exists($this->table, $snake = Str::of($this->name())->snake())){
+        if (method_exists($this->table, $snake = Str::of($this->name())->snake())) {
             return $snake;
         }
 
         throw ActionException::methodNotFound($this->name());
     }
 
+    public function processHandler(...$args): void
+    {
+        $handler = $this->get(Config::handler);
+
+        if(!is_callable($handler)){
+            throw ActionException::handlerNotFound($this->name());
+        }
+
+        $handler(...$args);
+    }
 
     public function toArray(): array
     {
         $config = $this->config;
 
         $config['method'] = $this->method();
+
+        if($config['method'] === 'handleAction'){
+            unset($config['method']);
+        }
 
         return $config;
     }

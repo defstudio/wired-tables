@@ -9,7 +9,7 @@ class ActionException extends \Exception
         return new ActionException("Actions can be added only inside WiredTable::actions() method");
     }
 
-    public static function duplicatedAction(string $name): ActionException
+    public static function duplicated(string $name): ActionException
     {
         return new ActionException("Duplicated action [$name]");
     }
@@ -17,5 +17,15 @@ class ActionException extends \Exception
     public static function methodNotFound(string $name): ActionException
     {
         return new ActionException("Method not found for action [$name]");
+    }
+
+    public static function handlerNotFound(string $name): ActionException
+    {
+        return new ActionException("Handler not found for action [$name]");
+    }
+
+    public static function notFound(string $name): ActionException
+    {
+        return new ActionException("Action not found: [$name]");
     }
 }

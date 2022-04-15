@@ -25,6 +25,7 @@ class TableConfiguration extends Configuration
     {
         $this
             ->set(Config::support_multiple_sorting, false)
+            ->rowIdField('id')
             ->rowDividers()
             ->striped()
             ->pageSize(10, )
@@ -32,6 +33,11 @@ class TableConfiguration extends Configuration
             ->fontSm()
             ->textLeft()
             ->textColorClass('text-gray-800');
+    }
+
+    public function rowIdField(string $field): static
+    {
+        return $this->set(Config::id_field, $field);
     }
 
     public function disablePagination(): static

@@ -11,26 +11,29 @@ use Illuminate\View\ComponentAttributeBag;
     <div {{$attributes->class("my-3 border rounded-md overflow-hidden")}}>
         <div class="flex flex-column" x-data="{section: 'table', column: 0, action: 0}">
             <ul class="min-w-[190px]">
-                <li class="py-2 px-4 text-gray-700" :class="{'bg-gray-200': section === 'table'}">
-                    <button @click="section = 'table'" role="button">Table Configuration</button>
+                <li class="text-gray-700" :class="{'bg-gray-200': section === 'table'}">
+                    <button class="py-2 px-4 w-full text-left" @click="section = 'table'" role="button">Table Configuration</button>
                 </li>
-                <li class="py-2 px-4 text-gray-700" :class="{'bg-gray-200': section === 'header'}">
-                    <button @click="section = 'header'" role="button">Header Configuration</button>
+                <li class="text-gray-700" :class="{'bg-gray-200': section === 'header'}">
+                    <button class="py-2 px-4 w-full text-left" @click="section = 'header'" role="button">Header Configuration</button>
                 </li>
-                <li class="py-2 px-4 text-gray-700" :class="{'bg-gray-200': section === 'sorting'}">
-                    <button @click="section = 'sorting'" role="button">Sorting</button>
+                <li class="text-gray-700" :class="{'bg-gray-200': section === 'sorting'}">
+                    <button class="py-2 px-4 w-full text-left" @click="section = 'sorting'" role="button">Sorting</button>
                 </li>
-                <li class="py-2 px-4 text-gray-700" :class="{'bg-gray-200': section === 'pagination'}">
-                    <button @click="section = 'pagination'" role="button">Pagination</button>
+                <li class="text-gray-700" :class="{'bg-gray-200': section === 'pagination'}">
+                    <button class="py-2 px-4 w-full text-left" @click="section = 'pagination'" role="button">Pagination</button>
                 </li>
-                <li class="py-2 px-4 text-gray-700" :class="{'bg-gray-200': section === 'columns'}">
-                    <button @click="section = 'columns'" role="button">Columns</button>
+                <li class="text-gray-700" :class="{'bg-gray-200': section === 'columns'}">
+                    <button class="py-2 px-4 w-full text-left" @click="section = 'columns'" role="button">Columns</button>
                 </li>
-                <li class="py-2 px-4 text-gray-700" :class="{'bg-gray-200': section === 'actions'}">
-                    <button @click="section = 'actions'" role="button">Actions</button>
+                <li class="text-gray-700" :class="{'bg-gray-200': section === 'actions'}">
+                    <button class="py-2 px-4 w-full text-left" @click="section = 'actions'" role="button">Actions</button>
                 </li>
-                <li class="py-2 px-4 text-gray-700" :class="{'bg-gray-200': section === 'query'}">
-                    <button @click="section = 'query'" role="button">Query</button>
+                <li class="text-gray-700" :class="{'bg-gray-200': section === 'selection'}">
+                    <button class="py-2 px-4 w-full text-left" @click="section = 'selection'" role="button">Selection</button>
+                </li>
+                <li class="text-gray-700" :class="{'bg-gray-200': section === 'query'}">
+                    <button class="py-2 px-4 w-full text-left" @click="section = 'query'" role="button">Query</button>
                 </li>
             </ul>
             <div class="grow rounded-t border-l-2">
@@ -42,6 +45,13 @@ use Illuminate\View\ComponentAttributeBag;
                         @dump(['page' => $this->page, 'page size' => $this->pageSize])
                     @else
                         @dump("Pagination disabled")
+                    @endif
+                </div>
+                <div x-show="section === 'selection'">
+                    @if($this->shouldShowRowsSelector())
+                        @dump(['selected' => collect($this->selection)->keys()->toArray()])
+                    @else
+                        @dump("Row selection not needed")
                     @endif
                 </div>
                 <div x-show="section === 'columns'">
