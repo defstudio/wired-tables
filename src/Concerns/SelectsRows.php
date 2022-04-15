@@ -48,7 +48,7 @@ trait SelectsRows
 
     public function selectVisibleRows(): void
     {
-        $this->selection = collect($this->getVisibleRowsIds())->mapWithKeys(fn(int|string $id) => [$id => true])->toArray();
+        $this->selection = collect($this->getVisibleRowsIds())->mapWithKeys(fn (int|string $id) => [$id => true])->toArray();
     }
 
     public function getVisibleRowsIds(): array
@@ -70,7 +70,7 @@ trait SelectsRows
     {
         if ($selected) {
             $this->selectVisibleRows();
-        }else{
+        } else {
             $this->unselectAllRows();
         }
 
@@ -79,13 +79,15 @@ trait SelectsRows
 
     public function updatedSelection(bool $selected): void
     {
-        if(!$selected){
+        if (!$selected) {
             $this->allSelected = false;
             $this->allPagesSelected = false;
         }
 
         $this->selection = collect($this->selection)->filter()->toArray();
 
-
+        $this->allSelected = collect($this->getVisibleRowsIds())->sort()
+            ->diff(collect($this->selection)->keys()->sort())
+            ->isEmpty();
     }
 }
