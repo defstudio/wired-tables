@@ -3,6 +3,7 @@
 namespace DefStudio\WiredTables;
 
 use DefStudio\WiredTables\Concerns\BuildsQuery;
+use DefStudio\WiredTables\Concerns\DumpsValues;
 use DefStudio\WiredTables\Concerns\HasActions;
 use DefStudio\WiredTables\Concerns\HasColumns;
 use DefStudio\WiredTables\Concerns\HasConfiguration;
@@ -19,6 +20,7 @@ use Livewire\Component;
 
 /**
  * @property-read Collection|LengthAwarePaginator $rows
+ * @property-read Collection $selectedRows
  * @property-read Column[] $columns
  * @property-read Action[] $actions
  */
@@ -32,6 +34,7 @@ abstract class WiredTable extends Component
     use HasSearch;
     use HasActions;
     use SelectsRows;
+    use DumpsValues;
 
     public $queryString = [
         'sorting' => ['except' => [], 'as' => 'sort'],

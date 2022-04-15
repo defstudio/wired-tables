@@ -28,17 +28,17 @@ test('query is booted', function () {
 
     $table->bootHasColumns();
 
-    expect(fn () => $table->rowsQuery())->toThrow(Error::class);
+    expect(fn () => $table->rows())->toThrow(Error::class);
 
     $table->bootBuildsQuery();
 
-    expect(fn () => $table->rowsQuery())->not->toThrow(Error::class);
+    expect(fn () => $table->rows())->not->toThrow(Error::class);
 });
 
 it('applies eager loading', function () {
     $table = fakeTable();
 
-    expect($table->rowsQuery()->getEagerLoads())->toHaveKeys([
+    expect($table->rows()->getEagerLoads())->toHaveKeys([
         'owner',
     ]);
 });

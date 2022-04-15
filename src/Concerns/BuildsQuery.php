@@ -35,7 +35,7 @@ trait BuildsQuery
     /**
      * @return Builder<TModel>|Relation<TModel>
      */
-    protected function rowsQuery(): Builder|Relation
+    protected function rows(): Builder|Relation
     {
         $query = $this->_query->clone();
 
@@ -52,7 +52,7 @@ trait BuildsQuery
      */
     protected function paginatedResults(): Collection|LengthAwarePaginator
     {
-        $query = $this->rowsQuery()->clone();
+        $query = $this->rows()->clone();
 
         if (!$this->paginationEnabled()) {
             return $query->get();
@@ -71,7 +71,6 @@ trait BuildsQuery
      */
     public function getRowsProperty(): Collection|LengthAwarePaginator
     {
-
         return $this->paginatedResults();
     }
 
@@ -81,12 +80,27 @@ trait BuildsQuery
             return "";
         }
 
-        $query = $this->rowsQuery()->clone();
+        $query = $this->rows()->clone();
 
         return Str::of($query->toSql())
             ->replaceArray('?', collect($query->getBindings())->map(function ($binding) {
                 return is_numeric($binding) ? $binding : "'{$binding}'";
             })->toArray())
             ->when($this->paginationEnabled(), fn (Stringable $str) => $str->append(' limit ', $this->pageSize, ' offset ', $this->pageSize * ($this->page - 1)));
+    }
+
+    public function selectedRows(): Builder|Relation
+    {
+        $query = $this->_query->clone();
+
+        $this->applyEagerLoading($query);
+        $this->applyRowsSelection($query);
+
+        return $query;
+    }
+
+    public function getSelectedRowsProperty(): Collection
+    {
+        return $this->selectedRows()->get();
     }
 }

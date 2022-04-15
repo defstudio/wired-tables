@@ -5,7 +5,9 @@ namespace DefStudio\WiredTables\Concerns;
 use DefStudio\WiredTables\Elements\Action;
 use DefStudio\WiredTables\Enums\Config;
 use DefStudio\WiredTables\WiredTable;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
@@ -46,6 +48,11 @@ trait SelectsRows
         return false;
     }
 
+    public function selectedIds(): array
+    {
+        return collect($this->selection)->keys()->sort()->toArray();
+    }
+
     public function selectVisibleRows(): void
     {
         $this->selection = collect($this->getVisibleRowsIds())->mapWithKeys(fn (int|string $id) => [$id => true])->toArray();
@@ -53,7 +60,7 @@ trait SelectsRows
 
     public function getVisibleRowsIds(): array
     {
-        return $this->rows->values()->pluck($this->configuration()->get(Config::id_field))->toArray();
+        return $this->rows->values()->pluck($this->configuration()->get(Config::id_field))->sort()->toArray();
     }
 
     public function unselectAllRows(): void
@@ -86,8 +93,17 @@ trait SelectsRows
 
         $this->selection = collect($this->selection)->filter()->toArray();
 
-        $this->allSelected = collect($this->getVisibleRowsIds())->sort()
-            ->diff(collect($this->selection)->keys()->sort())
+        $this->allSelected = collect($this->getVisibleRowsIds())
+            ->diff($this->selectedIds())
             ->isEmpty();
+    }
+
+    protected function applyRowsSelection(Builder|Relation $query): void
+    {
+        if(empty($this->selection)){
+            return;
+        }
+
+        $query->whereIn($this->config(Config::id_field), $this->selectedIds());
     }
 }
