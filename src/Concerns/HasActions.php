@@ -16,14 +16,12 @@ trait HasActions
     /**
      * @var Action[]
      */
-    private array $_actions;
+    private array $_actions = [];
 
     private bool $_actionsLocked = true;
 
     public function bootHasActions(): void
     {
-        $this->_actions = [];
-
         $this->_actionsLocked = false;
         $this->actions();
         $this->_actionsLocked = true;

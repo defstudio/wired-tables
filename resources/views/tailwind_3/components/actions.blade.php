@@ -20,9 +20,9 @@ use DefStudio\WiredTables\WiredTable;
         <div wire:key="wt-{{$this->id}}-actions-container"
              x-show="show"
              x-on:click.outside="show = false"
-             class="absolute table right-[calc(100%_+_10px)] top-0 bg-white z-10 shadow-md border border-gray-300 py-0.5 px-1 rounded text-sm text-gray-700"
+             class="absolute table right-0 top-[calc(100%_+_10px)] bg-white z-10 shadow-md border border-gray-300 py-0.5 px-1 rounded text-sm text-gray-700"
         >
-            @foreach(collect($this->actions)->filter(fn(Action $action) => $action->isVisible())->chunk(3) as $action_group)
+            @foreach(collect($this->actions)->filter(fn(DefStudio\WiredTables\Elements\Action $action) => $action->isVisible())->chunk(3) as $action_group)
                 <div class="table-row">
                     @foreach($action_group as $index => $action)
                         <?php /** @var \DefStudio\WiredTables\Elements\Column $action */ ?>
