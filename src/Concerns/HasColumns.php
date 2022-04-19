@@ -55,7 +55,7 @@ trait HasColumns
 
     protected function getColumn(string $name): Column|null
     {
-        return collect($this->_columns)->first(fn(Column $column) => $column->name() === $name);
+        return collect($this->_columns)->first(fn (Column $column) => $column->name() === $name);
     }
 
     protected function applyEagerLoading(Builder|Relation $query): void

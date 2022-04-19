@@ -11,15 +11,17 @@ class Dump
     public function __construct(mixed ...$value)
     {
         $this->values = $value;
+        $this->label = 'Misc';
     }
 
     public function label(string $label): static
     {
-        if(empty($label)){
+        if (empty($label)) {
             $label = 'Misc';
         }
 
         $this->label = $label;
+
         return $this;
     }
 
@@ -31,5 +33,13 @@ class Dump
     public function print(): void
     {
         dump(...$this->values);
+    }
+
+    /**
+     * @return mixed[]
+     */
+    public function values(): array
+    {
+        return $this->values;
     }
 }

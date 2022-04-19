@@ -1,5 +1,7 @@
 <?php
 
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /** @noinspection PhpDocMissingThrowsInspection */
 /** @noinspection PhpUnhandledExceptionInspection */
 
@@ -35,7 +37,7 @@ trait BuildsQuery
     /**
      * @return Builder<TModel>|Relation<TModel>
      */
-    protected function rows(): Builder|Relation
+    public function rows(): Builder|Relation
     {
         $query = $this->_query->clone();
 
@@ -62,7 +64,6 @@ trait BuildsQuery
             return $query->get();
         }
 
-        ray('rows_computed');
         return $query->paginate($this->pageSize);
     }
 
@@ -74,19 +75,21 @@ trait BuildsQuery
         return $this->paginatedResults();
     }
 
-    public function debugQuery(): string
+    public function debugQuery(Builder|Relation $query = null): string
     {
+        $paginationEnabled = $query === null && $this->paginationEnabled();
+
         if (!config('app.debug')) {
             return "";
         }
 
-        $query = $this->rows()->clone();
+        $query ??= $this->rows()->clone();
 
         return Str::of($query->toSql())
             ->replaceArray('?', collect($query->getBindings())->map(function ($binding) {
                 return is_numeric($binding) ? $binding : "'{$binding}'";
             })->toArray())
-            ->when($this->paginationEnabled(), fn (Stringable $str) => $str->append(' limit ', $this->pageSize, ' offset ', $this->pageSize * ($this->page - 1)));
+            ->when($paginationEnabled, fn (Stringable $str) => $str->append(' limit ', $this->pageSize, ' offset ', $this->pageSize * ($this->page - 1)));
     }
 
     public function selectedRows(): Builder|Relation

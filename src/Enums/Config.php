@@ -30,6 +30,7 @@ enum Config
 
     case method;
     case handler;
+    case hidden;
 
     case with_row_selection;
 }

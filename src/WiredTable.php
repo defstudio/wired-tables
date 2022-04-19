@@ -1,5 +1,7 @@
 <?php
 
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 namespace DefStudio\WiredTables;
 
 use DefStudio\WiredTables\Concerns\BuildsQuery;

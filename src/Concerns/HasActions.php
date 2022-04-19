@@ -1,12 +1,12 @@
-<?php /** @noinspection PhpUnhandledExceptionInspection */
+<?php
+
+/** @noinspection PhpUnhandledExceptionInspection */
 
 namespace DefStudio\WiredTables\Concerns;
 
 use DefStudio\WiredTables\Elements\Action;
-use DefStudio\WiredTables\Enums\Config;
 use DefStudio\WiredTables\Exceptions\ActionException;
 use DefStudio\WiredTables\WiredTable;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * @mixin WiredTable
@@ -57,6 +57,11 @@ trait HasActions
         return $action;
     }
 
+    public function shouldShowActionsSelector(): bool
+    {
+        return collect($this->_actions)->some(fn (Action $action) => $action->isVisible());
+    }
+
     public function getAction(string $name): Action|null
     {
         return collect($this->_actions)->first(fn (Action $action) => $action->name() === $name);
@@ -71,7 +76,7 @@ trait HasActions
     {
         $action = $this->getAction($actionName);
 
-        if(empty($action)){
+        if (empty($action)) {
             throw ActionException::notFound($actionName);
         }
 

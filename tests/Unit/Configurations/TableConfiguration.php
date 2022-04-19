@@ -7,6 +7,7 @@ test('defaults', function () {
 
     expect($config->toArray())->toBe([
         'support_multiple_sorting' => false,
+        'id_field' => 'id',
         'enable_row_dividers' => true,
         'striped' => true,
         'available_page_sizes' => [
@@ -17,7 +18,7 @@ test('defaults', function () {
             4 => 'all',
         ],
         'default_page_size' => 10,
-        'always_show_bulk_actions' => false,
+        'always_show_actions' => false,
         'font_size_class' => 'text-sm',
         'text_align_class' => 'text-left',
         'text_color_class' => 'text-gray-800',
@@ -103,4 +104,14 @@ it("can't set debug mode if debug is disabled", function () {
     $config->debug();
 
     expect($config->toArray())->not->toHaveKey('debug');
+});
+
+it('can set row_id field', function () {
+    $config = new TableConfiguration();
+
+    $config->rowIdField('foo');
+
+    expect($config->toArray())->toMatchArray([
+        'id_field' => 'foo',
+    ]);
 });

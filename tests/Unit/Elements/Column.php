@@ -1,5 +1,7 @@
 <?php
 
+/** @noinspection SqlDialectInspection */
+
 use DefStudio\WiredTables\Elements\Column;
 use DefStudio\WiredTables\Enums\Config;
 use DefStudio\WiredTables\Enums\Sorting;
@@ -233,4 +235,10 @@ it('can apply its search closure', function () {
     $column->applySearchClosure(Car::query(), 'quuz');
 
     expect($applied)->toBeTrue();
+});
+
+it('can retrieve its relation nesting', function () {
+    $column = new Column(fakeTable(), 'Name', 'foo.bar.baz.name');
+
+    expect($column->getRelationNesting())->toBe(3);
 });

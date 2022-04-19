@@ -26,13 +26,15 @@ test('query is booted', function () {
         }
     };
 
+    $table->bootHasConfiguration();
     $table->bootHasColumns();
+    $table->mountHasPagination();
 
-    expect(fn () => $table->rows())->toThrow(Error::class);
+    expect(fn () => $table->rows)->toThrow(Error::class);
 
     $table->bootBuildsQuery();
 
-    expect(fn () => $table->rows())->not->toThrow(Error::class);
+    expect(fn () => $table->rows)->not->toThrow(Error::class);
 });
 
 it('applies eager loading', function () {
@@ -51,12 +53,20 @@ it('applies sorting', function () {
     expect($table)->rawQuery()->toContain('order by "name" asc');
 });
 
+it('applies search', function () {
+    $table = fakeTable();
+
+    $table->search = 'fooo';
+
+    expect($table)->rawQuery()->toContain('where ("name" like \'%fooo%\' or exists (select * from "users" where "cars"."user_id" = "users"."id" and "name" like \'%fooo%\'))');
+});
+
 it('applies pagination', function () {
     Car::factory(11)->create();
 
     $table = fakeTable();
 
-    expect($table->paginatedResults())
+    expect($table->rows)
         ->toBeInstanceOf(LengthAwarePaginator::class)
         ->perPage()->toBe(10)
         ->lastPage()->toBe(2);
@@ -69,7 +79,7 @@ it("doesn't apply pagination if page size is 'all'", function () {
 
     $table->setPageSize('all');
 
-    expect($table->paginatedResults())
+    expect($table->rows)
         ->toBeInstanceOf(Collection::class)
         ->count()->toBe(11);
 });
@@ -80,7 +90,7 @@ it("doesn't apply pagination if disabled", function () {
     $table = fakeTable();
     $table->configuration()->disablePagination();
 
-    expect($table->paginatedResults())
+    expect($table->rows)
         ->toBeInstanceOf(Collection::class)
         ->count()->toBe(11);
 });
@@ -138,4 +148,28 @@ it("doesn't return a debuggable query if debug is disabled", function () {
 
     /** @noinspection SqlResolve */
     expect($table->debugQuery())->toBe('');
+});
+
+it("can get selected rows query", function () {
+    $table = fakeTable();
+    Config::set('app.debug', true);
+
+    $table->selectRows([1, 42, 666]);
+
+    expect($table->debugQuery($table->selectedRows()))->toContain('where "id" in (1, 42, 666)');
+});
+
+it("can get selectedRows property", function () {
+    Config::set('app.debug', true);
+    Car::factory(10)->create();
+
+    $table = fakeTable();
+
+    $table->selectRows([1, 3, 6]);
+
+    expect($table->selectedRows)
+        ->toBeInstanceOf(Collection::class)
+        ->pluck('id')
+        ->toArray()
+        ->toBe([1, 3, 6]);
 });

@@ -1,4 +1,6 @@
-<?php /** @noinspection PhpUnhandledExceptionInspection */
+<?php
+
+/** @noinspection PhpUnhandledExceptionInspection */
 
 namespace DefStudio\WiredTables\Elements;
 
@@ -8,7 +10,7 @@ use DefStudio\WiredTables\Enums\Config;
 use DefStudio\WiredTables\Exceptions\ActionException;
 use DefStudio\WiredTables\WiredTable;
 use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
 class Action extends Configuration implements Arrayable
@@ -40,14 +42,14 @@ class Action extends Configuration implements Arrayable
         return $this->get(Config::with_row_selection, false);
     }
 
-    public function hidden(Closure|bool $when)
+    public function hidden(Closure|bool $when = true): static
     {
-        //TODO
+        return $this->set(Config::hidden, $when);
     }
 
-    public function handle(Closure $handler)
+    public function handle(Closure $handler): static
     {
-        $this->set(Config::handler, $handler);
+        return $this->set(Config::handler, $handler);
     }
 
     public function name(): string
@@ -55,7 +57,7 @@ class Action extends Configuration implements Arrayable
         return $this->get(Config::name);
     }
 
-    public function methodArguments(): \Illuminate\Support\Collection
+    public function methodArguments(): Collection
     {
         $arguments = [];
 
@@ -95,7 +97,7 @@ class Action extends Configuration implements Arrayable
     {
         $handler = $this->get(Config::handler);
 
-        if(!is_callable($handler)){
+        if (!is_callable($handler)) {
             throw ActionException::handlerNotFound($this->name());
         }
 
@@ -108,10 +110,37 @@ class Action extends Configuration implements Arrayable
 
         $config['method'] = $this->method();
 
-        if($config['method'] === 'handleAction'){
+        if ($config['method'] === 'handleAction') {
             unset($config['method']);
         }
 
         return $config;
+    }
+
+    public function isVisible(): bool
+    {
+        if (!empty($hidden = $this->get(Config::hidden))) {
+            if (is_callable($hidden)) {
+                $hidden = $hidden();
+            }
+
+            if ($hidden) {
+                return false;
+            }
+        }
+
+        if ($this->table->config(Config::always_show_actions)) {
+            return true;
+        }
+
+        if (!$this->requiresRowsSelection()) {
+            return true;
+        }
+
+        if (!empty($this->table->selection)) {
+            return true;
+        }
+
+        return false;
     }
 }

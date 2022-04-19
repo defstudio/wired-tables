@@ -23,7 +23,7 @@ trait HasSearch
         return collect($this->columns)->some(fn (Column $column) => $column->isSearchable());
     }
 
-    public function applySearch(Builder|Relation $query): void
+    protected function applySearch(Builder|Relation $query): void
     {
         if (empty($this->search)) {
             return;
@@ -73,7 +73,7 @@ trait HasSearch
         });
     }
 
-    protected function applySearchToBelongsTo(Builder|Relation $query, Column $column, BelongsTo $relation, string $term): void
+    private function applySearchToBelongsTo(Builder|Relation $query, Column $column, BelongsTo $relation, string $term): void
     {
         $query->orWhereRelation($relation->getRelationName(), $column->getField(), 'like', "%$term%");
     }

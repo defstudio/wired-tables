@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property string $name
+ * @property int $id
+ * @property string $uuid
  *
  * @mixin Illuminate\Database\Eloquent\Builder
  */

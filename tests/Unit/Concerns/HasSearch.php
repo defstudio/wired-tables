@@ -1,5 +1,8 @@
 <?php
 
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection SqlDialectInspection */
+
 /** @noinspection SqlResolve */
 
 use DefStudio\WiredTables\WiredTable;
