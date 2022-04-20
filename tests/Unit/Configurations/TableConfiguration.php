@@ -10,6 +10,7 @@ test('defaults', function () {
         'id_field' => 'id',
         'enable_row_dividers' => true,
         'striped' => true,
+        'hover' => false,
         'available_page_sizes' => [
             0 => 10,
             1 => 20,

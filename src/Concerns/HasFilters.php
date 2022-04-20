@@ -1,4 +1,6 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php
+
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /** @noinspection PhpUnhandledExceptionInspection */
 
@@ -7,7 +9,6 @@ namespace DefStudio\WiredTables\Concerns;
 use DefStudio\WiredTables\Elements\Filter;
 use DefStudio\WiredTables\Exceptions\FilterException;
 use DefStudio\WiredTables\WiredTable;
-use GuzzleHttp\Psr7\Query;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Collection;
@@ -134,6 +135,4 @@ trait HasFilters
         $this->activeFilters()
             ->each(fn (Filter $filter) => $filter->apply($query));
     }
-
-
 }

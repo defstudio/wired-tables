@@ -1,4 +1,6 @@
-<?php /** @noinspection PhpUnused */
+<?php
+
+/** @noinspection PhpUnused */
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /** @noinspection PhpUnhandledExceptionInspection */
@@ -18,11 +20,11 @@ use Illuminate\Support\Str;
 
 class Filter extends Configuration
 {
-    public final const TYPE_TEXT = 'text';
-    public final const TYPE_SELECT = 'select';
-    public final const TYPE_MULTISELECT = 'multiselect';
-    public final const TYPE_DATE = 'date';
-    public final const TYPE_CHECKBOX = 'checkbox';
+    final public const TYPE_TEXT = 'text';
+    final public const TYPE_SELECT = 'select';
+    final public const TYPE_MULTISELECT = 'multiselect';
+    final public const TYPE_DATE = 'date';
+    final public const TYPE_CHECKBOX = 'checkbox';
 
     private WiredTable $table;
 
@@ -109,6 +111,7 @@ class Filter extends Configuration
         if ($this->table->getColumn($this->name()) === null) {
             throw ColumnException::notFound($this->name());
         }
+
         return $this->set(Config::display_on_column, true);
     }
 
@@ -146,6 +149,7 @@ class Filter extends Configuration
         $handler = $this->get(Config::handler);
         if (is_callable($this->get(Config::handler))) {
             $handler($query, $this->value());
+
             return;
         }
 
@@ -162,8 +166,8 @@ class Filter extends Configuration
             throw FilterException::noHandlerSet($this->name());
         }
 
-        $query->where(fn (Builder $searchQuery) => $this->table->applyAutoSearchToColumn($column, $searchQuery, $this->value())
+        $query->where(
+            fn (Builder $searchQuery) => $this->table->applyAutoSearchToColumn($column, $searchQuery, $this->value())
         );
-
     }
 }

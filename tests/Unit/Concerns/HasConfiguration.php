@@ -17,6 +17,7 @@ test('default configuration is loaded', function () {
         'id_field' => 'id',
         'enable_row_dividers' => true,
         'striped' => true,
+        'hover' => false,
         'available_page_sizes' => [10, 20, 50, 100, 'all'],
         'default_page_size' => 10,
         'always_show_actions' => false,

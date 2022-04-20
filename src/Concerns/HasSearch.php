@@ -45,7 +45,7 @@ trait HasSearch
                     return;
                 }
 
-               $this->applyautoSearchToColumn($column, $searchQuery, $this->search);
+                $this->applyautoSearchToColumn($column, $searchQuery, $this->search);
             }
         });
     }
