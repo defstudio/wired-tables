@@ -28,6 +28,7 @@ class TableConfiguration extends Configuration
             ->rowIdField('id')
             ->rowDividers()
             ->striped()
+            ->hover(false)
             ->pageSize(10)
             ->alwaysShowActions(false)
             ->fontSm()
@@ -55,6 +56,21 @@ class TableConfiguration extends Configuration
     public function striped(bool $enable = true): static
     {
         return $this->set(Config::striped, $enable);
+    }
+
+    public function hover(bool $enable = true): static
+    {
+        return $this->set(Config::hover, $enable);
+    }
+
+    public function filterColumns(int $count): static
+    {
+        return $this->set(Config::filters_columns, $count);
+    }
+
+    public function actionsColumns(int $count): static
+    {
+        return $this->set(Config::actions_columns, $count);
     }
 
     public function rowDividers(bool $enable = true): static

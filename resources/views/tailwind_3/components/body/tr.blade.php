@@ -15,6 +15,10 @@ use DefStudio\WiredTables\WiredTable;
 
 <tr wire:loading.class="opacity-50"
     wire:key="wt-{{$this->id}}-row-{{$this->getRowId($model)}}"
-    {{$attributes->class(['odd:bg-white even:bg-gray-50' => $this->config(\DefStudio\WiredTables\Enums\Config::striped)])}}
+    {{$attributes->class([
+            'bg-white' => !$this->config(\DefStudio\WiredTables\Enums\Config::striped),
+            'odd:bg-white even:bg-gray-50' => $this->config(\DefStudio\WiredTables\Enums\Config::striped),
+            'hover:bg-gray-200' => $this->config(\DefStudio\WiredTables\Enums\Config::hover),
+    ])}}
 >{{$slot}}</tr>
 

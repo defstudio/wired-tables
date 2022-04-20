@@ -45,32 +45,37 @@ trait HasSearch
                     return;
                 }
 
-                if ($column->isRelation()) {
-                    $model = $searchQuery->getModel();
-
-                    if ($column->getRelationNesting() > 1) {
-                        throw SearchException::autosearchNotSupportedForNestedRelations($column->getRelation());
-                    }
-
-                    $relation = $column->getRelation();
-
-                    if (!method_exists($model, $relation)) {
-                        throw SearchException::relationDoesntExist($relation);
-                    }
-
-                    $relation = $model->{$relation}();
-
-                    match ($relation::class) {
-                        BelongsTo::class => $this->applySearchToBelongsTo($searchQuery, $column, $relation, $this->search),
-                        default => throw SearchException::autosearchRelationNotSupported($model->{$relation}()::class),
-                    };
-
-                    return;
-                }
-
-                $searchQuery->orWhere($column->getField(), 'like', "%$this->search%");
+               $this->applyautoSearchToColumn($column, $searchQuery, $this->search);
             }
         });
+    }
+
+    public function applyAutoSearchToColumn(Column $column, Builder|Relation $query, string $term): void
+    {
+        if ($column->isRelation()) {
+            $model = $query->getModel();
+
+            if ($column->getRelationNesting() > 1) {
+                throw SearchException::autosearchNotSupportedForNestedRelations($column->getRelation());
+            }
+
+            $relation = $column->getRelation();
+
+            if (!method_exists($model, $relation)) {
+                throw SearchException::relationDoesntExist($relation);
+            }
+
+            $relation = $model->{$relation}();
+
+            match ($relation::class) {
+                BelongsTo::class => $this->applySearchToBelongsTo($query, $column, $relation, $term),
+                default => throw SearchException::autosearchRelationNotSupported($model->{$relation}()::class),
+            };
+
+            return;
+        }
+
+        $query->orWhere($column->getField(), 'like', "%$term%");
     }
 
     private function applySearchToBelongsTo(Builder|Relation $query, Column $column, BelongsTo $relation, string $term): void

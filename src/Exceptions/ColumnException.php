@@ -18,4 +18,9 @@ class ColumnException extends \Exception
     {
         return new ColumnException("Duplicated column [$name]");
     }
+
+    public static function notFound(string $name): ColumnException
+    {
+        return new ColumnException("Column not found: [$name]");
+    }
 }

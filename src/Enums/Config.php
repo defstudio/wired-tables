@@ -18,6 +18,7 @@ enum Config
     case available_page_sizes;
     case default_page_size;
     case always_show_actions;
+    case hover;
 
     case id;
     case name;
@@ -32,5 +33,13 @@ enum Config
     case handler;
     case hidden;
 
+    case key;
+    case display_on_column;
+    case type;
+    case options;
+    case hint;
+
     case with_row_selection;
+    case actions_columns;
+    case filters_columns;
 }

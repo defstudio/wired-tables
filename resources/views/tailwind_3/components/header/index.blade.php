@@ -9,5 +9,5 @@ use Illuminate\View\ComponentAttributeBag;
 
 
 <thead {{$attributes->class("bg-gray-50")}}>
-{{$slot}}
+    {{$slot}}
 </thead>

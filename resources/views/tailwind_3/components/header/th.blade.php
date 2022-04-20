@@ -18,7 +18,11 @@ $classes = "uppercase font-medium whitespace-nowrap tracking-wider {$column->get
 <?php
 
 ?>
-<th scope="col" {{$attributes->class(["px-6 py-3 relative"])}}>
+<th scope="col" {{$attributes->class([
+                    "px-6 relative",
+                    "py-3" => !$this->shouldShowColumnFilters(),
+                    "pt-3" => $this->shouldShowColumnFilters(),
+                 ])}}>
     @if($column->isSortable())
         <button wire:key="wt-th-sort-{{$column->id()}}"
                 wire:click="sort('{{$column->name()}}')"

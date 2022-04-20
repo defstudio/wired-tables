@@ -53,7 +53,7 @@ trait HasColumns
         return $column;
     }
 
-    protected function getColumn(string $name): Column|null
+    public function getColumn(string $name): Column|null
     {
         return collect($this->_columns)->first(fn (Column $column) => $column->name() === $name);
     }

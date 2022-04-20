@@ -8,8 +8,8 @@ use Illuminate\View\ComponentAttributeBag;
 ?>
 
 @if($this->config(\DefStudio\WiredTables\Enums\Config::debug))
-    <div {{$attributes->class("my-3 border rounded-md overflow-hidden")}}>
-        <div class="flex flex-column" x-data="{section: 'table', column: 0, action: 0, 'dumps': 'Misc'}">
+    <div {{$attributes->class("my-3 border rounded-md overflow-hidden")}} x-cloak>
+        <div class="flex flex-column" x-data="{section: 'table', column: 0, action: 0, filter: 0, 'dumps': 'Misc'}">
             <ul class="min-w-[190px]">
                 <li class="text-gray-700" :class="{'bg-gray-200': section === 'table'}">
                     <button class="py-2 px-4 w-full text-left" @click="section = 'table'" role="button">Table Configuration</button>
@@ -28,6 +28,9 @@ use Illuminate\View\ComponentAttributeBag;
                 </li>
                 <li class="text-gray-700" :class="{'bg-gray-200': section === 'actions'}">
                     <button class="py-2 px-4 w-full text-left" @click="section = 'actions'" role="button">Actions</button>
+                </li>
+                <li class="text-gray-700" :class="{'bg-gray-200': section === 'filters'}">
+                    <button class="py-2 px-4 w-full text-left" @click="section = 'filters'" role="button">Filters</button>
                 </li>
                 <li class="text-gray-700" :class="{'bg-gray-200': section === 'selection'}">
                     <button class="py-2 px-4 w-full text-left" @click="section = 'selection'" role="button">Selection</button>
@@ -99,6 +102,27 @@ use Illuminate\View\ComponentAttributeBag;
                         @endforeach
                     </div>
                 </div>
+                <div x-show="section === 'filters'">
+                    <ul class="flex flex-wrap text-sm font-medium text-center">
+                        @foreach($this->filters as $index => $filter)
+                            <li class="mr-2">
+                                <button class="inline-block p-4 rounded border-t-2"
+                                        :class="{'border-t-indigo-500': filter ==={{$index}}}"
+                                        @click="filter = {{$index}}"
+                                >
+                                    {{$filter->name()}}
+                                </button>
+                            </li>
+                        @endforeach
+                    </ul>
+                    <div>
+                        @foreach($this->filters as $index => $filter)
+                            <div x-show="filter === {{$index}}" class="w-full">
+                                {{$filter->dump()}}
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
                 <div class="p-4" x-show="section === 'query'">
                     {{ $this->debugQuery()}}
                 </div>
@@ -126,6 +150,5 @@ use Illuminate\View\ComponentAttributeBag;
             </div>
         </div>
     </div>
-
 
 @endif

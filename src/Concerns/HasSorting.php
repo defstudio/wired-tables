@@ -130,4 +130,9 @@ trait HasSorting
             $dir->value,
         );
     }
+
+    public function clearSorting(string $columnName): void
+    {
+        unset($this->sorting[$columnName]);
+    }
 }

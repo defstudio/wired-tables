@@ -42,6 +42,7 @@ trait BuildsQuery
         $query = $this->_query->clone();
 
         $this->applyEagerLoading($query);
+        $this->applyFilters($query);
         $this->applySearch($query);
         $this->applySorting($query);
 

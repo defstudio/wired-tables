@@ -6,7 +6,7 @@ use DefStudio\WiredTables\WiredTable;
 ?>
 
 @if($this->shouldShowActionsSelector())
-    <div {{$attributes->class('relative')}} wire:key="wt-{{$this->id}}-actions-wrapper" x-data="{show: false}" >
+    <div {{$attributes->class('relative')}} wire:key="wt-{{$this->id}}-actions-wrapper" x-data="{show: false}">
         <button
             wire:key="wt-{{$this->id}}-actions-dropdown"
             {{$attributes->class("flex border border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm text-sm text-gray-700 px-2 py-2")}}
@@ -21,11 +21,13 @@ use DefStudio\WiredTables\WiredTable;
              x-show="show"
              x-on:click.outside="show = false"
              class="absolute table right-0 top-[calc(100%_+_10px)] bg-white z-10 shadow-md border border-gray-300 py-0.5 px-1 rounded text-sm text-gray-700"
+             x-cloak
         >
-            @foreach(collect($this->actions)->filter(fn(DefStudio\WiredTables\Elements\Action $action) => $action->isVisible())->chunk(3) as $action_group)
+            @php($visibleActions = collect($this->actions)->filter(fn(DefStudio\WiredTables\Elements\Action $action) => $action->isVisible()))
+            @foreach($visibleActions->chunk($this->config(\DefStudio\WiredTables\Enums\Config::actions_columns, $visibleActions->count() > 3 ? 3 : 1)) as $action_group)
                 <div class="table-row">
                     @foreach($action_group as $index => $action)
-                        <?php /** @var \DefStudio\WiredTables\Elements\Column $action */ ?>
+                        <?php /** @var \DefStudio\WiredTables\Elements\Action $action */ ?>
                         <div wire:key="wt-{{$this->id}}-action-{{$index}}-wrapper" class="table-cell p-1">
                             <button wire:key="wt-{{$this->id}}-action-{{$index}}"
                                     @click="show = false; $wire.call('{{$action->method()}}' {{$action->methodArguments()->map(fn(string $arg) => ", '$arg'")->join('')}})"

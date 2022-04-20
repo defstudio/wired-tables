@@ -16,6 +16,7 @@ use DefStudio\WiredTables\Concerns\HasSorting;
 use DefStudio\WiredTables\Concerns\SelectsRows;
 use DefStudio\WiredTables\Elements\Action;
 use DefStudio\WiredTables\Elements\Column;
+use DefStudio\WiredTables\Elements\Filter;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -26,6 +27,7 @@ use Livewire\Component;
  * @property-read Collection $selectedRows
  * @property-read Column[] $columns
  * @property-read Action[] $actions
+ * @property-read Filter[] $filters
  */
 abstract class WiredTable extends Component
 {
@@ -41,7 +43,9 @@ abstract class WiredTable extends Component
     use HasFilters;
 
     public $queryString = [
+        'search' => ['except' => ''],
         'sorting' => ['except' => [], 'as' => 'sort'],
+        'filterValues' => ['except' => '', 'as' => 'filters'],
     ];
 
     public function render(): View
