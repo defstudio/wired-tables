@@ -1,5 +1,7 @@
 <?php
 
+/** @noinspection PhpUnhandledExceptionInspection */
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 /** @noinspection SqlDialectInspection */
 
@@ -140,4 +142,26 @@ it('can search without breaking the query', function () {
     $table->search = 'foo';
 
     expect($table)->rawQuery()->toBe('select * from "cars" where "position" > 15 and ("name" like \'%foo%\' or "color" like \'%foo%\') limit 10 offset 0');
+});
+
+it('can apply an autosearch to a column', function () {
+    enableDebug();
+    $table = fakeTable();
+    $query = Car::query();
+
+    $table->applyAutoSearchToColumn($table->getColumn('Name'), $query, 'foo');
+
+    expect($table->debugQuery($query))
+        ->toBe('select * from "cars" where "name" like \'%foo%\'');
+});
+
+it('can apply an autosearch to a relation column', function () {
+    enableDebug();
+    $table = fakeTable();
+    $query = Car::query();
+
+    $table->applyAutoSearchToColumn($table->getColumn('Owner'), $query, 'foo');
+
+    expect($table->debugQuery($query))
+        ->toBe('select * from "cars" where exists (select * from "users" where "cars"."user_id" = "users"."id" and "name" like \'%foo%\')');
 });

@@ -127,10 +127,10 @@ class Filter extends Configuration
 
     public function value(): mixed
     {
-        return $this->table->filterValues[$this->key()];
+        return $this->table->filterValues[$this->key()] ?? null;
     }
 
-    public function displayValue(): string
+    public function formattedValue(): string
     {
         return match ($this->type()) {
             self::TYPE_SELECT => $this->get(Config::options)[$this->value()] ?? '',

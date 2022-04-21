@@ -133,3 +133,12 @@ it('sorts by field', function () {
     $table->sort('Name');
     expect($table)->rawQuery()->toBe('select * from "cars" order by "name" asc limit 10 offset 0');
 });
+
+it('can clear a sorting', function () {
+    $table = fakeTable();
+    $table->sorting['Name'] = 'desc';
+
+    $table->clearSorting('Name');
+
+    expect($table->sorting)->toBeEmpty();
+});

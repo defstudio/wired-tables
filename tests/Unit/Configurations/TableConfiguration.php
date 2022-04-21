@@ -68,6 +68,36 @@ it('can disable row stripes', function () {
     ]);
 });
 
+it('can enable rows hover effect', function () {
+    $config = new TableConfiguration();
+
+    $config->hover();
+
+    expect($config->toArray())->toMatchArray([
+        'hover' => true,
+    ]);
+});
+
+it('can set the number of filters columns', function () {
+    $config = new TableConfiguration();
+
+    $config->filterColumns(42);
+
+    expect($config->toArray())->toMatchArray([
+        'filters_columns' => 42,
+    ]);
+});
+
+it('can set the number of actions columns', function () {
+    $config = new TableConfiguration();
+
+    $config->actionsColumns(42);
+
+    expect($config->toArray())->toMatchArray([
+        'actions_columns' => 42,
+    ]);
+});
+
 it('can disable row dividers', function () {
     $config = new TableConfiguration();
 
@@ -89,9 +119,9 @@ it('can enable multiple sorting', function () {
 });
 
 it('can enable debug mode', function () {
-    $config = new TableConfiguration();
+    enableDebug();
 
-    Config::set('app.debug', true);
+    $config = new TableConfiguration();
     $config->debug();
 
     expect($config->toArray())->toMatchArray([

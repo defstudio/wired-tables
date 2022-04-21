@@ -61,6 +61,14 @@ it('applies search', function () {
     expect($table)->rawQuery()->toContain('where ("name" like \'%fooo%\' or exists (select * from "users" where "cars"."user_id" = "users"."id" and "name" like \'%fooo%\'))');
 });
 
+it('applies filters', function () {
+    $table = fakeTable();
+
+    $table->filterValues['brand'] = 'ferrari';
+
+    expect($table)->rawQuery()->toContain('"brand" = \'ferrari\'');
+});
+
 it('applies pagination', function () {
     Car::factory(11)->create();
 
@@ -122,7 +130,7 @@ it('returns a debuggable query', function () {
         }
     });
 
-    Config::set('app.debug', true);
+    enableDebug();
 
     /** @noinspection SqlResolve */
     expect($table->debugQuery())->toBe('select * from "cars" where "name" = \'foo\' limit 10 offset 0');
@@ -152,7 +160,7 @@ it("doesn't return a debuggable query if debug is disabled", function () {
 
 it("can get selected rows query", function () {
     $table = fakeTable();
-    Config::set('app.debug', true);
+    enableDebug();
 
     $table->selectRows([1, 42, 666]);
 
@@ -160,7 +168,7 @@ it("can get selected rows query", function () {
 });
 
 it("can get selectedRows property", function () {
-    Config::set('app.debug', true);
+    enableDebug();
     Car::factory(10)->create();
 
     $table = fakeTable();

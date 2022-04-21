@@ -137,7 +137,7 @@ it("sets 'all selected' as checked when all row in a page are selected", functio
 });
 
 it("applies row selection", function () {
-    Config::set('app.debug', true);
+    enableDebug();
     $table = fakeTable();
 
     $table->selectRows([1, 3, 9]);

@@ -164,4 +164,9 @@ class Column extends Configuration implements Arrayable
     {
         //TODO
     }
+
+    public function withFilter(string $filterName)
+    {
+        //TODO
+    }
 }

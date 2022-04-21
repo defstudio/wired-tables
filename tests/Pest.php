@@ -11,6 +11,11 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 uses(TestCase::class)->in(__DIR__ . "/Unit");
 uses(TestCase::class)->in(__DIR__ . "/Feature");
 
+function enableDebug(): void
+{
+    Config::set('app.debug', true);
+}
+
 function fakeTable(WiredTable $table = null): WiredTable
 {
     $table ??= new class () extends WiredTable {
@@ -26,6 +31,16 @@ function fakeTable(WiredTable $table = null): WiredTable
         protected function actions(): void
         {
             $this->action('action one');
+        }
+
+        protected function filters(): void
+        {
+            $this->filter('Brand')
+                ->select([
+                    'lotus' => 'Lotus',
+                    'lamborghini' => 'Lamborghini',
+                    'ferrari' => 'Ferrari',
+                ])->handle(fn (Builder $query, string $brand) => $query->where('brand', $brand));
         }
 
         public function actionOne(): void
@@ -45,13 +60,15 @@ function fakeTable(WiredTable $table = null): WiredTable
     $table->bootBuildsQuery();
     $table->bootHasColumns();
     $table->bootHasActions();
+    $table->bootHasFilters();
     $table->mountHasPagination();
+    $table->mountHasFilters();
 
     return $table;
 }
 
 expect()->extend('rawQuery', function () {
-    Config::set('app.debug', true);
+    enableDebug();
 
     $this->value = $this->value->debugQuery();
 

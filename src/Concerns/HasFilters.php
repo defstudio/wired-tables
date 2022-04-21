@@ -61,7 +61,6 @@ trait HasFilters
             throw FilterException::locked();
         }
 
-
         $filter = new Filter($this, $name, $key);
 
         if ($this->getFilter($filter->key()) !== null) {
