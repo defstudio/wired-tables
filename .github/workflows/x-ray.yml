@@ -1,14 +1,14 @@
-name: phpstan
+name: x-ray
 
 on:
   push:
     paths:
       - '**.php'
-      - 'phpstan.neon'
+      - 'x-ray.yml'
 
 jobs:
-  phpstan:
-    name: phpstan
+  x-ray:
+    name: x-ray
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -23,4 +23,4 @@ jobs:
         uses: ramsey/composer-install@v1
 
       - name: Run PHPStan
-        run: ./vendor/bin/phpstan --error-format=github
+        run: ./vendor/bin/x-ray .
