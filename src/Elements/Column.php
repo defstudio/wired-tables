@@ -101,7 +101,7 @@ class Column extends Configuration implements Arrayable
     }
 
     /**
-     * @param Closure(Column $column): string $formatClosure
+     * @param Closure(mixed $value, Column $column): string $formatClosure
      *
      * @return static
      */
