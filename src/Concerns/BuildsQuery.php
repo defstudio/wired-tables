@@ -14,14 +14,8 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Str;
 use Illuminate\Support\Stringable;
 
-/**
- * @template TModel of \Illuminate\Database\Eloquent\Model
- */
 trait BuildsQuery
 {
-    /**
-     * @var Builder<TModel>|Relation<TModel>
-     */
     private Builder|Relation $_query;
 
     public function bootBuildsQuery(): void
@@ -29,14 +23,8 @@ trait BuildsQuery
         $this->_query = $this->query();
     }
 
-    /**
-     * @return Builder<TModel>|Relation<TModel>
-     */
     abstract protected function query(): Builder|Relation;
 
-    /**
-     * @return Builder<TModel>|Relation<TModel>
-     */
     public function rows(): Builder|Relation
     {
         $query = $this->_query->clone();
@@ -50,9 +38,6 @@ trait BuildsQuery
         return $query;
     }
 
-    /**
-     * @return Collection<int, TModel>|LengthAwarePaginator
-     */
     protected function paginatedResults(): Collection|LengthAwarePaginator
     {
         $query = $this->rows()->clone();
@@ -68,9 +53,6 @@ trait BuildsQuery
         return $query->paginate($this->pageSize);
     }
 
-    /**
-     * @return Collection<int, TModel>|LengthAwarePaginator
-     */
     public function getRowsProperty(): Collection|LengthAwarePaginator
     {
         return $this->paginatedResults();
