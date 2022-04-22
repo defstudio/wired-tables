@@ -109,7 +109,8 @@ trait HasFilters
     public function activeFilters(): Collection
     {
         return collect($this->_filters)
-            ->filter(fn (Filter $filter) => $filter->isActive());
+            ->filter(fn (Filter $filter) => $filter->isActive())
+            ->keyBy(fn (Filter $filter) => $filter->key());
     }
 
     public function globalFilters(): Collection

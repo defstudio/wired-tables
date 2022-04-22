@@ -28,6 +28,8 @@ enum Config
     case is_sortable;
     case sort_closure;
     case search_closure;
+    case view;
+    case view_params;
 
     case method;
     case handler;

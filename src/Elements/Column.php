@@ -1,5 +1,7 @@
 <?php
 
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 namespace DefStudio\WiredTables\Elements;
 
 use Closure;
@@ -11,6 +13,7 @@ use DefStudio\WiredTables\WiredTable;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\HtmlString;
 use Str;
 
@@ -26,7 +29,7 @@ class Column extends Configuration implements Arrayable
 
         $this->set(Config::name, $name)
             ->set(Config::db_column, $dbColumn)
-            ->set(Config::id, md5($this->name() . $this->dbColumn().$table->id));
+            ->set(Config::id, md5($this->name() . $this->dbColumn() . $table->id));
     }
 
     protected function initDefaults(): void
@@ -129,8 +132,21 @@ class Column extends Configuration implements Arrayable
     {
         $value = $this->value();
 
+        if (!empty($view = $this->get(Config::view))) {
+            $html = Blade::render(
+                $view,
+                [
+                    'model' => $this->model,
+                    'value' => $this->value(),
+                    'column' => $this,
+                ] + $this->get(Config::view_params)
+            );
+
+            return new HtmlString($html);
+        }
+
         if (!empty($formatClosure = $this->get(Config::format_closure))) {
-            $value = $formatClosure($this->model, $value, $this);
+            $value = $formatClosure($value, $this->model, $this);
         }
 
         return new HtmlString($value);
@@ -138,7 +154,7 @@ class Column extends Configuration implements Arrayable
 
     public function isRelation(): bool
     {
-        return  Str::of($this->dbColumn())->contains('.');
+        return Str::of($this->dbColumn())->contains('.');
     }
 
     public function getRelationNesting(): int
@@ -160,9 +176,30 @@ class Column extends Configuration implements Arrayable
         return Str::of($this->dbColumn())->afterLast('.');
     }
 
-    public function hidden(Closure|bool $when)
+    public function hidden(Closure|bool $when): static
     {
-        //TODO
+        return $this->set(Config::hidden, $when);
+    }
+
+    public function isVisible(): bool
+    {
+        if (!empty($hidden = $this->get(Config::hidden))) {
+            if (is_callable($hidden)) {
+                $hidden = $hidden();
+            }
+
+            if ($hidden) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public function view(string $name, array $params = []): static
+    {
+        return $this->set(Config::view, $name)
+            ->set(Config::view_params, $params);
     }
 
     public function withFilter(string $filterName)

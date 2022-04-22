@@ -6,6 +6,7 @@ use DefStudio\WiredTables\Elements\Column;
 use DefStudio\WiredTables\Enums\Config;
 use DefStudio\WiredTables\Enums\Sorting;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\HtmlString;
 
 test('defaults', function () {
     $table = fakeTable();
@@ -148,7 +149,9 @@ it('can return a relationship value', function () {
 
 it('can render a formatted value', function () {
     $column = new Column(fakeTable(), "Name");
-    $column->format(function (Car $car) {
+    $column->format(function (string $name, Car $car) {
+        expect($name)->toBe('foo');
+
         return strtoupper($car->name);
     });
 
@@ -156,6 +159,30 @@ it('can render a formatted value', function () {
     $column->setModel(Car::make(['name' => 'foo']));
 
     expect($column->render()->toHtml())->toBe('FOO');
+});
+
+it('can render a view', function () {
+    $table = fakeTable();
+    $column = new Column($table, "test", 'name');
+    $column->view('foo.bar', ['baz' => 'quuz']);
+
+    $car = Car::make(['name' => 'bmw']);
+    $column->setModel($car);
+
+
+    Blade::shouldReceive('render')
+        ->with('foo.bar', [
+            'model' => $car,
+            'value' => $car->name,
+            'column' => $column,
+            'baz' => 'quuz',
+        ])
+        ->once()
+        ->andReturn('rendered');
+
+    expect($column->render())
+        ->toBeInstanceOf(HtmlString::class)
+        ->toHtml()->toBe('rendered');
 });
 
 it('can check if it is a relation column', function () {
