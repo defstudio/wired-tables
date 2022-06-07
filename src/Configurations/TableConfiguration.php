@@ -26,7 +26,6 @@ class TableConfiguration extends Configuration
         $this
             ->set(Config::support_multiple_sorting, false)
             ->rowIdField('id')
-            ->rowDividers()
             ->striped()
             ->hover(false)
             ->pageSize(10)
@@ -56,6 +55,11 @@ class TableConfiguration extends Configuration
     public function striped(bool $enable = true): static
     {
         return $this->set(Config::striped, $enable);
+    }
+
+    public function dropShadow(bool $enable = true): static
+    {
+        return $this->set(Config::drop_shadow, $enable);
     }
 
     public function hover(bool $enable = true): static

@@ -12,6 +12,7 @@ enum Config
 
     case id_field;
 
+    case drop_shadow;
     case support_multiple_sorting;
     case enable_row_dividers;
     case striped;

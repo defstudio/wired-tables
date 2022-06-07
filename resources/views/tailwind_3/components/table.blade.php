@@ -7,7 +7,10 @@ use Illuminate\View\ComponentAttributeBag;
 /** @var ComponentAttributeBag $attributes */
 ?>
 
-<table {{$attributes->class("min-w-full divide-y divide-gray-200")}}>
+<table {{$attributes->class([
+    "min-w-full",
+    'divide-y divide-gray-200' => $this->config(\DefStudio\WiredTables\Enums\Config::enable_row_dividers)
+])}}>
     {{$header}}
 
     {{$slot}}
