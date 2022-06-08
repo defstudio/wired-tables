@@ -15,7 +15,6 @@ test('default configuration is loaded', function () {
     expect($table->configuration()->toArray())->toBe([
         'support_multiple_sorting' => false,
         'id_field' => 'id',
-        'enable_row_dividers' => true,
         'striped' => true,
         'hover' => false,
         'available_page_sizes' => [10, 20, 50, 100, 'all'],
