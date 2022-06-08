@@ -5,10 +5,10 @@ use DefStudio\WiredTables\WiredTable;
 /** @var WiredTable $this */
 ?>
 
-<x-wired-tables::wrapper wire:key="wt-{{$this->id}}-wrapper" class="min-h-[300px]">
+<x-wired-tables::wrapper wire:key="wt-{{$this->id}}-wrapper">
     <x-wired-tables::top wire:key="wt-{{$this->id}}-top"/>
 
-    <x-wired-tables::table wire:key="wt-{{$this->id}}" class="my-3">
+    <x-wired-tables::table wire:key="wt-{{$this->id}}" class="my-2">
         <x-slot name="header">
             <x-wired-tables::header wire:key="wt-{{$this->id}}-header">
                 <tr>
@@ -37,7 +37,7 @@ use DefStudio\WiredTables\WiredTable;
                 </x-wired-tables::body.tr>
             @empty
                 <tr>
-                    <td class="px-6 py-3 text-gray-500 text-center" colspan="{{count($this->columns) + ($this->shouldShowRowsSelector() ? 1 : 0)}}">No data found</td>
+                    <td class="px-4 py-3 text-muted text-center" colspan="{{count($this->columns) + ($this->shouldShowRowsSelector() ? 1 : 0)}}">No data found</td>
                 </tr>
             @endforelse
         </x-wired-tables::body>
@@ -46,4 +46,3 @@ use DefStudio\WiredTables\WiredTable;
 
     <x-wired-tables::pagination class="mt-auto" wire:key="wt-{{$this->id}}-pagination"/>
 </x-wired-tables::wrapper>
-
