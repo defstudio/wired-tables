@@ -8,6 +8,8 @@ namespace DefStudio\WiredTables\Configurations;
 
 use DefStudio\WiredTables\Concerns\HasTextConfiguration;
 use DefStudio\WiredTables\Enums\Config;
+use DefStudio\WiredTables\Exceptions\ConfigException;
+use Illuminate\Support\Str;
 
 class TableConfiguration extends Configuration
 {
@@ -24,15 +26,22 @@ class TableConfiguration extends Configuration
     private function initDefaults(): void
     {
         $this
-            ->set(Config::support_multiple_sorting, false)
-            ->rowIdField('id')
-            ->striped()
-            ->hover(false)
-            ->pageSize(10)
-            ->alwaysShowActions(false)
             ->fontSm()
             ->textLeft()
-            ->textColorClass('text-gray-800');
+            ->textColorClass(match (config('wired-tables.style')) {
+                'tailwind_3' => 'text-gray-800',
+                'bootstrap_4' => 'text-dark',
+                default => throw ConfigException::invalidValue('style', \config('wired-tables.style', ''))
+            });
+
+        collect(config('wired-tables.defaults.table'))->each(function ($value, $key) {
+            $configMethod = Str::of($key)->camel()->toString();
+            if (!method_exists($this, $configMethod)) {
+                throw ConfigException::unsupportedConfig("wired-tables.defaults.table.$key");
+            }
+
+            $this->$configMethod($value);
+        });
     }
 
     public function rowIdField(string $field): static
@@ -67,12 +76,12 @@ class TableConfiguration extends Configuration
         return $this->set(Config::hover, $enable);
     }
 
-    public function filterColumns(int $count): static
+    public function filterSelectorColumns(int $count): static
     {
         return $this->set(Config::filters_columns, $count);
     }
 
-    public function actionsColumns(int $count): static
+    public function actionsSelectorColumns(int $count): static
     {
         return $this->set(Config::actions_columns, $count);
     }

@@ -13,16 +13,26 @@ test('default configuration is loaded', function () {
     $table = fakeTable();
 
     expect($table->configuration()->toArray())->toBe([
-        'support_multiple_sorting' => false,
-        'id_field' => 'id',
-        'striped' => true,
-        'hover' => false,
-        'available_page_sizes' => [10, 20, 50, 100, 'all'],
-        'default_page_size' => 10,
-        'always_show_actions' => false,
         'font_size_class' => 'text-sm',
         'text_align_class' => 'text-left',
         'text_color_class' => 'text-gray-800',
+        'id_field' => 'id',
+        'available_page_sizes' => [
+            0 => 10,
+            1 => 20,
+            2 => 50,
+            3 => 100,
+            4 => 'all',
+        ],
+        'default_page_size' => 10,
+        'striped' => true,
+        'enable_row_dividers' => false,
+        'drop_shadow' => false,
+        'hover' => false,
+        'support_multiple_sorting' => false,
+        'filters_columns' => 1,
+        'actions_columns' => 1,
+        'always_show_actions' => false,
     ]);
 
     expect($table->configuration()->header->toArray())->toBe([

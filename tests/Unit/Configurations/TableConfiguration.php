@@ -6,10 +6,10 @@ test('defaults', function () {
     $config = new TableConfiguration();
 
     expect($config->toArray())->toBe([
-        'support_multiple_sorting' => false,
+        'font_size_class' => 'text-sm',
+        'text_align_class' => 'text-left',
+        'text_color_class' => 'text-gray-800',
         'id_field' => 'id',
-        'striped' => true,
-        'hover' => false,
         'available_page_sizes' => [
             0 => 10,
             1 => 20,
@@ -18,10 +18,14 @@ test('defaults', function () {
             4 => 'all',
         ],
         'default_page_size' => 10,
+        'striped' => true,
+        'enable_row_dividers' => false,
+        'drop_shadow' => false,
+        'hover' => false,
+        'support_multiple_sorting' => false,
+        'filters_columns' => 1,
+        'actions_columns' => 1,
         'always_show_actions' => false,
-        'font_size_class' => 'text-sm',
-        'text_align_class' => 'text-left',
-        'text_color_class' => 'text-gray-800',
     ]);
 });
 
@@ -80,7 +84,7 @@ it('can enable rows hover effect', function () {
 it('can set the number of filters columns', function () {
     $config = new TableConfiguration();
 
-    $config->filterColumns(42);
+    $config->filterSelectorColumns(42);
 
     expect($config->toArray())->toMatchArray([
         'filters_columns' => 42,
@@ -90,7 +94,7 @@ it('can set the number of filters columns', function () {
 it('can set the number of actions columns', function () {
     $config = new TableConfiguration();
 
-    $config->actionsColumns(42);
+    $config->actionsSelectorColumns(42);
 
     expect($config->toArray())->toMatchArray([
         'actions_columns' => 42,
