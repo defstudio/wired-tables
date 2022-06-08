@@ -30,7 +30,7 @@ class TableConfiguration extends Configuration
             ->textLeft()
             ->textColorClass(match (config('wired-tables.style')) {
                 'tailwind_3' => 'text-gray-800',
-                'bootstrap_4' => 'text-dark',
+                'tailwind_3_prefixed' => 'tailwind_3text-dark',
                 default => throw ConfigException::invalidValue('style', \config('wired-tables.style', ''))
             });
 
