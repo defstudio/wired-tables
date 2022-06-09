@@ -7,10 +7,10 @@ use DefStudio\WiredTables\WiredTable;
 
 
 @if($this->isSearchable())
-    <div class="sm:flex" x-data=>
-        <div class="relative">
-            <div class="absolute inset-y-0 left-0 flex items-center pl-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="stroke-gray-400 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+    <div class="tw-sm:flex" x-data=>
+        <div class="tw-relative">
+            <div class="tw-absolute tw-inset-y-0 tw-left-0 tw-flex tw-items-center tw-pl-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="tw-stroke-gray-400 tw-h-4 tw-w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
             </div>
@@ -19,12 +19,12 @@ use DefStudio\WiredTables\WiredTable;
                    id="wt-{{$this->id}}-search"
                    type="text"
                    placeholder="search..."
-                   class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm text-sm placeholder:text-slate-400 text-gray-800 px-7 py-2"
+                   class="tw-border-gray-300 tw-focus:border-indigo-300 tw-focus:ring tw-focus:ring-indigo-200 tw-focus:ring-opacity-50 tw-rounded-md tw-shadow-sm tw-text-sm tw-placeholder:text-slate-400 tw-text-gray-800 tw-px-7 tw-py-2"
                    wire:model.debounce="search"
             />
 
-            <div x-show="$wire.search" @click="$wire.set('search', '')" class="absolute flex items-center top-0 bottom-0 right-0 pr-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="stroke-slate-400 cursor-pointer h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <div x-show="$wire.search" @click="$wire.set('search', '')" class="tw-absolute tw-flex tw-items-center tw-top-0 tw-bottom-0 tw-right-0 tw-pr-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="tw-stroke-slate-400 tw-cursor-pointer tw-h-4 tw-w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                 </svg>
             </div>

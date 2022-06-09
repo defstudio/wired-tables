@@ -8,8 +8,8 @@ use Illuminate\View\ComponentAttributeBag;
 ?>
 
 <table {{$attributes->class([
-    "min-w-full",
-    'divide-y divide-gray-200' => $this->config(\DefStudio\WiredTables\Enums\Config::enable_row_dividers)
+    "tw-min-w-full",
+    'tw-divide-y tw-divide-gray-200' => $this->config(\DefStudio\WiredTables\Enums\Config::enable_row_dividers)
 ])}}>
     {{$header}}
 

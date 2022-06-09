@@ -47,12 +47,12 @@ use DefStudio\WiredTables\WiredTable;
         @endif
     </div>
 
-    <div class="flex items-center">
+    <div class="tw-flex tw-items-center">
         <x-wired-tables::search/>
-        <x-wired-tables::filters class="ml-1"/>
+        <x-wired-tables::filters class="tw-ml-1"/>
 
-        <div class="ml-auto flex">
-            <x-wired-tables::actions class="mr-1"/>
+        <div class="tw-ml-auto tw-flex">
+            <x-wired-tables::actions class="tw-mr-1"/>
             <x-wired-tables::page-size-selector wire:key="wt-{{$this->id}}-page-size-selector-top"/>
         </div>
     </div>
