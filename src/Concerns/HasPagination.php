@@ -23,7 +23,7 @@ trait HasPagination
     {
         $this->setPageSize($this->config(Config::default_page_size));
 
-        if(config('wired-tables.style') === 'tailwind_3_prefixed'){
+        if (config('wired-tables.style') === 'tailwind_3_prefixed') {
             $this->paginationTheme = 'bootstrap';
         }
     }
