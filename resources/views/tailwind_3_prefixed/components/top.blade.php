@@ -15,7 +15,7 @@ use DefStudio\WiredTables\WiredTable;
                 <div class="tw-font-medium tw-py-0.5 tw-text-xs tw-text-gray-500">Filters:</div>
                 @foreach($this->activeFilters() as $filter)
                     <div wire:key="wt-{{$this->id}}-filter-{{$filter->key()}}-pill"
-                         class="tw-font-medium tw-ml-1 tw-px-1 tw-py-0.5 tw-text-xs tw-text-indigo-600 tw-bg-indigo-200 tw-hover:bg-indigo-300  tw-focus:bg-indigo-100  tw-rounded-md tw-flex tw-cursor-pointer"
+                         class="tw-font-medium tw-ml-1 tw-px-1 tw-py-0.5 tw-text-xs tw-text-indigo-600 tw-bg-indigo-200 hover:tw-bg-indigo-300  focus:tw-bg-indigo-100  tw-rounded-md tw-flex tw-cursor-pointer"
                          wire:click="clearFilter('{{$filter->key()}}')"
                     >
                         {{$filter->name()}}: {{$filter->formattedValue()}}
@@ -33,7 +33,7 @@ use DefStudio\WiredTables\WiredTable;
                 <div class="tw-font-medium tw-py-0.5 tw-text-xs tw-text-gray-500">Sort:</div>
                 @foreach($this->sorting as $columnName => $dir)
                     <div wire:key="wt-{{$this->id}}-sort-{{$columnName}}-pill"
-                         class="tw-font-medium tw-ml-1 tw-px-1 tw-py-0.5 tw-text-xs tw-text-indigo-600 tw-bg-indigo-200 tw-hover:bg-indigo-300  tw-focus:bg-indigo-100  tw-rounded-md tw-flex tw-cursor-pointer"
+                         class="tw-font-medium tw-ml-1 tw-px-1 tw-py-0.5 tw-text-xs tw-text-indigo-600 tw-bg-indigo-200 hover:tw-bg-indigo-300  focus:tw-bg-indigo-100  tw-rounded-md tw-flex tw-cursor-pointer"
                          wire:click="clearSorting('{{$columnName}}')"
                     >
                         {{$columnName}}: {{$dir}}

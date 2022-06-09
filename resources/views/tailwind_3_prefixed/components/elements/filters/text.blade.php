@@ -21,8 +21,8 @@ use Illuminate\View\ComponentAttributeBag;
            wire:key="wt-{{$this->id}}-filter-{{$filter->key()}}"
            name="filterValues[{{$filter->key()}}]"
            wire:model.debounce="filterValues.{{$filter->key()}}"
-           class="tw-block tw-border-gray-300 tw-focus:border-indigo-300
-                  tw-focus:ring tw-focus:ring-indigo-200 tw-focus:ring-opacity-50
+           class="tw-block tw-border-gray-300 focus:tw-border-indigo-300
+                  focus:tw-ring focus:tw-ring-indigo-200 focus:tw-ring-opacity-50
                   tw-rounded-md tw-shadow-sm tw-px-2 tw-py-1 tw-w-full tw-min-w-[190px]"
            type="text"
     />

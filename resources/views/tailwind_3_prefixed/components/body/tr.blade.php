@@ -17,8 +17,8 @@ use DefStudio\WiredTables\WiredTable;
     wire:key="wt-{{$this->id}}-row-{{$this->getRowId($model)}}"
     {{$attributes->class([
             'tw-bg-white' => !$this->config(\DefStudio\WiredTables\Enums\Config::striped),
-            'tw-odd:bg-white tw-even:bg-gray-50' => $this->config(\DefStudio\WiredTables\Enums\Config::striped),
-            'tw-hover:bg-gray-200' => $this->config(\DefStudio\WiredTables\Enums\Config::hover),
+            'odd:tw-bg-white even:tw-bg-gray-50' => $this->config(\DefStudio\WiredTables\Enums\Config::striped),
+            'hover:tw-bg-gray-200' => $this->config(\DefStudio\WiredTables\Enums\Config::hover),
     ])}}
 >{{$slot}}</tr>
 

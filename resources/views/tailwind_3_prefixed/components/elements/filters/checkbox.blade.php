@@ -23,8 +23,8 @@ use Illuminate\View\ComponentAttributeBag;
            name="filterValues[{{$filter->key()}}]"
            wire:model.debounce="filterValues.{{$filter->key()}}"
            class="tw-block tw-text-indigo-600 tw-mt-2
-                  tw-border-gray-300 tw-focus:border-indigo-300
-                  tw-focus:ring tw-focus:ring-indigo-200 tw-focus:ring-opacity-50
+                  tw-border-gray-300 focus:tw-border-indigo-300
+                  focus:tw-ring focus:tw-ring-indigo-200 focus:tw-ring-opacity-50
                   tw-rounded tw-shadow-sm tw-cursor-pointer"
            type="checkbox"
     />

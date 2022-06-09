@@ -6,7 +6,7 @@ use DefStudio\WiredTables\WiredTable;
 ?>
 
 @if($this->paginationEnabled())
-    <div {{$attributes->class("tw-sm:flex tw-items-center tw-p-3 tw-pt-0")}}>
+    <div {{$attributes->class("sm:tw-flex tw-items-center tw-p-3 tw-pt-0")}}>
 
         @if($this->pageSize !== 'all')
             <div class="tw-grow">
