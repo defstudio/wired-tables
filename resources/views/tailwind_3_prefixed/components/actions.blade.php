@@ -20,12 +20,12 @@ use DefStudio\WiredTables\WiredTable;
         <div wire:key="wt-{{$this->id}}-actions-container"
              x-show="show"
              x-on:click.outside="show = false"
-             class="tw-absolute table tw-right-0 tw-top-[calc(100%_+_10px)] tw-bg-white tw-z-10 tw-shadow-md tw-border tw-border-gray-300 tw-py-0.5 tw-px-1 tw-rounded tw-text-sm tw-text-gray-700"
+             class="tw-absolute tw-table tw-right-0 tw-top-[calc(100%_+_10px)] tw-bg-white tw-z-10 tw-shadow-md tw-border tw-border-gray-300 tw-py-0.5 tw-px-1 tw-rounded tw-text-sm tw-text-gray-700"
              x-cloak
         >
             @php($visibleActions = collect($this->actions)->filter(fn(DefStudio\WiredTables\Elements\Action $action) => $action->isVisible()))
             @foreach($visibleActions->chunk($this->config(\DefStudio\WiredTables\Enums\Config::actions_columns, $visibleActions->count() > 3 ? 3 : 1)) as $action_group)
-                <div class="table-row">
+                <div class="tw-table-row">
                     @foreach($action_group as $index => $action)
                         <?php /** @var \DefStudio\WiredTables\Elements\Action $action */ ?>
                         <div wire:key="wt-{{$this->id}}-action-{{$index}}-wrapper" class="table-cell tw-p-1">

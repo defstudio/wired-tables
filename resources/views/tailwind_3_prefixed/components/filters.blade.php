@@ -28,12 +28,12 @@ use DefStudio\WiredTables\WiredTable;
         <div wire:key="wt-{{$this->id}}-filters-container"
              x-show="show"
              x-on:click.outside="show = false"
-             class="table tw-absolute tw-left-0 tw-top-[calc(100%_+_10px)] tw-bg-white tw-z-10 tw-shadow-md border tw-border-gray-300 tw-py-0.5 tw-px-1 tw-rounded tw-text-sm tw-text-gray-700"
+             class="tw-table tw-absolute tw-left-0 tw-top-[calc(100%_+_10px)] tw-bg-white tw-z-10 tw-shadow-md border tw-border-gray-300 tw-py-0.5 tw-px-1 tw-rounded tw-text-sm tw-text-gray-700"
              x-cloak
         >
             @php($visibleFilters = $this->globalFilters()->filter(fn($filter) => $filter->isVisible()))
             @foreach($visibleFilters->chunk($this->config(\DefStudio\WiredTables\Enums\Config::filters_columns, $visibleFilters->count() > 2 ? 2 : 1)) as $filter_group)
-                <div class="table-row">
+                <div class="tw-table-row">
                     @foreach($filter_group as $index => $filter)
                         <?php /** @var \DefStudio\WiredTables\Elements\Filter $filter */ ?>
                         <div wire:key="wt-{{$this->id}}-filter-{{$filter->key()}}-container" class="table-cell tw-p-2">
