@@ -9,7 +9,7 @@ use DefStudio\WiredTables\WiredTable;
     <div {{$attributes->class('tw-relative')}} wire:key="wt-{{$this->id}}-actions-wrapper" x-data="{show: false}">
         <button
             wire:key="wt-{{$this->id}}-actions-dropdown"
-            {{$attributes->class("tw-flex tw-border tw-border-gray-300 focus:tw-border-indigo-300 focus:tw-ring focus:tw-ring-indigo-200 focus:tw-ring-opacity-50 tw-rounded-md tw-shadow-sm tw-text-sm tw-text-gray-700 tw-px-2 tw-py-2")}}
+            {{$attributes->class("tw-flex tw-bg-transparent tw-border focus-visible:tw-outline-0 tw-border-solid tw-border-gray-300 focus:tw-border-indigo-300 focus:tw-ring focus:tw-ring-indigo-200 focus:tw-ring-opacity-50 tw-rounded-md tw-shadow-sm tw-text-sm tw-text-gray-700 tw-px-2 tw-py-2")}}
             @click="show = !show"
         >
             Actions
@@ -31,7 +31,7 @@ use DefStudio\WiredTables\WiredTable;
                         <div wire:key="wt-{{$this->id}}-action-{{$index}}-wrapper" class="tw-table-cell tw-p-1">
                             <button wire:key="wt-{{$this->id}}-action-{{$index}}"
                                     @click="show = false; $wire.call('{{$action->method()}}' {{$action->methodArguments()->map(fn(string $arg) => ", '$arg'")->join('')}})"
-                                    class="tw-p-2 tw-whitespace-nowrap tw-bg-gray-100 hover:tw-bg-gray-200 tw-w-full tw-rounded focus:tw-border-indigo-300 focus:tw-ring focus:tw-ring-indigo-200 focus:tw-ring-opacity-50"
+                                    class="tw-bg-transparent tw-border focus-visible:tw-outline-0 tw-border-solid tw-p-2 tw-whitespace-nowrap tw-bg-gray-100 hover:tw-bg-gray-200 tw-w-full tw-rounded focus:tw-border-indigo-300 focus:tw-ring focus:tw-ring-indigo-200 focus:tw-ring-opacity-50"
                             >{{$action->name()}}</button>
                         </div>
                     @endforeach

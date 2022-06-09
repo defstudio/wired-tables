@@ -26,11 +26,15 @@ test('all tailwind classes are prefixed', function () {
             if (isset($file_match[1])) {
                 foreach ($file_match[1] as $class_index => $class) {
                     $items = Str::of($class)
+                        ->replace("\n", '')
+                        ->replace("\t", '')
                         ->explode(' ')
                         ->filter()
                         ->values();
 
                     $prefixed_items = Str::of($prefixed_match[1][$class_index])
+                        ->replace("\n", '')
+                        ->replace("\t", '')
                         ->explode(' ')
                         ->filter()
                         ->values();
@@ -56,7 +60,7 @@ test('all tailwind classes are prefixed', function () {
 
                             expect($prefixed_item)->toBe("tw-$item");
                         } catch (ExpectationFailedException $e) {
-                            throw new ExpectationFailedException("Class Was not prefixed in [$file]", $e->getComparisonFailure());
+                            throw new ExpectationFailedException("Class was not prefixed in [$file]", $e->getComparisonFailure());
                         }
                     });
                 }

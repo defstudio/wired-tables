@@ -9,7 +9,7 @@ use DefStudio\WiredTables\WiredTable;
     <div {{$attributes->class('relative')}} wire:key="wt-{{$this->id}}-filters-wrapper" x-data="{show: false}">
         <button
             wire:key="wt-{{$this->id}}-filters-dropdown"
-            {{$attributes->class("flex items-center px-2 py-2 border border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm text-sm text-gray-700 ")}}
+            {{$attributes->class("flex items-center px-2 py-2 bg-transparent border focus-visible:outline-0 border-solid border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm text-sm text-gray-700 ")}}
             @click="show = !show"
         >
             Filters

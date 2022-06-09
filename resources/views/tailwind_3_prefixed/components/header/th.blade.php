@@ -26,7 +26,7 @@ $classes = "tw-uppercase tw-font-medium tw-whitespace-nowrap tw-tracking-wider {
     @if($column->isSortable())
         <button wire:key="wt-th-sort-{{$column->id()}}"
                 wire:click="sort('{{$column->name()}}')"
-                class="tw-flex tw-items-center tw-group {{$classes}}"
+                class="tw-flex tw-items-center tw-group tw-bg-transparent tw-border-0 {{$classes}}"
         >
             {{$column->name()}}
 

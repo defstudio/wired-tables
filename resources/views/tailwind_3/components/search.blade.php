@@ -19,7 +19,7 @@ use DefStudio\WiredTables\WiredTable;
                    id="wt-{{$this->id}}-search"
                    type="text"
                    placeholder="search..."
-                   class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm text-sm placeholder:text-slate-400 text-gray-800 px-7 py-2"
+                   class="border focus-visible:outline-0 border-solid border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm text-sm placeholder:text-slate-400 text-gray-800 px-7 py-2"
                    wire:model.debounce="search"
             />
 
