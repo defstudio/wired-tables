@@ -17,10 +17,15 @@ trait HasPagination
     use WithPagination;
 
     public int|string $pageSize;
+    protected string $paginationTheme = 'tailwind';
 
     public function mountHasPagination(): void
     {
         $this->setPageSize($this->config(Config::default_page_size));
+
+        if(config('wired-tables.style') === 'tailwind_3_prefixed'){
+            $this->paginationTheme = 'bootstrap';
+        }
     }
 
     public function updatedPageSize(): void
