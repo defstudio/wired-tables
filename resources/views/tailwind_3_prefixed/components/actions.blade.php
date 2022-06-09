@@ -28,7 +28,7 @@ use DefStudio\WiredTables\WiredTable;
                 <div class="tw-table-row">
                     @foreach($action_group as $index => $action)
                         <?php /** @var \DefStudio\WiredTables\Elements\Action $action */ ?>
-                        <div wire:key="wt-{{$this->id}}-action-{{$index}}-wrapper" class="table-cell tw-p-1">
+                        <div wire:key="wt-{{$this->id}}-action-{{$index}}-wrapper" class="tw-table-cell tw-p-1">
                             <button wire:key="wt-{{$this->id}}-action-{{$index}}"
                                     @click="show = false; $wire.call('{{$action->method()}}' {{$action->methodArguments()->map(fn(string $arg) => ", '$arg'")->join('')}})"
                                     class="tw-p-2 tw-whitespace-nowrap tw-bg-gray-100 hover:tw-bg-gray-200 tw-w-full tw-rounded focus:tw-border-indigo-300 focus:tw-ring focus:tw-ring-indigo-200 focus:tw-ring-opacity-50"

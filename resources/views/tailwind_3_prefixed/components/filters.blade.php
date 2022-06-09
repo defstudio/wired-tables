@@ -28,7 +28,7 @@ use DefStudio\WiredTables\WiredTable;
         <div wire:key="wt-{{$this->id}}-filters-container"
              x-show="show"
              x-on:click.outside="show = false"
-             class="tw-table tw-absolute tw-left-0 tw-top-[calc(100%_+_10px)] tw-bg-white tw-z-10 tw-shadow-md border tw-border-gray-300 tw-py-0.5 tw-px-1 tw-rounded tw-text-sm tw-text-gray-700"
+             class="tw-absolute tw-table tw-left-0 tw-top-[calc(100%_+_10px)] tw-bg-white tw-z-10 tw-shadow-md tw-border tw-border-gray-300 tw-py-0.5 tw-px-1 tw-rounded tw-text-sm tw-text-gray-700"
              x-cloak
         >
             @php($visibleFilters = $this->globalFilters()->filter(fn($filter) => $filter->isVisible()))
@@ -36,7 +36,7 @@ use DefStudio\WiredTables\WiredTable;
                 <div class="tw-table-row">
                     @foreach($filter_group as $index => $filter)
                         <?php /** @var \DefStudio\WiredTables\Elements\Filter $filter */ ?>
-                        <div wire:key="wt-{{$this->id}}-filter-{{$filter->key()}}-container" class="table-cell tw-p-2">
+                        <div wire:key="wt-{{$this->id}}-filter-{{$filter->key()}}-container" class="tw-table-cell tw-p-2">
                             <x-dynamic-component class="tw-mt-1"
                                                  component='wired-tables::elements.filters.{{$filter->type()}}'
                                                  :filter="$filter"

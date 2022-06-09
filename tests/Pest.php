@@ -67,6 +67,22 @@ function fakeTable(WiredTable $table = null): WiredTable
     return $table;
 }
 
+function listFolderFiles($dir): Generator
+{
+    foreach (scandir($dir) as $file) {
+        if ($file[0] == '.') {
+            continue;
+        }
+        if (is_dir("$dir/$file")) {
+            foreach (listFolderFiles("$dir/$file") as $infile) {
+                yield $infile;
+            }
+        } else {
+            yield "${dir}/${file}";
+        }
+    }
+}
+
 expect()->extend('rawQuery', function () {
     enableDebug();
 

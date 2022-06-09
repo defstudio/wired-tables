@@ -10,7 +10,7 @@ use Illuminate\View\ComponentAttributeBag;
 @if($this->config(\DefStudio\WiredTables\Enums\Config::debug))
     <div {{$attributes->class("tw-my-3 tw-border tw-rounded-md tw-overflow-hidden")}} x-cloak>
         <div class="tw-flex tw-flex-column" x-data="{section: 'table', column: 0, action: 0, filter: 0, 'dumps': 'Misc'}">
-            <ul class="min-w-[190px]">
+            <ul class="tw-min-w-[190px]">
                 <li class="tw-text-gray-700" :class="{'tw-bg-gray-200': section === 'table'}">
                     <button class="tw-py-2 tw-px-4 tw-w-full tw-text-left" @click="section = 'table'" role="button">Table Configuration</button>
                 </li>

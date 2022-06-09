@@ -10,7 +10,7 @@ use DefStudio\WiredTables\WiredTable;
 
         @if($this->pageSize !== 'all')
             <div class="tw-grow">
-                {{$this->rows->links()}}
+                {{$this->rows->links('wired-tables::livewire-pagination')}}
             </div>
         @endif
 

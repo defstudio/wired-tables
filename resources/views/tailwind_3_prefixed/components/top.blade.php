@@ -5,7 +5,7 @@ use DefStudio\WiredTables\WiredTable;
 /** @var WiredTable $this */
 ?>
 
-<div class="tw-p-3 pb-0">
+<div class="tw-p-3 tw-pb-0">
     <x-wired-tables::debug wire:key="wt-{{$this->id}}-debug"/>
 
 
