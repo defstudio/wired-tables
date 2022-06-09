@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpUnused */
 
 namespace DefStudio\WiredTables\Concerns;
 
 use DefStudio\WiredTables\Enums\Config;
+use Illuminate\Support\Collection;
 
 trait HasTextConfiguration
 {
@@ -14,6 +15,7 @@ trait HasTextConfiguration
             Config::font_size_class,
         ])->map(fn (Config $config) => $this->get($config))
             ->filter()
+            ->when(config("wired-tables.style") === 'tailwind_3_prefixed', fn (Collection $collection) => $collection->map(fn (string $class) => "tw-$class"))
             ->join(' ');
     }
 

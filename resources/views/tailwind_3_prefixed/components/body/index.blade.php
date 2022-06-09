@@ -8,6 +8,6 @@ use DefStudio\WiredTables\WiredTable;
 
 ?>
 
-<tbody {{$attributes->class(['divide-y divide-gray-200' => $this->config(\DefStudio\WiredTables\Enums\Config::enable_row_dividers)])}}>
+<tbody {{$attributes->class(['tw-divide-y tw-divide-gray-200' => $this->config(\DefStudio\WiredTables\Enums\Config::enable_row_dividers)])}}>
 {{$slot}}
 </tbody>

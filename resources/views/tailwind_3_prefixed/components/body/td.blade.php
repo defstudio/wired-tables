@@ -12,9 +12,9 @@ use DefStudio\WiredTables\WiredTable;
 $attributes = $attributes->merge([
         'wire:key' => "wt-$this->id-row-{$this->getRowId($model)}-cell"
     ])->class([
-        "px-6 py-3",
-        "font-medium",
-        "whitespace-nowrap",
+        "tw-px-6 tw-py-3",
+        "tw-font-medium",
+        "tw-whitespace-nowrap",
         $column->getTextClasses(),
     ]);
 ?>
@@ -22,6 +22,6 @@ $attributes = $attributes->merge([
 @props(['column', 'model'])
 
 <td wire:key="wt-{{$this->id}}-row-{{$this->getRowId($model)}}-cell"
-    {{$attributes->class(["px-6 py-3 font-medium whitespace-nowrap", $column->getTextClasses()])}}
+    {{$attributes->class(["tw-px-6 tw-py-3 tw-font-medium tw-whitespace-nowrap", $column->getTextClasses()])}}
 >{{$column->render()}}</td>
 

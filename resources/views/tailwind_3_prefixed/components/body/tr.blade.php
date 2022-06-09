@@ -13,12 +13,12 @@ use DefStudio\WiredTables\WiredTable;
 
 @props(['model'])
 
-<tr wire:loading.class="opacity-50"
+<tr wire:loading.class="tw-opacity-50"
     wire:key="wt-{{$this->id}}-row-{{$this->getRowId($model)}}"
     {{$attributes->class([
-            'bg-white' => !$this->config(\DefStudio\WiredTables\Enums\Config::striped),
-            'odd:bg-white even:bg-gray-50' => $this->config(\DefStudio\WiredTables\Enums\Config::striped),
-            'hover:bg-gray-200' => $this->config(\DefStudio\WiredTables\Enums\Config::hover),
+            'tw-bg-white' => !$this->config(\DefStudio\WiredTables\Enums\Config::striped),
+            'tw-odd:bg-white tw-even:bg-gray-50' => $this->config(\DefStudio\WiredTables\Enums\Config::striped),
+            'tw-hover:bg-gray-200' => $this->config(\DefStudio\WiredTables\Enums\Config::hover),
     ])}}
 >{{$slot}}</tr>
 

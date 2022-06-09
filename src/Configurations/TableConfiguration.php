@@ -28,11 +28,7 @@ class TableConfiguration extends Configuration
         $this
             ->fontSm()
             ->textLeft()
-            ->textColorClass(match (config('wired-tables.style')) {
-                'tailwind_3' => 'text-gray-800',
-                'tailwind_3_prefixed' => 'tailwind_3text-dark',
-                default => throw ConfigException::invalidValue('style', \config('wired-tables.style', ''))
-            });
+            ->textColorClass('text-gray-800');
 
         collect(config('wired-tables.defaults.table'))->each(function ($value, $key) {
             $configMethod = Str::of($key)->camel()->toString();

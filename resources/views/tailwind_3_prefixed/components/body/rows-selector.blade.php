@@ -16,7 +16,7 @@ use DefStudio\WiredTables\WiredTable;
 
 @if($this->shouldShowRowsSelector())
     <td wire:key="wt-{{$this->id}}-row-{{$this->getRowId($model)}}-selection-cell"
-        {{$attributes->class(['pl-6 py-3 text-left'])}}
+        {{$attributes->class(['tw-pl-6 tw-py-3 tw-text-left'])}}
     >
         <x-wired-tables::elements.checkbox wire:key="wt-{{$this->id}}-{{$this->getRowId($model)}}-row-selection"
                                            wire:model="selection.{{$this->getRowId($model)}}"
