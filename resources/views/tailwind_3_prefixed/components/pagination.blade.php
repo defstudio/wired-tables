@@ -6,16 +6,16 @@ use DefStudio\WiredTables\WiredTable;
 ?>
 
 @if($this->paginationEnabled())
-    <div {{$attributes->class("sm:flex items-center p-3 pt-0")}}>
+    <div {{$attributes->class("tw-sm:flex tw-items-center tw-p-3 tw-pt-0")}}>
 
         @if($this->pageSize !== 'all')
-            <div class="grow">
+            <div class="tw-grow">
                 {{$this->rows->links()}}
             </div>
         @endif
 
-        <div class="grow flex">
-            <x-wired-tables::page-size-selector class="ml-auto" wire:key="wt-{{$this->id}}-page-size-selector-bottom"/>
+        <div class="tw-grow tw-flex">
+            <x-wired-tables::page-size-selector class="tw-ml-auto" wire:key="wt-{{$this->id}}-page-size-selector-bottom"/>
         </div>
 
     </div>

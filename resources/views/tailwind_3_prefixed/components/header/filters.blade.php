@@ -9,15 +9,15 @@ use DefStudio\WiredTables\WiredTable;
 
 ?>
 @if($this->shouldShowColumnFilters())
-    <tr class="-mt-3">
+    <tr class="-tw-mt-3">
         @if($this->shouldShowRowsSelector())
-            <th class="px-6 pb-1 relative"></th>
+            <th class="tw-px-6 tw-pb-1 tw-relative"></th>
         @endif
         @foreach($this->columns as $column)
-            <th class="px-6 pb-1 relative">
+            <th class="tw-px-6 tw-pb-1 tw-relative">
                 @php($columnFilter = $this->getFilterByName($column->name()))
                 @if($columnFilter && $columnFilter->isColumnFilter())
-                    <x-dynamic-component class="w-full"
+                    <x-dynamic-component class="tw-w-full"
                                          component='wired-tables::elements.filters.{{$columnFilter->type()}}'
                                          :filter="$columnFilter"
                                          :label="false"

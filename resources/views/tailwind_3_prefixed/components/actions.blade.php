@@ -6,21 +6,21 @@ use DefStudio\WiredTables\WiredTable;
 ?>
 
 @if($this->shouldShowActionsSelector())
-    <div {{$attributes->class('relative')}} wire:key="wt-{{$this->id}}-actions-wrapper" x-data="{show: false}">
+    <div {{$attributes->class('tw-relative')}} wire:key="wt-{{$this->id}}-actions-wrapper" x-data="{show: false}">
         <button
             wire:key="wt-{{$this->id}}-actions-dropdown"
-            {{$attributes->class("flex border border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm text-sm text-gray-700 px-2 py-2")}}
+            {{$attributes->class("tw-flex tw-border tw-border-gray-300 tw-focus:border-indigo-300 tw-focus:ring tw-focus:ring-indigo-200 tw-focus:ring-opacity-50 tw-rounded-md tw-shadow-sm tw-text-sm tw-text-gray-700 tw-px-2 tw-py-2")}}
             @click="show = !show"
         >
             Actions
-            <svg xmlns="http://www.w3.org/2000/svg" class=" h-5 w-5 bg-[right_0.5rem_center] bg-[length:1.5em_1.5em] bg-no-repeat stroke-[#6b7280]" fill="none" viewBox="0 0 20 20" stroke="currentColor" stroke-width="2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-5 tw-w-5 tw-bg-[right_0.5rem_center] tw-bg-[length:1.5em_1.5em] tw-bg-no-repeat tw-stroke-[#6b7280]" fill="none" viewBox="0 0 20 20" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width='1.5' d="M6 8l4 4 4-4"/>
             </svg>
         </button>
         <div wire:key="wt-{{$this->id}}-actions-container"
              x-show="show"
              x-on:click.outside="show = false"
-             class="absolute table right-0 top-[calc(100%_+_10px)] bg-white z-10 shadow-md border border-gray-300 py-0.5 px-1 rounded text-sm text-gray-700"
+             class="tw-absolute table tw-right-0 tw-top-[calc(100%_+_10px)] tw-bg-white tw-z-10 tw-shadow-md tw-border tw-border-gray-300 tw-py-0.5 tw-px-1 tw-rounded tw-text-sm tw-text-gray-700"
              x-cloak
         >
             @php($visibleActions = collect($this->actions)->filter(fn(DefStudio\WiredTables\Elements\Action $action) => $action->isVisible()))
@@ -28,10 +28,10 @@ use DefStudio\WiredTables\WiredTable;
                 <div class="table-row">
                     @foreach($action_group as $index => $action)
                         <?php /** @var \DefStudio\WiredTables\Elements\Action $action */ ?>
-                        <div wire:key="wt-{{$this->id}}-action-{{$index}}-wrapper" class="table-cell p-1">
+                        <div wire:key="wt-{{$this->id}}-action-{{$index}}-wrapper" class="table-cell tw-p-1">
                             <button wire:key="wt-{{$this->id}}-action-{{$index}}"
                                     @click="show = false; $wire.call('{{$action->method()}}' {{$action->methodArguments()->map(fn(string $arg) => ", '$arg'")->join('')}})"
-                                    class="p-2 whitespace-nowrap bg-gray-100 hover:bg-gray-200 w-full rounded focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                    class="tw-p-2 tw-whitespace-nowrap tw-bg-gray-100 tw-hover:bg-gray-200 tw-w-full tw-rounded tw-focus:border-indigo-300 tw-focus:ring tw-focus:ring-indigo-200 tw-focus:ring-opacity-50"
                             >{{$action->name()}}</button>
                         </div>
                     @endforeach

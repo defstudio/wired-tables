@@ -12,7 +12,7 @@ use Illuminate\View\ComponentAttributeBag;
 <div wire:key="wt-{{$this->id}}-filter-{{$filter->key()}}-wrapper" {{$attributes}}>
     @if($label)
         <label for="wt-{{$this->id}}-filter-{{$filter->key()}}"
-               class="block font-medium text-sm text-gray-500"
+               class="tw-block tw-font-medium tw-text-sm tw-text-gray-500"
         >
             {{$filter->name()}}
         </label>
@@ -21,9 +21,9 @@ use Illuminate\View\ComponentAttributeBag;
     <select id="wt-{{$this->id}}-filter-{{$filter->key()}}"
             name="filterValues[{{$filter->key()}}]"
             wire:model.debounce="filterValues.{{$filter->key()}}"
-            class="block  border-gray-300 focus:border-indigo-300
-                  focus:ring focus:ring-indigo-200 focus:ring-opacity-50
-                  rounded-md shadow-sm px-2 py-1 pr-8 w-full min-w-[190px] cursor-pointer"
+            class="tw-block tw-border-gray-300 tw-focus:border-indigo-300
+                  tw-focus:ring tw-focus:ring-indigo-200 tw-focus:ring-opacity-50
+                  tw-rounded-md tw-shadow-sm tw-px-2 tw-py-1 tw-pr-8 tw-w-full tw-min-w-[190px] tw-cursor-pointer"
     >
         <option value="">{{$filter->get(DefStudio\WiredTables\Enums\Config::hint)}}</option>
         @foreach($filter->get(DefStudio\WiredTables\Enums\Config::options) as $value => $label)

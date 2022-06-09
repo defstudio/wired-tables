@@ -14,9 +14,9 @@ use DefStudio\WiredTables\WiredTable;
     <th scope="col"
         wire:key="wt-{{$this->id}}-select-all-header"
         {{$attributes->class([
-                   "px-6 text-left align-middle",
-                   "py-3" => !$this->shouldShowColumnFilters(),
-                   "pt-3" => $this->shouldShowColumnFilters(),
+                   "tw-px-6 tw-text-left tw-align-middle",
+                   "tw-py-3" => !$this->shouldShowColumnFilters(),
+                   "tw-pt-3" => $this->shouldShowColumnFilters(),
                 ])}}
     >
         <x-wired-tables::elements.checkbox wire:key="wt-{{$this->id}}-select-all" wire:model="allSelected"/>

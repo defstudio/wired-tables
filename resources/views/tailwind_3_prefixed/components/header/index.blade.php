@@ -8,6 +8,6 @@ use Illuminate\View\ComponentAttributeBag;
 ?>
 
 
-<thead {{$attributes->class("bg-gray-50")}}>
+<thead {{$attributes->class("tw-bg-gray-50")}}>
     {{$slot}}
 </thead>
