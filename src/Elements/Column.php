@@ -1,4 +1,6 @@
-<?php /** @noinspection PhpUnused */
+<?php
+
+/** @noinspection PhpUnused */
 
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
@@ -16,7 +18,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
-
 
 class Column extends Configuration implements Arrayable
 {
