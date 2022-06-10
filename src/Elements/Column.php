@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpUnused */
 
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
@@ -15,7 +15,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\HtmlString;
-use Str;
+use Illuminate\Support\Str;
+
 
 class Column extends Configuration implements Arrayable
 {
@@ -101,7 +102,7 @@ class Column extends Configuration implements Arrayable
     }
 
     /**
-     * @param Closure(mixed $value, Column $column): string $formatClosure
+     * @param Closure(mixed $value, Model $model, Column $column): string $formatClosure
      *
      * @return static
      */
