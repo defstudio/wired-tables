@@ -87,6 +87,17 @@ class TableConfiguration extends Configuration
         return $this->set(Config::enable_row_dividers, $enable);
     }
 
+    public function defaultSorting(string $columnName, string $dir = 'asc'): static
+    {
+        $defaultSorting = $this->get(Config::default_sorting, []);
+
+        $defaultSorting[$columnName] = $dir;
+
+        $this->set(Config::default_sorting, $defaultSorting);
+
+        return $this;
+    }
+
     public function multipleSorting(bool $enable = true): static
     {
         return $this->set(Config::support_multiple_sorting, $enable);

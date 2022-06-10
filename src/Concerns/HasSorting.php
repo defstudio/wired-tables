@@ -74,7 +74,11 @@ trait HasSorting
 
     protected function applySorting(Builder|Relation $query): void
     {
-        foreach ($this->sorting as $columnName => $dir) {
+        $sorting = empty($this->sorting)
+            ? $this->config(Config::default_sorting, [])
+            : $this->sorting;
+
+        foreach ($sorting as $columnName => $dir) {
             $dir = Sorting::from($dir);
 
             $column = $this->getColumn($columnName);

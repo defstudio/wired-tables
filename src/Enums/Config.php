@@ -14,6 +14,7 @@ enum Config
 
     case drop_shadow;
     case support_multiple_sorting;
+    case default_sorting;
     case enable_row_dividers;
     case striped;
     case available_page_sizes;
