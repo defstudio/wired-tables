@@ -176,7 +176,7 @@ class Column extends Configuration implements Arrayable
         return Str::of($this->dbColumn())->afterLast('.');
     }
 
-    public function hidden(Closure|bool $when): static
+    public function hidden(Closure|bool $when = true): static
     {
         return $this->set(Config::hidden, $when);
     }
