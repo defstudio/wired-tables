@@ -41,9 +41,11 @@ enum Config
     case display_on_column;
     case type;
     case options;
-    case hint;
+    case placeholder;
 
     case with_row_selection;
     case actions_columns;
+    case group_actions;
     case filters_columns;
+    case group_filters;
 }

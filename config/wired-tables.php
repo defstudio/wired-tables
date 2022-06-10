@@ -19,6 +19,8 @@ return [
             'hover' => false,
             'multiple_sorting' => false,
             'debug' => false,
+            'group_filters' => true,
+            'group_actions' => true,
             'filter_selector_columns' => 1,
             'actions_selector_columns' => 1,
             'always_show_actions' => false,

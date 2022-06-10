@@ -72,6 +72,16 @@ class TableConfiguration extends Configuration
         return $this->set(Config::hover, $enable);
     }
 
+    public function groupFilters(bool $enable = true): static
+    {
+        return $this->set(Config::group_filters, $enable);
+    }
+
+    public function groupActions(bool $enable = true): static
+    {
+        return $this->set(Config::group_actions, $enable);
+    }
+
     public function filterSelectorColumns(int $count): static
     {
         return $this->set(Config::filters_columns, $count);
@@ -93,9 +103,7 @@ class TableConfiguration extends Configuration
 
         $defaultSorting[$columnName] = $dir;
 
-        $this->set(Config::default_sorting, $defaultSorting);
-
-        return $this;
+        return $this->set(Config::default_sorting, $defaultSorting);
     }
 
     public function multipleSorting(bool $enable = true): static

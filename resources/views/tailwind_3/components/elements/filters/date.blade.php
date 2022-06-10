@@ -24,7 +24,7 @@ use Illuminate\View\ComponentAttributeBag;
            class="bg-transparent border focus-visible:outline-0 border-solid
                   block  border-gray-300 focus:border-indigo-300
                   focus:ring focus:ring-indigo-200 focus:ring-opacity-50
-                  rounded-md shadow-sm px-2 py-1 w-full min-w-[190px]"
+                  rounded-md shadow-sm px-2 py-2 w-full min-w-[190px]"
            type="date"
     />
 </div>

@@ -24,9 +24,9 @@ use Illuminate\View\ComponentAttributeBag;
             class="bg-transparent border focus-visible:outline-0 border-solid
                    block  border-gray-300 focus:border-indigo-300
                    focus:ring focus:ring-indigo-200 focus:ring-opacity-50
-                   rounded-md shadow-sm px-2 py-1 pr-8 w-full min-w-[190px] cursor-pointer"
+                   rounded-md shadow-sm px-2 py-2 pr-8 w-full min-w-[190px] cursor-pointer"
     >
-        <option value="">{{$filter->get(DefStudio\WiredTables\Enums\Config::hint)}}</option>
+        <option value="">{{$filter->get(DefStudio\WiredTables\Enums\Config::placeholder)}}</option>
         @foreach($filter->get(DefStudio\WiredTables\Enums\Config::options) as $value => $label)
             <option value="{{$value}}">{{$label}}</option>
         @endforeach

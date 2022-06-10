@@ -30,6 +30,8 @@ test('default configuration is loaded', function () {
         'drop_shadow' => false,
         'hover' => false,
         'support_multiple_sorting' => false,
+        'group_filters' => true,
+        'group_actions' => true,
         'filters_columns' => 1,
         'actions_columns' => 1,
         'always_show_actions' => false,

@@ -21,10 +21,11 @@ use Illuminate\View\ComponentAttributeBag;
            wire:key="wt-{{$this->id}}-filter-{{$filter->key()}}"
            name="filterValues[{{$filter->key()}}]"
            wire:model.debounce="filterValues.{{$filter->key()}}"
+           placeholder="{{$filter->get(DefStudio\WiredTables\Enums\Config::placeholder)}}"
            class="tw-bg-transparent tw-border focus-visible:tw-outline-0 tw-border-solid
                   tw-block tw-border-gray-300 focus:tw-border-indigo-300
                   focus:tw-ring focus:tw-ring-indigo-200 focus:tw-ring-opacity-50
-                  tw-rounded-md tw-shadow-sm tw-px-2 tw-py-1 tw-w-full tw-min-w-[190px]"
+                  tw-rounded-md tw-shadow-sm tw-px-2 tw-py-2 tw-w-full tw-min-w-[190px]"
            type="text"
     />
 </div>
