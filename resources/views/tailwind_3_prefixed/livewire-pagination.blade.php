@@ -31,7 +31,7 @@
 
             <div class="tw-hidden sm:tw-flex-1 sm:tw-flex sm:tw-items-center sm:tw-justify-between">
                 <div>
-                    <p class="tw-text-sm tw-text-gray-700 tw-leading-5">
+                    <p class="tw-text-sm tw-text-gray-700 tw-leading-5 tw-mb-0">
                         <span>{!! __('Showing') !!}</span>
                         <span class="tw-font-medium">{{ $paginator->firstItem() }}</span>
                         <span>{!! __('to') !!}</span>
