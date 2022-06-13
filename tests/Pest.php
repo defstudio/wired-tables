@@ -57,13 +57,13 @@ function fakeTable(WiredTable $table = null): WiredTable
         }
     };
 
-    $table->bootHasConfiguration();
-    $table->bootBuildsQuery();
-    $table->bootHasColumns();
-    $table->bootHasActions();
-    $table->bootHasFilters();
+    $table->bootedHasConfiguration();
+    $table->bootedBuildsQuery();
+    $table->bootedHasColumns();
+    $table->bootedHasActions();
+    $table->bootedHasFilters();
     $table->mountHasPagination();
-    $table->mountHasFilters();
+    $table->bootedHasFilters();
 
     return $table;
 }
