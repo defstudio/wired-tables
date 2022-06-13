@@ -26,15 +26,15 @@ trait HasFilters
 
     private bool $_filtersLocked = true;
 
-    public function bootHasFilters(): void
+    public function bootedHasFilters(): void
     {
-        $this->_filtersLocked = false;
-        $this->filters();
-        $this->_filtersLocked = true;
-    }
+        if (empty($this->_filters)) {
+            $this->_filtersLocked = false;
+            $this->filters();
+            $this->_filtersLocked = true;
+        }
 
-    public function mountHasFilters(): void
-    {
+
         foreach ($this->_filters as $filter) {
             if (!isset($this->filterValues[$filter->key()])) {
                 $this->filterValues[$filter->key()] = null;

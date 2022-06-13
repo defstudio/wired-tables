@@ -20,7 +20,7 @@ trait HasActions
 
     private bool $_actionsLocked = true;
 
-    public function bootHasActions(): void
+    public function bootedHasActions(): void
     {
         $this->_actionsLocked = false;
         $this->actions();
