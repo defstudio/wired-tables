@@ -32,7 +32,7 @@ test('existing filters are not cleared on mount', function () {
 
     $table->filterValues['brand'] = 'foo';
 
-    $table->bootedHasFilters();
+    $table->mountHasFilters();
 
     expect($table->filterValues)->toMatchArray([
         'brand' => 'foo',

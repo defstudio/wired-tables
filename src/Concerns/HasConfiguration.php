@@ -13,7 +13,7 @@ trait HasConfiguration
 {
     protected TableConfiguration $configuration;
 
-    public function bootedHasConfiguration(): void
+    public function bootHasConfiguration(): void
     {
         $this->configuration = new TableConfiguration();
         $this->configure($this->configuration);

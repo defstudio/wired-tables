@@ -26,7 +26,7 @@ test('columns must be defined', function () {
         }
     };
 
-    expect(fn () => $table->bootedHasColumns())
+    expect(fn () => $table->bootHasColumns())
         ->toThrow(ColumnException::class);
 });
 

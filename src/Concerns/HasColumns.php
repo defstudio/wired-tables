@@ -15,7 +15,7 @@ trait HasColumns
     private array $_columns;
     private bool $_columnsLocked = true;
 
-    public function bootedHasColumns(): void
+    public function bootHasColumns(): void
     {
         $this->_columns = [];
 

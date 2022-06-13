@@ -26,13 +26,13 @@ test('query is booted', function () {
         }
     };
 
-    $table->bootedHasConfiguration();
-    $table->bootedHasColumns();
+    $table->bootHasConfiguration();
+    $table->bootHasColumns();
     $table->mountHasPagination();
 
     expect(fn () => $table->rows)->toThrow(Error::class);
 
-    $table->bootedBuildsQuery();
+    $table->bootBuildsQuery();
 
     expect(fn () => $table->rows)->not->toThrow(Error::class);
 });

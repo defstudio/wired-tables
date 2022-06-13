@@ -18,7 +18,7 @@ trait BuildsQuery
 {
     private Builder|Relation $_query;
 
-    public function bootedBuildsQuery(): void
+    public function bootBuildsQuery(): void
     {
         $this->_query = $this->query();
     }
