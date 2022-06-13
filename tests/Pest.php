@@ -62,7 +62,7 @@ function fakeTable(WiredTable $table = null): WiredTable
     $table->bootedHasColumns();
     $table->bootedHasActions();
     $table->bootedHasFilters();
-    $table->mountHasPagination();
+    $table->bootedHasPagination();
     $table->bootedHasFilters();
 
     return $table;

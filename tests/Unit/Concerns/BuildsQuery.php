@@ -28,7 +28,7 @@ test('query is booted', function () {
 
     $table->bootedHasConfiguration();
     $table->bootedHasColumns();
-    $table->mountHasPagination();
+    $table->bootedHasPagination();
 
     expect(fn () => $table->rows)->toThrow(Error::class);
 
