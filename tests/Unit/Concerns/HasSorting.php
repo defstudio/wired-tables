@@ -74,6 +74,53 @@ it('can sort two columns', function () {
     ]);
 });
 
+
+it('can sort by a morph relation if there are no related records', function () {
+    $table = fakeTable(new class () extends WiredTable {
+        protected function query(): Builder|Relation
+        {
+            return Car::query();
+        }
+
+        protected function columns(): void
+        {
+            $this->column('Name');
+            $this->column('Trailable Name', 'trailable.name')->sortable();
+        }
+    });
+
+    $table->sort("Trailable Name");
+
+    expect($table)->rawQuery()->toBe('select * from "cars" limit 10 offset 0');
+});
+
+
+it('can sort by a morph relation with related records', function () {
+    $car_1 = Car::factory()->create();
+    $car_2 = Car::factory()->create();
+    Car::factory()->create();
+
+    $car_1->trailable()->associate(Trailer::factory()->create())->save();
+    $car_2->trailable()->associate(Roulotte::factory()->create())->save();
+
+    $table = fakeTable(new class () extends WiredTable {
+        protected function query(): Builder|Relation
+        {
+            return Car::query();
+        }
+
+        protected function columns(): void
+        {
+            $this->column('Name');
+            $this->column('Trailable Name', 'trailable.name')->sortable();
+        }
+    });
+
+    $table->sort("Trailable Name");
+
+    expect($table)->rawQuery()->toBe('select * from "cars" order by (select * from (select "name" from "trailers" where "cars"."trailable_type" = \'Trailer\' and "id" = "cars"."trailable_id") union select * from (select "name" from "roulottes" where "cars"."trailable_type" = \'Roulotte\' and "id" = "cars"."trailable_id")) asc limit 10 offset 0');
+});
+
 it('returns a column sort direction', function () {
     $table = fakeTable();
     $table->configuration()->multipleSorting();

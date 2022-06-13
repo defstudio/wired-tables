@@ -9,6 +9,7 @@ use DefStudio\WiredTables\Exceptions\SearchException;
 use DefStudio\WiredTables\WiredTable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
 /**
@@ -69,6 +70,7 @@ trait HasSearch
 
             match ($relation::class) {
                 BelongsTo::class => $this->applySearchToBelongsTo($query, $column, $relation, $term),
+                MorphTo::class => $this->applySearchToMorphTo($query, $column, $relation, $term),
                 default => throw SearchException::autosearchRelationNotSupported($model->{$relation}()::class),
             };
 
@@ -81,5 +83,12 @@ trait HasSearch
     private function applySearchToBelongsTo(Builder|Relation $query, Column $column, BelongsTo $relation, string $term): void
     {
         $query->orWhereRelation($relation->getRelationName(), $column->getField(), 'like', "%$term%");
+    }
+
+    private function applySearchToMorphTo(Builder|Relation $query, Column $column, BelongsTo $relation, string $term): void
+    {
+        $query->orWhereHasMorph($relation->getRelationName(), '*', function (Builder|Relation $subquery) use ($column, $term) {
+            $subquery->where($column->getField(), 'like', "%$term%");
+        });
     }
 }

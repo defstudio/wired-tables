@@ -6,16 +6,9 @@ use Illuminate\Database\Schema\Blueprint;
 return new class () extends Migration {
     public function up()
     {
-        Schema::create('cars', function (Blueprint $table) {
+        Schema::create('roulottes', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->json('data');
-
-            $table->foreignId('user_id')->nullable()->constrained('users')->cascadeOnDelete();
-
-
-            $table->nullableMorphs('trailable');
-
             $table->timestamps();
         });
     }

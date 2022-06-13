@@ -10,7 +10,9 @@ use DefStudio\WiredTables\Enums\Sorting;
 use DefStudio\WiredTables\Exceptions\SortingException;
 use DefStudio\WiredTables\WiredTable;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\DB;
 
@@ -113,7 +115,8 @@ trait HasSorting
                 $relation = $model->{$relation}();
                 match ($relation::class) {
                     BelongsTo::class => $this->applySortingToBelongsTo($query, $column, $relation, $dir),
-                    default => throw SortingException::autosortRelationNotSupported($model->{$relation}()::class),
+                    MorphTo::class => $this->applySortingToMorphTo($query, $column, $relation, $dir),
+                    default => throw SortingException::autosortRelationNotSupported($relation::class),
                 };
 
                 return;
@@ -121,6 +124,47 @@ trait HasSorting
 
             $query->orderBy($column->getField(), $dir->value);
         }
+    }
+
+    protected function applySortingToMorphTo(Builder|Relation $query, Column $column, MorphTo $relation, Sorting $dir): void
+    {
+        $modelTable = $relation->getModel()->getTable();
+        $types = $relation->getModel()->newModelQuery()->distinct()->pluck($relation->getMorphType())->filter();
+
+
+        if ($types->isEmpty()) {
+            return;
+        }
+
+        /** @var Model $morphModel */
+        $morphModel = app($types->pop());
+        $morphClass = $morphModel->getMorphClass();
+        $relatedTable = $morphModel->getTable();
+
+
+        $morphUnionQuery = DB::table($relatedTable)
+            ->select($column->getField())
+            ->where("$modelTable.{$relation->getMorphType()}", "=", $morphClass)
+            ->whereColumn('id', $relation->getQualifiedForeignKeyName());
+
+        $types->each(function (string $type) use ($morphUnionQuery, $column, $relation, $modelTable) {
+            /** @var Model $morphModel */
+            $morphModel = app($type);
+            $morphClass = $morphModel->getMorphClass();
+
+            $relatedTable = $morphModel->getTable();
+            $morphUnionQuery->union(
+                DB::table($relatedTable)
+                    ->select($column->getField())
+                    ->where("$modelTable.{$relation->getMorphType()}", "=", $morphClass)
+                    ->whereColumn('id', $relation->getQualifiedForeignKeyName())
+            );
+        });
+
+        $query->orderBy(
+            $morphUnionQuery,
+            $dir->value,
+        );
     }
 
     protected function applySortingToBelongsTo(Builder|Relation $query, Column $column, BelongsTo $relation, Sorting $dir): void
