@@ -103,7 +103,7 @@ class Column extends Configuration implements Arrayable
     }
 
     /**
-     * @param Closure(mixed $value, Model $model, Column $column): string $formatClosure
+     * @param Closure(mixed $value, Model $model, Column $column): non-empty-string $formatClosure
      *
      * @return static
      */
