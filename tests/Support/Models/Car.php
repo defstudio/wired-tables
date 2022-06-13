@@ -17,6 +17,11 @@ class Car extends Model
 
     protected static $unguarded = true;
 
+    /** @var string[] */
+    public $casts = [
+        'data' => 'array',
+    ];
+
     protected static function newFactory(): CarFactory
     {
         return new CarFactory();

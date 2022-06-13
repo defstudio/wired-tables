@@ -62,6 +62,26 @@ it('can search in a column', function () {
     expect($table)->rawQuery()->toBe('select * from "cars" where ("name" like \'%foo%\') limit 10 offset 0');
 });
 
+it('can search in a json column', function () {
+    $table = fakeTable(new class () extends WiredTable {
+        protected function query(): Builder|Relation
+        {
+            return Car::query();
+        }
+
+        protected function columns(): void
+        {
+            $this->column('Name')->searchable();
+            $this->column('Owner', 'owner.name');
+            $this->column('Foo', 'data->foo->bar')->searchable();
+        }
+    });
+
+    $table->search = 'foo';
+
+    expect($table)->rawQuery()->toBe('select * from "cars" where ("name" like \'%foo%\' or json_extract("data", \'$."foo"."bar"\') like \'%foo%\') limit 10 offset 0');
+});
+
 it('can search in two columns', function () {
     $table = fakeTable(new class () extends WiredTable {
         protected function query(): Builder|Relation

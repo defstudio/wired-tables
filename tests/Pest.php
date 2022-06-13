@@ -51,6 +51,7 @@ function fakeTable(WiredTable $table = null): WiredTable
         {
             $this->column('Name')->sortable()->searchable();
             $this->column('Owner', 'owner.name')->sortable()->searchable();
+            $this->column('Data', 'data->foo');
             $this->column('Not Sortable');
             $this->column('Not Searchable');
         }

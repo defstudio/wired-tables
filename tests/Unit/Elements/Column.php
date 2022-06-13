@@ -41,13 +41,13 @@ it('can return its name', function () {
     expect($column->name())->toBe("Foo");
 });
 
-it('can return its dbColumn', function () {
+it('can return its db column', function () {
     $column = new Column(fakeTable(), "Foo", 'model.field');
 
     expect($column->dbColumn())->toBe("model.field");
 });
 
-it('can compute its dbColumn from the name', function () {
+it('can compute its db column from the name', function () {
     $column = new Column(fakeTable(), "Foo Bar");
 
     expect($column->dbColumn())->toBe("foo_bar");
@@ -134,6 +134,17 @@ it('can return its value', function () {
     expect($column->value())->toBe('foo');
 });
 
+it('can return its value from a json column', function () {
+    $column = new Column(fakeTable(), "Foo", 'data->foo');
+    $column->format(function (Column $column) {
+        return strtoupper($column->value());
+    });
+
+    $column->setModel(Car::make(['name' => 'car', 'data' => ['foo' => 'baz']]));
+
+    expect($column->value())->toBe('baz');
+});
+
 it('can return a relationship value', function () {
     $column = new Column(fakeTable(), "Owner", 'owner.name');
 
@@ -189,8 +200,22 @@ it('can check if it is a relation column', function () {
     $column = new Column(fakeTable(), "Name");
     expect($column->isRelation())->toBeFalse();
 
+    $column = new Column(fakeTable(), "Test", 'data->foo.bar');
+    expect($column->isRelation())->toBeFalse();
+
     $column = new Column(fakeTable(), "Owner", 'owner.name');
     expect($column->isRelation())->toBeTrue();
+});
+
+it('can check if it is a json column', function () {
+    $column = new Column(fakeTable(), "Name");
+    expect($column->isJson())->toBeFalse();
+
+    $column = new Column(fakeTable(), "Test", 'data->foo->bar');
+    expect($column->isJson())->toBeTrue();
+
+    $column = new Column(fakeTable(), "Owner", 'owner.name->foo');
+    expect($column->isJson())->toBeFalse();
 });
 
 it('can return its relation', function () {
@@ -207,6 +232,9 @@ it('can return its field', function () {
 
     $column = new Column(fakeTable(), "Owner", 'owner.name');
     expect($column->getField())->toBe('name');
+
+    $column = new Column(fakeTable(), "Owner", 'data->foo');
+    expect($column->getField())->toBe('data->foo');
 
     $column = new Column(fakeTable(), "Owner", 'owner.wife.name');
     expect($column->getField())->toBe('name');

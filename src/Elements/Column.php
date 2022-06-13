@@ -127,7 +127,7 @@ class Column extends Configuration implements Arrayable
 
     public function value(): mixed
     {
-        return data_get($this->model, $this->dbColumn());
+        return data_get($this->model, Str::of($this->dbColumn())->replace('->', '.'));
     }
 
     public function render(): HtmlString
@@ -156,7 +156,12 @@ class Column extends Configuration implements Arrayable
 
     public function isRelation(): bool
     {
-        return Str::of($this->dbColumn())->contains('.');
+        return Str::of($this->dbColumn())->before('->')->contains('.');
+    }
+
+    public function isJson(): bool
+    {
+        return Str::of($this->dbColumn())->before('.')->contains('->');
     }
 
     public function getRelationNesting(): int

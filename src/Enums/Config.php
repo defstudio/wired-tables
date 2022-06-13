@@ -27,6 +27,7 @@ enum Config
     case db_column;
     case format_closure;
     case is_searchable;
+    case is_json_column;
     case is_sortable;
     case sort_closure;
     case search_closure;
