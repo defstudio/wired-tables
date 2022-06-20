@@ -28,12 +28,11 @@ trait HasFilters
 
     public function mountHasFilters(): void
     {
-        if(empty($this->filterValues)){
+        if (empty($this->filterValues)) {
             $this->filterValues = $this->getFromCache('filters', []);
-        }else{
+        } else {
             $this->storeInCache('filters', $this->filterValues);
         }
-
     }
 
     public function bootedHasFilters(): void
