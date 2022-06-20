@@ -1,4 +1,6 @@
-<?php /** @noinspection PhpUnused */
+<?php
+
+/** @noinspection PhpUnused */
 
 namespace DefStudio\WiredTables\Concerns;
 
@@ -15,7 +17,7 @@ trait HasCache
     {
         $user = Auth::user();
 
-        if(!$user){
+        if (!$user) {
             return $default;
         }
 
@@ -26,7 +28,7 @@ trait HasCache
     {
         $user = Auth::user();
 
-        if(!$user){
+        if (!$user) {
             return;
         }
 

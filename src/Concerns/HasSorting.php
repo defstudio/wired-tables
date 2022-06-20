@@ -1,4 +1,6 @@
-<?php /** @noinspection PhpUnused */
+<?php
+
+/** @noinspection PhpUnused */
 
 /** @noinspection PhpUnhandledExceptionInspection */
 
@@ -25,9 +27,9 @@ trait HasSorting
 
     public function mountHasSorting(): void
     {
-        if(empty($this->sorting)){
+        if (empty($this->sorting)) {
             $this->sorting = $this->getFromCache('sorting', []);
-        }else{
+        } else {
             $this->storeInCache('sorting', $this->sorting);
         }
     }
@@ -68,9 +70,9 @@ trait HasSorting
 
     public function clearSorting(string $columnName = null): void
     {
-        if($columnName){
+        if ($columnName) {
             unset($this->sorting[$columnName]);
-        }else{
+        } else {
             $this->sorting = [];
         }
 
