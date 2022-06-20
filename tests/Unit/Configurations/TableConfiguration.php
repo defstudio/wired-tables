@@ -18,6 +18,7 @@ test('defaults', function () {
             4 => 'all',
         ],
         'default_page_size' => 10,
+        'preserve_state' => true,
         'striped' => true,
         'enable_row_dividers' => false,
         'drop_shadow' => false,
@@ -147,7 +148,15 @@ it('can set row_id field', function () {
 
     $config->rowIdField('foo');
 
-    expect($config->toArray())->toMatchArray([
-        'id_field' => 'foo',
-    ]);
+    expect($config->toArray())->toMatchArray(['id_field' => 'foo']);
+});
+
+it('can set state preserving', function () {
+    $config = new TableConfiguration();
+
+    $config->preserveState(false);
+    expect($config->toArray())->toMatchArray(['preserve_state' => false]);
+
+    $config->preserveState();
+    expect($config->toArray())->toMatchArray(['preserve_state' => true]);
 });

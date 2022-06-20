@@ -25,12 +25,12 @@ trait HasSorting
 {
     public array $sorting = [];
 
-    public function mountHasSorting(): void
+    public function bootedHasSorting(): void
     {
         if (empty($this->sorting)) {
-            $this->sorting = $this->getFromCache('sorting', []);
+            $this->sorting = $this->getState('sorting', []);
         } else {
-            $this->storeInCache('sorting', $this->sorting);
+            $this->storeState('sorting', $this->sorting);
         }
     }
 
@@ -65,7 +65,7 @@ trait HasSorting
 
         $this->sorting[$column->name()] = $direction->value;
 
-        $this->storeInCache('sorting', $this->sorting);
+        $this->storeState('sorting', $this->sorting);
     }
 
     public function clearSorting(string $columnName = null): void
@@ -76,7 +76,7 @@ trait HasSorting
             $this->sorting = [];
         }
 
-        $this->storeInCache('sorting', $this->sorting);
+        $this->storeState('sorting', $this->sorting);
     }
 
     public function getSortDirection(Column|string $column): Sorting

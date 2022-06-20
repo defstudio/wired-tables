@@ -1,5 +1,7 @@
 <?php
 
+/** @noinspection MultipleExpectChainableInspection */
+
 use DefStudio\WiredTables\Configurations\TableConfiguration;
 
 test('configuration is booted', function () {
@@ -25,6 +27,7 @@ test('default configuration is loaded', function () {
             4 => 'all',
         ],
         'default_page_size' => 10,
+        'preserve_state' => true,
         'striped' => true,
         'enable_row_dividers' => false,
         'drop_shadow' => false,

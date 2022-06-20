@@ -1,5 +1,7 @@
 <?php
 
+/** @noinspection MultipleExpectChainableInspection */
+
 /** @noinspection SqlRedundantOrderingDirection */
 
 /** @noinspection SqlResolve */
@@ -9,6 +11,53 @@ use DefStudio\WiredTables\Exceptions\SortingException;
 use DefStudio\WiredTables\WiredTable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\Facades\Cache;
+use function Pest\Laravel\actingAs;
+
+test('cached sorting is mounted', function () {
+    actingAs(new User(['id' => 42]));
+    Cache::put("httplocalhost-42-state-sorting", [
+        'foo' => 'asc',
+    ]);
+    $table = fakeTable();
+
+    expect($table->sorting)->toBe([
+        'foo' => 'asc',
+    ]);
+});
+
+test('cached sorting can be overridden by a query string', function () {
+    actingAs(new User(['id' => 42]));
+    Cache::put("httplocalhost-42-state-sorting", ['foo' => 'asc']);
+    $table = fakeTable();
+    $table->sorting = ['foo' => 'desc'];
+
+    $table->bootedHasSorting();
+
+    expect($table->sorting)->toBe(['foo' => 'desc']);
+
+    expect(Cache::get('httplocalhost-42-state-sorting'))->toBe(['foo' => 'desc']);
+});
+
+test('cached sorting is updated when sorting changes', function () {
+    actingAs(new User(['id' => 42]));
+    $table = fakeTable();
+    $table->sorting = ['Name' => 'asc'];
+
+    $table->sort('Name');
+
+    expect(Cache::get('httplocalhost-42-state-sorting'))->toBe(['Name' => 'desc']);
+});
+
+test('cached sorting is cleared along with sorting', function () {
+    actingAs(new User(['id' => 42]));
+    Cache::put("httplocalhost-42-state-sorting", ['foo' => 'asc']);
+    $table = fakeTable();
+
+    $table->clearSorting('foo');
+
+    expect(Cache::get('httplocalhost-42-state-sorting'))->toBe([]);
+});
 
 it('tells if multiple sorting is enabled', function () {
     $table = fakeTable();

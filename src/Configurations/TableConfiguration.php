@@ -57,6 +57,11 @@ class TableConfiguration extends Configuration
             ->set(Config::default_page_size, $default);
     }
 
+    public function preserveState(bool $enable = true): static
+    {
+        return $this->set(Config::preserve_state, $enable);
+    }
+
     public function striped(bool $enable = true): static
     {
         return $this->set(Config::striped, $enable);

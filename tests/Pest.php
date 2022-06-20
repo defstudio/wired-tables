@@ -57,7 +57,10 @@ function fakeTable(WiredTable $table = null): WiredTable
         }
     };
 
+    $table->mountPreservesState();
     $table->bootedHasConfiguration();
+    $table->bootedHasSearch();
+    $table->bootedHasSorting();
     $table->bootedBuildsQuery();
     $table->bootedHasColumns();
     $table->bootedHasActions();

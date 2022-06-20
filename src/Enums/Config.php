@@ -16,6 +16,7 @@ enum Config
     case support_multiple_sorting;
     case default_sorting;
     case enable_row_dividers;
+    case preserve_state;
     case striped;
     case available_page_sizes;
     case default_page_size;

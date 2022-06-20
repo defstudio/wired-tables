@@ -1,5 +1,7 @@
 <?php
 
+/** @noinspection PhpUnused */
+
 /** @noinspection PhpUnhandledExceptionInspection */
 
 namespace DefStudio\WiredTables\Concerns;
@@ -19,18 +21,18 @@ trait HasSearch
 {
     public string $search = '';
 
-    public function mountHasSearch(): void
+    public function bootedHasSearch(): void
     {
         if (empty($this->search)) {
-            $this->search = $this->getFromCache('search', '');
+            $this->search = $this->getState('search', '');
         } else {
-            $this->storeInCache('search', $this->search);
+            $this->storeState('search', $this->search);
         }
     }
 
     public function updatedSearch(): void
     {
-        $this->storeInCache('search', $this->search);
+        $this->storeState('search', $this->search);
     }
 
     public function isSearchable(): bool

@@ -13,6 +13,7 @@ return [
         'table' => [
             'row_id_field' => 'id',
             'page_size' => 10,
+            'preserve_state' => true,
             'striped' => true,
             'row_dividers' => false,
             'drop_shadow' => false,
