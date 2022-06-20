@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpUnused */
 
 /** @noinspection PhpUnhandledExceptionInspection */
 
@@ -22,6 +22,15 @@ use Illuminate\Support\Facades\DB;
 trait HasSorting
 {
     public array $sorting = [];
+
+    public function mountHasSorting(): void
+    {
+        if(empty($this->sorting)){
+            $this->sorting = $this->getFromCache('sorting', []);
+        }else{
+            $this->storeInCache('sorting', $this->sorting);
+        }
+    }
 
     public function supportMultipleSorting(): bool
     {
@@ -53,6 +62,19 @@ trait HasSorting
         }
 
         $this->sorting[$column->name()] = $direction->value;
+
+        $this->storeInCache('sorting', $this->sorting);
+    }
+
+    public function clearSorting(string $columnName = null): void
+    {
+        if($columnName){
+            unset($this->sorting[$columnName]);
+        }else{
+            $this->sorting = [];
+        }
+
+        $this->storeInCache('sorting', $this->sorting);
     }
 
     public function getSortDirection(Column|string $column): Sorting
@@ -177,10 +199,5 @@ trait HasSorting
             DB::table($relatedTable)->select($column->getField())->whereColumn($foreignKey, "$relatedTable.id"),
             $dir->value,
         );
-    }
-
-    public function clearSorting(string $columnName): void
-    {
-        unset($this->sorting[$columnName]);
     }
 }

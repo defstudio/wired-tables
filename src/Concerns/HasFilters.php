@@ -26,6 +26,16 @@ trait HasFilters
 
     private bool $_filtersLocked = true;
 
+    public function mountHasFilters(): void
+    {
+        if(empty($this->filterValues)){
+            $this->filterValues = $this->getFromCache('filters', []);
+        }else{
+            $this->storeInCache('filters', $this->filterValues);
+        }
+
+    }
+
     public function bootedHasFilters(): void
     {
         if (empty($this->_filters)) {
@@ -88,6 +98,8 @@ trait HasFilters
             ->filter(fn (Filter $filter) => $filter->type() === Filter::TYPE_CHECKBOX)
             ->reject(fn (Filter $filter) => $this->filterValues[$filter->key()])
             ->each(fn (Filter $filter) => $this->filterValues[$filter->key()] = null);
+
+        $this->storeInCache('filters', $this->filterValues);
     }
 
     public function hasFilters(): bool

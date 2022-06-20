@@ -19,6 +19,21 @@ trait HasSearch
 {
     public string $search = '';
 
+    public function mountHasSearch(): void
+    {
+        if(empty($this->search)){
+            $this->search = $this->getFromCache('search', []);
+        }else{
+            $this->storeInCache('search', $this->search);
+        }
+
+    }
+
+    public function updatedSearch(): void
+    {
+        $this->storeInCache('search', $this->search);
+    }
+
     public function isSearchable(): bool
     {
         return collect($this->columns)->some(fn (Column $column) => $column->isSearchable());
