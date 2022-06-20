@@ -22,7 +22,7 @@ trait HasSearch
     public function mountHasSearch(): void
     {
         if(empty($this->search)){
-            $this->search = $this->getFromCache('search', []);
+            $this->search = $this->getFromCache('search', '');
         }else{
             $this->storeInCache('search', $this->search);
         }
