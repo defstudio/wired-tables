@@ -1,5 +1,7 @@
 <?php
 
+/** @noinspection PhpArrayShapeAttributeCanBeAddedInspection */
+
 /** @noinspection PhpUnused */
 
 namespace DefStudio\WiredTables\Concerns;

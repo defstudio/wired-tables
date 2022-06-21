@@ -16,11 +16,16 @@ use Illuminate\Support\Str;
  */
 trait PreservesState
 {
+    public string $_stateKey;
+
+    public function mountPreservesState(): void
+    {
+        $this->_stateKey = $this->slug ?: Str::of(url()->current())->slug();
+    }
+
     private function getStateKey(Authenticatable $user, string $key): string
     {
-        $slug = $this->slug ?: Str::of(url()->current())->slug();
-
-        return "$slug-{$user->getAuthIdentifier()}-state-$key";
+        return "$this->_stateKey-{$user->getAuthIdentifier()}-state-$key";
     }
 
     protected function getState(string $key, mixed $default = null): mixed

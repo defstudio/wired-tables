@@ -9,6 +9,7 @@ it('can generate a state key', function () {
         use PreservesState;
         protected string $slug = '';
     };
+    $class->mountPreservesState();
 
     $key = invade($class)->getStateKey(new User(['id' => 42]), 'baz');
 
@@ -25,6 +26,7 @@ it('can store and retrieve state', function () {
             return true;
         }
     };
+    $class->mountPreservesState();
 
     actingAs(new User(['id' => 42]));
 

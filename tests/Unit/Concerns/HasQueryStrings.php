@@ -14,6 +14,7 @@ it('can compute slugged query strings', function () {
     $table = fakeTable();
     $table->_cachedSlug = 'foo';
 
+
     expect($table->queryString())->toBe([
         "search" => ['except' => '', 'as' => 'foo.search'],
         "sorting" => ['except' => [], 'as' => 'foo.sort'],
