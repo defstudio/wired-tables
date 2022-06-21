@@ -7,9 +7,8 @@ use function Pest\Laravel\actingAs;
 it('can generate a state key', function () {
     $class = new class () {
         use PreservesState;
+        protected string $slug = '';
     };
-
-    $class->mountPreservesState();
 
     $key = invade($class)->getStateKey(new User(['id' => 42]), 'baz');
 
@@ -19,14 +18,13 @@ it('can generate a state key', function () {
 it('can store and retrieve state', function () {
     $class = new class () {
         use PreservesState;
+        protected string $slug = '';
 
         protected function config($key): bool
         {
             return true;
         }
     };
-
-    $class->mountPreservesState();
 
     actingAs(new User(['id' => 42]));
 

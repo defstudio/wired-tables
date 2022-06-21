@@ -9,7 +9,6 @@ use DefStudio\WiredTables\WiredTable;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 
 /**
@@ -17,16 +16,11 @@ use Illuminate\Support\Str;
  */
 trait PreservesState
 {
-    public string $tableSlug;
-
-    public function mountPreservesState(): void
-    {
-        $this->tableSlug = Str::of(URL::current())->slug();
-    }
-
     private function getStateKey(Authenticatable $user, string $key): string
     {
-        return "$this->tableSlug-{$user->getAuthIdentifier()}-state-$key";
+        $slug = $this->slug ?: Str::of(url()->current())->slug();
+
+        return "$slug-{$user->getAuthIdentifier()}-state-$key";
     }
 
     protected function getState(string $key, mixed $default = null): mixed
