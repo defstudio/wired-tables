@@ -8,6 +8,9 @@ use Illuminate\View\ComponentAttributeBag;
 ?>
 
 
-<thead {{$attributes->class("bg-gray-50")}}>
+<thead {{$attributes->class([
+    "bg-gray-50" => !$this->headerConfig(\DefStudio\WiredTables\Enums\Config::dark_mode),
+    "bg-gray-700" => $this->headerConfig(\DefStudio\WiredTables\Enums\Config::dark_mode),
+])}}>
     {{$slot}}
 </thead>

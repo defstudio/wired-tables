@@ -9,5 +9,6 @@ test('defaults', function () {
     expect($config->toArray())->toBe([
         'font_size_class' => 'text-xs',
         'text_color_class' => 'text-gray-500',
+        'dark_mode' => false,
     ]);
 });

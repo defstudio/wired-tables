@@ -26,5 +26,8 @@ return [
             'actions_selector_columns' => 1,
             'always_show_actions' => false,
         ],
+        'header' => [
+            'dark' => false,
+        ]
     ],
 ];
