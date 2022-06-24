@@ -1,7 +1,6 @@
 <div class="
     relative
 
-
     px-6
     ml-4 h-4 w-4
     py-3 pt-3
@@ -23,8 +22,6 @@
     fill-gray-400 fill-gray-200
     group-hover:stroke-gray-600 group-hover:stroke-gray-400 group-hover:stroke-gray-200
     group-hover:fill-gray-600 group-hover:fill-gray-400group-hover:fill-gray-200
-
-
 
 
     odd:bg-white even:bg-gray-50
