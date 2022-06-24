@@ -12,6 +12,7 @@ enum Config
 
     case id_field;
 
+    case dark_mode;
     case drop_shadow;
     case support_multiple_sorting;
     case default_sorting;
