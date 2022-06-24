@@ -24,8 +24,5 @@
     group-hover:tw-stroke-gray-600 group-hover:tw-stroke-gray-400 group-hover:tw-stroke-gray-200
     group-hover:tw-fill-gray-600 group-hover:tw-fill-gray-400 group-hover:tw-fill-gray-200
 
-
-
-
     odd:tw-bg-white even:tw-bg-gray-50
 "></div>

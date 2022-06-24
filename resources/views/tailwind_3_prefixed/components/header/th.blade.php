@@ -40,7 +40,7 @@ $classes = "tw-uppercase tw-font-medium tw-whitespace-nowrap tw-tracking-wider {
                 </svg>
             @elseif($this->getSortDirection($column) === \DefStudio\WiredTables\Enums\Sorting::desc)
                 <svg xmlns="http://www.w3.org/2000/svg" @class([
-                         "ml-4 h-4 w-4",
+                         "tw-ml-4 tw-h-4 tw-w-4",
                          "tw-stroke-gray-400 tw-fill-gray-400 group-hover:tw-stroke-gray-600 group-hover:tw-fill-gray-600" => !$this->headerConfig(Config::dark_mode),
                          "tw-stroke-gray-400 tw-fill-gray-400 group-hover:tw-stroke-gray-200 group-hover:tw-fill-gray-200" => $this->headerConfig(Config::dark_mode),
                 ]) viewBox="0 0 20 20" fill="currentColor">
@@ -48,7 +48,7 @@ $classes = "tw-uppercase tw-font-medium tw-whitespace-nowrap tw-tracking-wider {
                 </svg>
             @else
                 <svg xmlns="http://www.w3.org/2000/svg" @class([
-                         "ml-4 h-4 w-4",
+                         "tw-ml-4 tw-h-4 tw-w-4",
                          "tw-stroke-gray-200 tw-fill-gray-200 group-hover:tw-stroke-gray-400 group-hover:tw-fill-gray-400" => !$this->headerConfig(Config::dark_mode),
                          "tw-stroke-gray-600 tw-fill-gray-600 group-hover:tw-stroke-gray-400 group-hover:tw-fill-gray-400" => $this->headerConfig(Config::dark_mode),
                 ]) viewBox="0 0 20 20" fill="currentColor">
