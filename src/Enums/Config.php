@@ -14,7 +14,9 @@ enum Config
 
     case drop_shadow;
     case support_multiple_sorting;
+    case default_sorting;
     case enable_row_dividers;
+    case preserve_state;
     case striped;
     case available_page_sizes;
     case default_page_size;
@@ -26,6 +28,7 @@ enum Config
     case db_column;
     case format_closure;
     case is_searchable;
+    case is_json_column;
     case is_sortable;
     case sort_closure;
     case search_closure;
@@ -40,9 +43,11 @@ enum Config
     case display_on_column;
     case type;
     case options;
-    case hint;
+    case placeholder;
 
     case with_row_selection;
     case actions_columns;
+    case group_actions;
     case filters_columns;
+    case group_filters;
 }

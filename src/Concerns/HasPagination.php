@@ -17,8 +17,9 @@ trait HasPagination
     use WithPagination;
 
     public int|string $pageSize;
+    protected string $paginationTheme = 'tailwind';
 
-    public function mountHasPagination(): void
+    public function bootedHasPagination(): void
     {
         $this->setPageSize($this->config(Config::default_page_size));
     }

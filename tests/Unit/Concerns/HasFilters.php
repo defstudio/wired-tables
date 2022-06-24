@@ -1,5 +1,7 @@
 <?php
 
+/** @noinspection MultipleExpectChainableInspection */
+
 /** @noinspection SqlDialectInspection */
 /** @noinspection PhpPossiblePolymorphicInvocationInspection */
 
@@ -10,6 +12,8 @@ use DefStudio\WiredTables\Exceptions\FilterException;
 use DefStudio\WiredTables\WiredTable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\Facades\Cache;
+use function Pest\Laravel\actingAs;
 
 test('filters are booted', function () {
     $table = fakeTable();
@@ -27,12 +31,73 @@ test('filters are mounted', function () {
         ->toHaveKey('brand');
 });
 
+test('cached filters are mounted', function () {
+    actingAs(new User(['id' => 42]));
+    Cache::put("httplocalhost-42-state-filters", [
+        'brand' => 'foo',
+    ]);
+    $table = fakeTable();
+
+    expect($table->filterValues)->toBe([
+        'brand' => 'foo',
+    ]);
+});
+
+test('cached filters can be overridden by a query string', function () {
+    actingAs(new User(['id' => 42]));
+    Cache::put("httplocalhost-42-state-filters", [
+        'brand' => 'foo',
+    ]);
+    $table = fakeTable();
+    $table->filterValues = [
+        'brand' => 'bar',
+    ];
+
+    $table->bootedHasFilters();
+
+    expect($table->filterValues)->toBe([
+        'brand' => 'bar',
+    ]);
+
+    expect(Cache::get('httplocalhost-42-state-filters'))->toBe([
+        'brand' => 'bar',
+    ]);
+});
+
+test('cached filters are cleared with filter values', function () {
+    actingAs(new User(['id' => 42]));
+    Cache::put("httplocalhost-42-state-filters", [
+        'brand' => 'foo',
+    ]);
+    $table = fakeTable();
+
+    $table->clearFilter('brand');
+
+    expect(Cache::get('httplocalhost-42-state-filters'))->toBe([
+        'brand' => null,
+    ]);
+});
+
+test('cached filters are updated when filter values change', function () {
+    actingAs(new User(['id' => 42]));
+    $table = fakeTable();
+    $table->filterValues = [
+        'brand' => 'bar',
+    ];
+
+    $table->updatedFilterValues();
+
+    expect(Cache::get('httplocalhost-42-state-filters'))->toBe([
+        'brand' => 'bar',
+    ]);
+});
+
 test('existing filters are not cleared on mount', function () {
     $table = fakeTable();
 
     $table->filterValues['brand'] = 'foo';
 
-    $table->mountHasFilters();
+    $table->bootedHasFilters();
 
     expect($table->filterValues)->toMatchArray([
         'brand' => 'foo',

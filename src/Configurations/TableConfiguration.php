@@ -8,6 +8,8 @@ namespace DefStudio\WiredTables\Configurations;
 
 use DefStudio\WiredTables\Concerns\HasTextConfiguration;
 use DefStudio\WiredTables\Enums\Config;
+use DefStudio\WiredTables\Exceptions\ConfigException;
+use Illuminate\Support\Str;
 
 class TableConfiguration extends Configuration
 {
@@ -24,15 +26,18 @@ class TableConfiguration extends Configuration
     private function initDefaults(): void
     {
         $this
-            ->set(Config::support_multiple_sorting, false)
-            ->rowIdField('id')
-            ->striped()
-            ->hover(false)
-            ->pageSize(10)
-            ->alwaysShowActions(false)
             ->fontSm()
             ->textLeft()
             ->textColorClass('text-gray-800');
+
+        collect(config('wired-tables.defaults.table'))->each(function ($value, $key) {
+            $configMethod = Str::of($key)->camel()->toString();
+            if (!method_exists($this, $configMethod)) {
+                throw ConfigException::unsupportedConfig("wired-tables.defaults.table.$key");
+            }
+
+            $this->$configMethod($value);
+        });
     }
 
     public function rowIdField(string $field): static
@@ -52,6 +57,11 @@ class TableConfiguration extends Configuration
             ->set(Config::default_page_size, $default);
     }
 
+    public function preserveState(bool $enable = true): static
+    {
+        return $this->set(Config::preserve_state, $enable);
+    }
+
     public function striped(bool $enable = true): static
     {
         return $this->set(Config::striped, $enable);
@@ -67,12 +77,22 @@ class TableConfiguration extends Configuration
         return $this->set(Config::hover, $enable);
     }
 
-    public function filterColumns(int $count): static
+    public function groupFilters(bool $enable = true): static
+    {
+        return $this->set(Config::group_filters, $enable);
+    }
+
+    public function groupActions(bool $enable = true): static
+    {
+        return $this->set(Config::group_actions, $enable);
+    }
+
+    public function filterSelectorColumns(int $count): static
     {
         return $this->set(Config::filters_columns, $count);
     }
 
-    public function actionsColumns(int $count): static
+    public function actionsSelectorColumns(int $count): static
     {
         return $this->set(Config::actions_columns, $count);
     }
@@ -80,6 +100,15 @@ class TableConfiguration extends Configuration
     public function rowDividers(bool $enable = true): static
     {
         return $this->set(Config::enable_row_dividers, $enable);
+    }
+
+    public function defaultSorting(string $columnName, string $dir = 'asc'): static
+    {
+        $defaultSorting = $this->get(Config::default_sorting, []);
+
+        $defaultSorting[$columnName] = $dir;
+
+        return $this->set(Config::default_sorting, $defaultSorting);
     }
 
     public function multipleSorting(bool $enable = true): static

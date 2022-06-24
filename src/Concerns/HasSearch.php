@@ -1,5 +1,7 @@
 <?php
 
+/** @noinspection PhpUnused */
+
 /** @noinspection PhpUnhandledExceptionInspection */
 
 namespace DefStudio\WiredTables\Concerns;
@@ -9,6 +11,7 @@ use DefStudio\WiredTables\Exceptions\SearchException;
 use DefStudio\WiredTables\WiredTable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
 /**
@@ -17,6 +20,20 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 trait HasSearch
 {
     public string $search = '';
+
+    public function bootedHasSearch(): void
+    {
+        if (empty($this->search)) {
+            $this->search = $this->getState('search', '');
+        } else {
+            $this->storeState('search', $this->search);
+        }
+    }
+
+    public function updatedSearch(): void
+    {
+        $this->storeState('search', $this->search);
+    }
 
     public function isSearchable(): bool
     {
@@ -45,7 +62,7 @@ trait HasSearch
                     return;
                 }
 
-                $this->applyautoSearchToColumn($column, $searchQuery, $this->search);
+                $this->applyAutoSearchToColumn($column, $searchQuery, $this->search);
             }
         });
     }
@@ -69,6 +86,7 @@ trait HasSearch
 
             match ($relation::class) {
                 BelongsTo::class => $this->applySearchToBelongsTo($query, $column, $relation, $term),
+                MorphTo::class => $this->applySearchToMorphTo($query, $column, $relation, $term),
                 default => throw SearchException::autosearchRelationNotSupported($model->{$relation}()::class),
             };
 
@@ -81,5 +99,12 @@ trait HasSearch
     private function applySearchToBelongsTo(Builder|Relation $query, Column $column, BelongsTo $relation, string $term): void
     {
         $query->orWhereRelation($relation->getRelationName(), $column->getField(), 'like', "%$term%");
+    }
+
+    private function applySearchToMorphTo(Builder|Relation $query, Column $column, BelongsTo $relation, string $term): void
+    {
+        $query->orWhereHasMorph($relation->getRelationName(), '*', function (Builder|Relation $subquery) use ($column, $term) {
+            $subquery->where($column->getField(), 'like', "%$term%");
+        });
     }
 }

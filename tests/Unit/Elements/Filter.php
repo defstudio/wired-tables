@@ -41,12 +41,12 @@ it('can return its default key', function () {
 
 test('its type can be set to "select"', function () {
     $filter = new Filter(fakeTable(), 'A Test');
-    $filter->select(['a' => 'foo'], 'please, select');
+    $filter->select(['a' => 'foo'])->placeholder('please, select');
 
     expect($filter)
         ->type()->toBe('select')
         ->get(Config::options)->toBe(['a' => 'foo'])
-        ->get(Config::hint)->toBe('please, select');
+        ->get(Config::placeholder)->toBe('please, select');
 });
 
 test('its type can be set to date', function () {

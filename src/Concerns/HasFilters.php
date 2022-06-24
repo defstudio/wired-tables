@@ -26,15 +26,20 @@ trait HasFilters
 
     private bool $_filtersLocked = true;
 
-    public function bootHasFilters(): void
+    public function bootedHasFilters(): void
     {
-        $this->_filtersLocked = false;
-        $this->filters();
-        $this->_filtersLocked = true;
-    }
+        if (empty($this->_filters)) {
+            $this->_filtersLocked = false;
+            $this->filters();
+            $this->_filtersLocked = true;
+        }
 
-    public function mountHasFilters(): void
-    {
+        if (empty($this->filterValues)) {
+            $this->filterValues = $this->getState('filters', []);
+        } else {
+            $this->storeState('filters', $this->filterValues);
+        }
+
         foreach ($this->_filters as $filter) {
             if (!isset($this->filterValues[$filter->key()])) {
                 $this->filterValues[$filter->key()] = null;
@@ -88,6 +93,8 @@ trait HasFilters
             ->filter(fn (Filter $filter) => $filter->type() === Filter::TYPE_CHECKBOX)
             ->reject(fn (Filter $filter) => $this->filterValues[$filter->key()])
             ->each(fn (Filter $filter) => $this->filterValues[$filter->key()] = null);
+
+        $this->storeState('filters', $this->filterValues);
     }
 
     public function hasFilters(): bool
@@ -128,6 +135,7 @@ trait HasFilters
     public function clearFilter(string $key): void
     {
         $this->filterValues[$key] = null;
+        $this->storeState('filters', $this->filterValues);
     }
 
     public function applyFilters(Builder|Relation $query): void

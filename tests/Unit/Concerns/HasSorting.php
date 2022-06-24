@@ -1,5 +1,7 @@
 <?php
 
+/** @noinspection MultipleExpectChainableInspection */
+
 /** @noinspection SqlRedundantOrderingDirection */
 
 /** @noinspection SqlResolve */
@@ -9,6 +11,53 @@ use DefStudio\WiredTables\Exceptions\SortingException;
 use DefStudio\WiredTables\WiredTable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\Facades\Cache;
+use function Pest\Laravel\actingAs;
+
+test('cached sorting is mounted', function () {
+    actingAs(new User(['id' => 42]));
+    Cache::put("httplocalhost-42-state-sorting", [
+        'foo' => 'asc',
+    ]);
+    $table = fakeTable();
+
+    expect($table->sorting)->toBe([
+        'foo' => 'asc',
+    ]);
+});
+
+test('cached sorting can be overridden by a query string', function () {
+    actingAs(new User(['id' => 42]));
+    Cache::put("httplocalhost-42-state-sorting", ['foo' => 'asc']);
+    $table = fakeTable();
+    $table->sorting = ['foo' => 'desc'];
+
+    $table->bootedHasSorting();
+
+    expect($table->sorting)->toBe(['foo' => 'desc']);
+
+    expect(Cache::get('httplocalhost-42-state-sorting'))->toBe(['foo' => 'desc']);
+});
+
+test('cached sorting is updated when sorting changes', function () {
+    actingAs(new User(['id' => 42]));
+    $table = fakeTable();
+    $table->sorting = ['Name' => 'asc'];
+
+    $table->sort('Name');
+
+    expect(Cache::get('httplocalhost-42-state-sorting'))->toBe(['Name' => 'desc']);
+});
+
+test('cached sorting is cleared along with sorting', function () {
+    actingAs(new User(['id' => 42]));
+    Cache::put("httplocalhost-42-state-sorting", ['foo' => 'asc']);
+    $table = fakeTable();
+
+    $table->clearSorting('foo');
+
+    expect(Cache::get('httplocalhost-42-state-sorting'))->toBe([]);
+});
 
 it('tells if multiple sorting is enabled', function () {
     $table = fakeTable();
@@ -72,6 +121,53 @@ it('can sort two columns', function () {
         'Owner' => 'asc',
         'Name' => 'asc',
     ]);
+});
+
+
+it('can sort by a morph relation if there are no related records', function () {
+    $table = fakeTable(new class () extends WiredTable {
+        protected function query(): Builder|Relation
+        {
+            return Car::query();
+        }
+
+        protected function columns(): void
+        {
+            $this->column('Name');
+            $this->column('Trailable Name', 'trailable.name')->sortable();
+        }
+    });
+
+    $table->sort("Trailable Name");
+
+    expect($table)->rawQuery()->toBe('select * from "cars" limit 10 offset 0');
+});
+
+
+it('can sort by a morph relation with related records', function () {
+    $car_1 = Car::factory()->create();
+    $car_2 = Car::factory()->create();
+    Car::factory()->create();
+
+    $car_1->trailable()->associate(Trailer::factory()->create())->save();
+    $car_2->trailable()->associate(Roulotte::factory()->create())->save();
+
+    $table = fakeTable(new class () extends WiredTable {
+        protected function query(): Builder|Relation
+        {
+            return Car::query();
+        }
+
+        protected function columns(): void
+        {
+            $this->column('Name');
+            $this->column('Trailable Name', 'trailable.name')->sortable();
+        }
+    });
+
+    $table->sort("Trailable Name");
+
+    expect($table)->rawQuery()->toBe('select * from "cars" order by (select * from (select "name" from "trailers" where "cars"."trailable_type" = \'Trailer\' and "id" = "cars"."trailable_id") union select * from (select "name" from "roulottes" where "cars"."trailable_type" = \'Roulotte\' and "id" = "cars"."trailable_id")) asc limit 10 offset 0');
 });
 
 it('returns a column sort direction', function () {

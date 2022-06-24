@@ -51,20 +51,42 @@ function fakeTable(WiredTable $table = null): WiredTable
         {
             $this->column('Name')->sortable()->searchable();
             $this->column('Owner', 'owner.name')->sortable()->searchable();
+            $this->column('Data', 'data->foo');
             $this->column('Not Sortable');
             $this->column('Not Searchable');
         }
     };
 
-    $table->bootHasConfiguration();
-    $table->bootBuildsQuery();
-    $table->bootHasColumns();
-    $table->bootHasActions();
-    $table->bootHasFilters();
-    $table->mountHasPagination();
-    $table->mountHasFilters();
+    $table->mountPreservesState();
+    $table->bootedHasConfiguration();
+    $table->bootedHasSearch();
+    $table->bootedHasSorting();
+    $table->bootedBuildsQuery();
+    $table->bootedHasColumns();
+    $table->bootedHasActions();
+    $table->bootedHasFilters();
+    $table->bootedHasPagination();
+    $table->bootedHasFilters();
+
+    $table->forgetComputed('slug');
 
     return $table;
+}
+
+function listFolderFiles($dir): Generator
+{
+    foreach (scandir($dir) as $file) {
+        if ($file[0] == '.') {
+            continue;
+        }
+        if (is_dir("$dir/$file")) {
+            foreach (listFolderFiles("$dir/$file") as $infile) {
+                yield $infile;
+            }
+        } else {
+            yield "${dir}/${file}";
+        }
+    }
 }
 
 expect()->extend('rawQuery', function () {

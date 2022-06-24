@@ -53,11 +53,16 @@ class Filter extends Configuration
         return $this->get(Config::key, Str::snake($this->get(Config::name)));
     }
 
-    public function select(iterable $options, string $hint = '-- select --'): static
+    public function placeholder(string $text): static
+    {
+        return $this->set(Config::placeholder, $text);
+    }
+
+    public function select(iterable $options): static
     {
         return $this->set(Config::type, self::TYPE_SELECT)
             ->set(Config::options, $options)
-            ->set(Config::hint, $hint);
+            ->set(Config::placeholder, $this->get(Config::placeholder, '-- select --'));
     }
 
     public function date(): static

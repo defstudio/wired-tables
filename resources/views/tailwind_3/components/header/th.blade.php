@@ -26,7 +26,7 @@ $classes = "uppercase font-medium whitespace-nowrap tracking-wider {$column->get
     @if($column->isSortable())
         <button wire:key="wt-th-sort-{{$column->id()}}"
                 wire:click="sort('{{$column->name()}}')"
-                class="flex items-center group {{$classes}}"
+                class="flex items-center group bg-transparent border-0 {{$classes}}"
         >
             {{$column->name()}}
 

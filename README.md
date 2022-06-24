@@ -52,6 +52,54 @@ Optionally, you can publish the views using
 php artisan vendor:publish --tag="wired-tables-views"
 ```
 
+
+## Tailwind configuration
+
+In order to keep wired tables tailwind classes, add this to your `tailwind.config.js`:
+
+```js
+module.exports = {
+    content: [
+        //...
+        './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
+        './vendor/wire-elements/modal/resources/views/*.blade.php',
+        //...
+    ],
+    theme: {
+        extend: {},
+    },
+    plugins: [],
+    prefix: 'tw-',
+    corePlugins: {
+        preflight: false,
+    }
+}
+```
+
+### Using tailwind along with other frameworks (i.e. bootstrap)
+
+set `style = tailwind_3_prefixed` config in `configs/wired-tables.php` (see above for info on how to publish config file)
+
+and add these to your `tailwind.config.js`:
+
+```js
+module.exports = {
+    content: [
+        //...
+        './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
+        './vendor/wire-elements/modal/resources/views/*.blade.php',
+    ],
+    
+    //...
+    
+    prefix: 'tw-',
+    corePlugins: {
+        //...
+        preflight: false,
+    }
+}
+```
+
 ## Usage
 
 ```php

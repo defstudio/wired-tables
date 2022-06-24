@@ -1,5 +1,8 @@
 <?php
 
+/** @noinspection MultipleExpectChainableInspection */
+/** @noinspection SqlNoDataSourceInspection */
+
 /** @noinspection PhpUnhandledExceptionInspection */
 
 /** @noinspection PhpMultipleClassDeclarationsInspection */
@@ -10,6 +13,39 @@
 use DefStudio\WiredTables\WiredTable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\Facades\Cache;
+use function Pest\Laravel\actingAs;
+
+test('cached search is mounted', function () {
+    actingAs(new User(['id' => 42]));
+    Cache::put("httplocalhost-42-state-search", 'foo');
+    $table = fakeTable();
+
+    expect($table->search)->toBe('foo');
+});
+
+test('cached search can be overridden by a query string', function () {
+    actingAs(new User(['id' => 42]));
+    Cache::put("httplocalhost-42-state-search", 'foo');
+    $table = fakeTable();
+    $table->search = 'bar';
+
+    $table->bootedHasSearch();
+
+    expect($table->search)->toBe('bar');
+
+    expect(Cache::get('httplocalhost-42-state-search'))->toBe('bar');
+});
+
+test('cached search is updated when search value changes', function () {
+    actingAs(new User(['id' => 42]));
+    $table = fakeTable();
+    $table->search = 'bar';
+
+    $table->updatedSearch();
+
+    expect(Cache::get('httplocalhost-42-state-search'))->toBe('bar');
+});
 
 it('tells if search is enabled', function () {
     $table = fakeTable(new class () extends WiredTable {
@@ -60,6 +96,75 @@ it('can search in a column', function () {
     $table->search = 'foo';
 
     expect($table)->rawQuery()->toBe('select * from "cars" where ("name" like \'%foo%\') limit 10 offset 0');
+});
+
+it('can search in a json column', function () {
+    $table = fakeTable(new class () extends WiredTable {
+        protected function query(): Builder|Relation
+        {
+            return Car::query();
+        }
+
+        protected function columns(): void
+        {
+            $this->column('Name')->searchable();
+            $this->column('Owner', 'owner.name');
+            $this->column('Foo', 'data->foo->bar')->searchable();
+        }
+    });
+
+    $table->search = 'foo';
+
+    expect($table)->rawQuery()->toBe('select * from "cars" where ("name" like \'%foo%\' or json_extract("data", \'$."foo"."bar"\') like \'%foo%\') limit 10 offset 0');
+});
+
+it('can search in a morph relation if there are no related records', function () {
+    $table = fakeTable(new class () extends WiredTable {
+        protected function query(): Builder|Relation
+        {
+            return Car::query();
+        }
+
+        protected function columns(): void
+        {
+            $this->column('Name')->searchable();
+            $this->column('Trailable Name', 'trailable.name')->searchable();
+        }
+    });
+
+    $table->search = 'foo';
+
+    expect($table)->rawQuery()->toBe('select * from "cars" where ("name" like \'%foo%\') limit 10 offset 0');
+});
+
+
+it('can search in a morph relation with related records', function () {
+    /** @var Car $car_1 */
+    $car_1 = Car::factory()->create();
+
+    /** @var Car $car_2 */
+    $car_2 = Car::factory()->create();
+    Car::factory()->create();
+
+    $car_1->trailable()->associate(Trailer::factory()->create())->save();
+    $car_2->trailable()->associate(Roulotte::factory()->create())->save();
+
+    $table = fakeTable(new class () extends WiredTable {
+        protected function query(): Builder|Relation
+        {
+            return Car::query();
+        }
+
+        protected function columns(): void
+        {
+            $this->column('Name')->searchable();
+            $this->column('Trailable Name', 'trailable.name')->searchable();
+        }
+    });
+
+    $table->search = 'foo';
+
+    expect($table)->rawQuery()->toBe('select * from "cars" where ("name" like \'%foo%\' or (("cars"."trailable_type" = \'Roulotte\' and exists (select * from "roulottes" where "cars"."trailable_id" = "roulottes"."id" and "name" like \'%foo%\')) or ("cars"."trailable_type" = \'Trailer\' and exists (select * from "trailers" where "cars"."trailable_id" = "trailers"."id" and "name" like \'%foo%\')))) limit 10 offset 0');
 });
 
 it('can search in two columns', function () {

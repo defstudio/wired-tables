@@ -1,5 +1,7 @@
 <?php
 
+/** @noinspection PhpUnused */
+
 /** @noinspection PhpUnhandledExceptionInspection */
 
 namespace DefStudio\WiredTables\Concerns;
@@ -10,7 +12,9 @@ use DefStudio\WiredTables\Enums\Sorting;
 use DefStudio\WiredTables\Exceptions\SortingException;
 use DefStudio\WiredTables\WiredTable;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\DB;
 
@@ -20,6 +24,15 @@ use Illuminate\Support\Facades\DB;
 trait HasSorting
 {
     public array $sorting = [];
+
+    public function bootedHasSorting(): void
+    {
+        if (empty($this->sorting)) {
+            $this->sorting = $this->getState('sorting', []);
+        } else {
+            $this->storeState('sorting', $this->sorting);
+        }
+    }
 
     public function supportMultipleSorting(): bool
     {
@@ -51,6 +64,19 @@ trait HasSorting
         }
 
         $this->sorting[$column->name()] = $direction->value;
+
+        $this->storeState('sorting', $this->sorting);
+    }
+
+    public function clearSorting(string $columnName = null): void
+    {
+        if ($columnName) {
+            unset($this->sorting[$columnName]);
+        } else {
+            $this->sorting = [];
+        }
+
+        $this->storeState('sorting', $this->sorting);
     }
 
     public function getSortDirection(Column|string $column): Sorting
@@ -74,7 +100,11 @@ trait HasSorting
 
     protected function applySorting(Builder|Relation $query): void
     {
-        foreach ($this->sorting as $columnName => $dir) {
+        $sorting = empty($this->sorting)
+            ? $this->config(Config::default_sorting, [])
+            : $this->sorting;
+
+        foreach ($sorting as $columnName => $dir) {
             $dir = Sorting::from($dir);
 
             $column = $this->getColumn($columnName);
@@ -109,7 +139,8 @@ trait HasSorting
                 $relation = $model->{$relation}();
                 match ($relation::class) {
                     BelongsTo::class => $this->applySortingToBelongsTo($query, $column, $relation, $dir),
-                    default => throw SortingException::autosortRelationNotSupported($model->{$relation}()::class),
+                    MorphTo::class => $this->applySortingToMorphTo($query, $column, $relation, $dir),
+                    default => throw SortingException::autosortRelationNotSupported($relation::class),
                 };
 
                 return;
@@ -117,6 +148,47 @@ trait HasSorting
 
             $query->orderBy($column->getField(), $dir->value);
         }
+    }
+
+    protected function applySortingToMorphTo(Builder|Relation $query, Column $column, MorphTo $relation, Sorting $dir): void
+    {
+        $modelTable = $relation->getModel()->getTable();
+        $types = $relation->getModel()->newModelQuery()->distinct()->pluck($relation->getMorphType())->filter();
+
+
+        if ($types->isEmpty()) {
+            return;
+        }
+
+        /** @var Model $morphModel */
+        $morphModel = app($types->pop());
+        $morphClass = $morphModel->getMorphClass();
+        $relatedTable = $morphModel->getTable();
+
+
+        $morphUnionQuery = DB::table($relatedTable)
+            ->select($column->getField())
+            ->where("$modelTable.{$relation->getMorphType()}", "=", $morphClass)
+            ->whereColumn('id', $relation->getQualifiedForeignKeyName());
+
+        $types->each(function (string $type) use ($morphUnionQuery, $column, $relation, $modelTable) {
+            /** @var Model $morphModel */
+            $morphModel = app($type);
+            $morphClass = $morphModel->getMorphClass();
+
+            $relatedTable = $morphModel->getTable();
+            $morphUnionQuery->union(
+                DB::table($relatedTable)
+                    ->select($column->getField())
+                    ->where("$modelTable.{$relation->getMorphType()}", "=", $morphClass)
+                    ->whereColumn('id', $relation->getQualifiedForeignKeyName())
+            );
+        });
+
+        $query->orderBy(
+            $morphUnionQuery,
+            $dir->value,
+        );
     }
 
     protected function applySortingToBelongsTo(Builder|Relation $query, Column $column, BelongsTo $relation, Sorting $dir): void
@@ -129,10 +201,5 @@ trait HasSorting
             DB::table($relatedTable)->select($column->getField())->whereColumn($foreignKey, "$relatedTable.id"),
             $dir->value,
         );
-    }
-
-    public function clearSorting(string $columnName): void
-    {
-        unset($this->sorting[$columnName]);
     }
 }

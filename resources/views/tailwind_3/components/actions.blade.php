@@ -9,7 +9,7 @@ use DefStudio\WiredTables\WiredTable;
     <div {{$attributes->class('relative')}} wire:key="wt-{{$this->id}}-actions-wrapper" x-data="{show: false}">
         <button
             wire:key="wt-{{$this->id}}-actions-dropdown"
-            {{$attributes->class("flex border border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm text-sm text-gray-700 px-2 py-2")}}
+            {{$attributes->class("flex bg-transparent border focus-visible:outline-0 border-solid border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm text-sm text-gray-700 px-2 py-2")}}
             @click="show = !show"
         >
             Actions
@@ -31,7 +31,7 @@ use DefStudio\WiredTables\WiredTable;
                         <div wire:key="wt-{{$this->id}}-action-{{$index}}-wrapper" class="table-cell p-1">
                             <button wire:key="wt-{{$this->id}}-action-{{$index}}"
                                     @click="show = false; $wire.call('{{$action->method()}}' {{$action->methodArguments()->map(fn(string $arg) => ", '$arg'")->join('')}})"
-                                    class="p-2 whitespace-nowrap bg-gray-100 hover:bg-gray-200 w-full rounded focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                    class="bg-transparent border focus-visible:outline-0 border-solid p-2 whitespace-nowrap bg-gray-100 hover:bg-gray-200 w-full rounded focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                             >{{$action->name()}}</button>
                         </div>
                     @endforeach

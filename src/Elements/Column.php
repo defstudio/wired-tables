@@ -1,5 +1,7 @@
 <?php
 
+/** @noinspection PhpUnused */
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace DefStudio\WiredTables\Elements;
@@ -15,7 +17,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\HtmlString;
-use Str;
+use Illuminate\Support\Str;
 
 class Column extends Configuration implements Arrayable
 {
@@ -101,7 +103,7 @@ class Column extends Configuration implements Arrayable
     }
 
     /**
-     * @param Closure(mixed $value, Column $column): string $formatClosure
+     * @param Closure(mixed $value, Model $model, Column $column): (string|HtmlString) $formatClosure
      *
      * @return static
      */
@@ -125,7 +127,7 @@ class Column extends Configuration implements Arrayable
 
     public function value(): mixed
     {
-        return data_get($this->model, $this->dbColumn());
+        return data_get($this->model, Str::of($this->dbColumn())->replace('->', '.'));
     }
 
     public function render(): HtmlString
@@ -154,7 +156,12 @@ class Column extends Configuration implements Arrayable
 
     public function isRelation(): bool
     {
-        return Str::of($this->dbColumn())->contains('.');
+        return Str::of($this->dbColumn())->before('->')->contains('.');
+    }
+
+    public function isJson(): bool
+    {
+        return Str::of($this->dbColumn())->before('.')->contains('->');
     }
 
     public function getRelationNesting(): int
@@ -176,7 +183,7 @@ class Column extends Configuration implements Arrayable
         return Str::of($this->dbColumn())->afterLast('.');
     }
 
-    public function hidden(Closure|bool $when): static
+    public function hidden(Closure|bool $when = true): static
     {
         return $this->set(Config::hidden, $when);
     }

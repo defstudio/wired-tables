@@ -13,6 +13,9 @@ class CarFactory extends Factory
     {
         return [
             'name' => $this->faker->name,
+            'data' => [
+                'foo' => $this->faker->text,
+            ],
         ];
     }
 }

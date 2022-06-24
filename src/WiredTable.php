@@ -11,8 +11,10 @@ use DefStudio\WiredTables\Concerns\HasColumns;
 use DefStudio\WiredTables\Concerns\HasConfiguration;
 use DefStudio\WiredTables\Concerns\HasFilters;
 use DefStudio\WiredTables\Concerns\HasPagination;
+use DefStudio\WiredTables\Concerns\HasQueryStrings;
 use DefStudio\WiredTables\Concerns\HasSearch;
 use DefStudio\WiredTables\Concerns\HasSorting;
+use DefStudio\WiredTables\Concerns\PreservesState;
 use DefStudio\WiredTables\Concerns\SelectsRows;
 use DefStudio\WiredTables\Elements\Action;
 use DefStudio\WiredTables\Elements\Column;
@@ -25,13 +27,16 @@ use Livewire\Component;
 /**
  * @property-read Collection|LengthAwarePaginator $rows
  * @property-read Collection $selectedRows
+ * @property-read string $slug
  * @property-read Column[] $columns
  * @property-read Action[] $actions
  * @property-read Filter[] $filters
  */
 abstract class WiredTable extends Component
 {
+    use PreservesState;
     use HasConfiguration;
+    use HasQueryStrings;
     use HasColumns;
     use HasSorting;
     use BuildsQuery;
@@ -42,11 +47,18 @@ abstract class WiredTable extends Component
     use DumpsValues;
     use HasFilters;
 
-    public $queryString = [
-        'search' => ['except' => ''],
-        'sorting' => ['except' => [], 'as' => 'sort'],
-        'filterValues' => ['except' => '', 'as' => 'filters'],
-    ];
+    /** @internal */
+    public string $_cachedSlug;
+
+    public function getSlugProperty(): string
+    {
+        return $this->_cachedSlug ?? $this->computeSlug();
+    }
+
+    protected function computeSlug(): string
+    {
+        return '';
+    }
 
     public function render(): View
     {
