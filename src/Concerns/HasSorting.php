@@ -59,7 +59,7 @@ trait HasSorting
 
         if ($direction === Sorting::none) {
             unset($this->sorting[$column->name()]);
-
+            $this->storeState('sorting', null);
             return;
         }
 
