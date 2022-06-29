@@ -82,9 +82,13 @@ trait HasSorting
 
     public function getSortDirection(Column|string $column): Sorting
     {
-        $column = is_string($column) ? $column : $column->name();
+         $column = is_string($column) ? $column : $column->name();
 
-        return Sorting::tryFrom($this->sorting[$column] ?? null) ?? Sorting::none;
+        if(empty($this->sorting[$column])){
+            return Sorting::none;
+        }
+        
+        return Sorting::tryFrom($this->sorting[$column]);
     }
 
     public function getSortPosition(Column|string $column): int
