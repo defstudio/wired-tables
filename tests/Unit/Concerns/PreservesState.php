@@ -1,7 +1,7 @@
 <?php
 
 use DefStudio\WiredTables\Concerns\PreservesState;
-use function Livewire\invade;
+// use function Livewire\invade;
 use function Pest\Laravel\actingAs;
 
 it('can generate a state key', function () {
@@ -11,7 +11,7 @@ it('can generate a state key', function () {
     };
     $class->mountPreservesState();
 
-    $key = invade($class)->getStateKey(new User(['id' => 42]), 'baz');
+    $key = Livewire\invade($class)->getStateKey(new User(['id' => 42]), 'baz');
 
     expect($key)->toBe('httplocalhost-42-state-baz');
 });
