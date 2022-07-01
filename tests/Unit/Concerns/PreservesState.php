@@ -11,7 +11,7 @@ it('can generate a state key', function () {
     };
     $class->mountPreservesState();
 
-    $key = Livewire\invade($class)->getStateKey(new User(['id' => 42]), 'baz');
+    $key = invade($class)->getStateKey(new User(['id' => 42]), 'baz');
 
     expect($key)->toBe('httplocalhost-42-state-baz');
 });
