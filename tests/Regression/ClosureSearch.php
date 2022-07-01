@@ -22,4 +22,4 @@ it('can search in two columns with a closure search', function () {
     $table->search = 'foo';
 
     expect($table)->rawQuery()->toBe('select * from "cars" where ("color" like \'%foo%\') limit 10 offset 0');
-})->only();
+});
