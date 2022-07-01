@@ -59,7 +59,7 @@ trait HasSearch
                 if ($column->hasSearchClosure()) {
                     $column->applySearchClosure($searchQuery, $this->search);
 
-                    return;
+                    continue;
                 }
 
                 $this->applyAutoSearchToColumn($column, $searchQuery, $this->search);
