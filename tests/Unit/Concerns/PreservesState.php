@@ -1,6 +1,7 @@
 <?php
 
 use DefStudio\WiredTables\Concerns\PreservesState;
+use function Livewire\invade;
 use function Pest\Laravel\actingAs;
 
 it('can generate a state key', function () {
@@ -29,9 +30,9 @@ it('can store and retrieve state', function () {
 
     actingAs(new User(['id' => 42]));
 
-    Livewire\invade($class)->storeState('foo', 666);
+    invade($class)->storeState('foo', 666);
 
-    $cached = Livewire\invade($class)->getState('foo');
+    $cached = invade($class)->getState('foo');
 
     expect($cached)->toBe(666);
 });
