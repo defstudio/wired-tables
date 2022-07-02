@@ -21,7 +21,7 @@
     stroke-gray-400 stroke-gray-200
     fill-gray-400 fill-gray-200
     group-hover:stroke-gray-600 group-hover:stroke-gray-400 group-hover:stroke-gray-200
-    group-hover:fill-gray-600 group-hover:fill-gray-400group-hover:fill-gray-200
+    group-hover:fill-gray-600 group-hover:fill-gray-400 group-hover:fill-gray-200
 
 
     odd:bg-white even:bg-gray-50

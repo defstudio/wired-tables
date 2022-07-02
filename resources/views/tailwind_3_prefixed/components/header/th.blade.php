@@ -57,11 +57,11 @@ $classes = "tw-uppercase tw-font-medium tw-whitespace-nowrap tw-tracking-wider {
             @endif
 
 
-            <div class="min-w-[30px] h-full">
+            <div class="tw-min-w-[30px] tw-h-full">
                 @php($position = $this->getSortPosition($column))
                 @if($position)
                     <span @class([
-                        "absolute top-1 font-bold text-[8px] ",
+                        "tw-absolute tw-top-1 tw-font-bold tw-text-[8px] ",
                         "tw-text-gray-400 group-hover:tw-text-gray-600" => !$this->headerConfig(Config::dark_mode),
                         "tw-text-gray-400 group-hover:tw-text-gray-200" => $this->headerConfig(Config::dark_mode),
                 ])>{{$position}}{{date("S", mktime(0, 0, 0, 0, $position, 0))}}</span>

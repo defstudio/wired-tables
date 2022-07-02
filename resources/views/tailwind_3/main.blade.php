@@ -8,7 +8,7 @@ use DefStudio\WiredTables\WiredTable;
 <x-wired-tables::wrapper wire:key="wt-{{$this->id}}-wrapper" class="min-h-[300px]">
     <x-wired-tables::top wire:key="wt-{{$this->id}}-top"/>
 
-    <div class="tw-overflow-auto">
+    <div class="overflow-auto">
         <x-wired-tables::table wire:key="wt-{{$this->id}}" class="my-3">
         <x-slot name="header">
             <x-wired-tables::header wire:key="wt-{{$this->id}}-header">
