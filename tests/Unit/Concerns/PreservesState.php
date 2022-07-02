@@ -14,7 +14,7 @@ it('can generate a state key', function () {
     $key = invade($class)->getStateKey(new User(['id' => 42]), 'baz');
 
     expect($key)->toBe('httplocalhost-42-state-baz');
-})->skip(fn() => function_exists('invade'));
+})->skip(fn() => !function_exists('invade'));
 
 it('can store and retrieve state', function () {
     $class = new class () {
@@ -35,4 +35,4 @@ it('can store and retrieve state', function () {
     $cached = invade($class)->getState('foo');
 
     expect($cached)->toBe(666);
-})->skip(fn() => function_exists('invade'));
+})->skip(fn() => !function_exists('invade'));
