@@ -21,4 +21,4 @@ it('can search in two columns while get json values', function () {
     $table->search = 'bar';
 
     expect($table)->rawQuery()->toBe('select * from "cars" where (json_extract("data", \'$."foo"\') like \'%bar%\') limit 10 offset 0');
-})->only();
+});
