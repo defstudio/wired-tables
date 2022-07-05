@@ -6,17 +6,19 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 
 it('can search in two columns while get json values', function () {
     $table = fakeTable(new class () extends WiredTable {
-        protected function query(): Builder|Relation {
+        protected function query(): Builder|Relation
+        {
             return Car::query();
         }
 
-        protected function columns(): void {
-            $this->column('Name')->searchable();
-            $this->column('Details', 'data->foo');
+        protected function columns(): void
+        {
+            $this->column('Name');
+            $this->column('Details', 'data->foo')->searchable();
         }
     });
 
-    $table->search = 'foo';
+    $table->search = 'bar';
 
-    expect($table)->rawQuery()->toBe('select * from "cars" where ("foo" like \'%foo%\') limit 10 offset 0');
+    expect($table)->rawQuery()->toBe('select * from "cars" where (json_extract("data", \'$."foo"\') like \'%bar%\') limit 10 offset 0');
 })->only();
