@@ -180,11 +180,6 @@ class Column extends Configuration implements Arrayable
 
     public function getField(): string
     {
-        if (Str::of($this->dbColumn())->contains('->')) {
-            return Str::of($this->dbColumn())->before('->')->afterLast('.')
-                ->append('->', Str::of($this->dbColumn())->after('->'));
-        }
-
         return Str::of($this->dbColumn())->afterLast('.');
     }
 
