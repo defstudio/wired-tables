@@ -21,6 +21,7 @@ class Car extends Model
     /** @var string[] */
     public $casts = [
         'data' => 'array',
+        'broken' => 'boolean',
     ];
 
     protected static function newFactory(): CarFactory

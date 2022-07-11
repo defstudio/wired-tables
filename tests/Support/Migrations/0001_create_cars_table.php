@@ -10,6 +10,7 @@ return new class () extends Migration {
             $table->bigIncrements('id');
             $table->string('name');
             $table->json('data');
+            $table->boolean('broken')->default(0);
 
             $table->foreignId('user_id')->nullable()->constrained('users')->cascadeOnDelete();
 

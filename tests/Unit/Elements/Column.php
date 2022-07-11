@@ -3,10 +3,14 @@
 /** @noinspection SqlDialectInspection */
 
 use DefStudio\WiredTables\Elements\Column;
+use DefStudio\WiredTables\Enums\ColumnType;
 use DefStudio\WiredTables\Enums\Config;
 use DefStudio\WiredTables\Enums\Sorting;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\HtmlString;
+use function Spatie\Snapshots\assertMatchesSnapshot;
 
 test('defaults', function () {
     $table = fakeTable();
@@ -177,7 +181,7 @@ it('can render a view', function () {
     $column = new Column($table, "test", 'name');
     $column->view('foo.bar', ['baz' => 'quuz']);
 
-    $car = Car::make(['name' => 'bmw']);
+    $car = new Car(['name' => 'bmw']);
     $column->setModel($car);
 
 
@@ -194,6 +198,35 @@ it('can render a view', function () {
     expect($column->render())
         ->toBeInstanceOf(HtmlString::class)
         ->toHtml()->toBe('rendered');
+});
+
+it('can render a carbon value', function () {
+    $column = new Column(fakeTable(), "Created", 'created_at');
+    $column->carbon('d/m/Y');
+
+    Carbon::setTestNow('1985-07-17 11:55:00');
+
+    $model = new Car(['name' => 'bar', 'created_at' => now()]);
+    $column->setModel($model);
+
+
+
+    expect($column->render()->toHtml())->toBe('17/07/1985');
+});
+
+it('can render a boolean value', function () {
+    $column = new Column(fakeTable(), "Broken");
+    $column->boolean();
+
+    $model = new Car(['name' => 'bar', 'broken' => false]);
+    $column->setModel($model);
+
+    assertMatchesSnapshot($column->render()->toHtml());
+
+    $model = new Car(['name' => 'bar', 'broken' => true]);
+    $column->setModel($model);
+
+    assertMatchesSnapshot($column->render()->toHtml());
 });
 
 it('can check if it is a relation column', function () {
@@ -296,4 +329,26 @@ it('can retrieve its relation nesting', function () {
     $column = new Column(fakeTable(), 'Name', 'foo.bar.baz.name');
 
     expect($column->getRelationNesting())->toBe(3);
+});
+
+it('can set a column type to boolean', function () {
+    $column = new Column(fakeTable(), "Foo Bar");
+
+    expect($column->get(Config::type))->toBeNull();
+
+    $column->boolean();
+
+    expect($column->get(Config::type))->toBe(ColumnType::boolean);
+});
+
+it('can set a column type to carbon', function () {
+    $column = new Column(fakeTable(), "Foo Bar");
+
+    expect($column->get(Config::type))->toBeNull();
+
+    $column->carbon('m/Y');
+
+    expect($column)
+        ->get(Config::type)->toBe(ColumnType::carbon)
+        ->get(Config::date_format)->toBe('m/Y');
 });
