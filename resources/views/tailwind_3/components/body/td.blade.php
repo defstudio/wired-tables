@@ -25,7 +25,7 @@ $attributes = $attributes->merge([
     {{$attributes->class(["px-6 py-3 font-medium whitespace-nowrap", $column->getTextClasses()])}}
 >
     @if($url = $column->getUrl())
-        <a href="{{$url}}" {{($url_target = \DefStudio\WiredTables\Enums\Config::url_target) ? "target='$url_target'": ''}}>
+        <a href="{{$url}}" {{($url_target = $column->get(\DefStudio\WiredTables\Enums\Config::url_target)) ? "target='$url_target'": ''}}>
             {{$column->render()}}
         </a>
     @else
