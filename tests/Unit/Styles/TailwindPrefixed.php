@@ -25,9 +25,9 @@ test('all tailwind classes are prefixed', function () {
 
             if (isset($file_match[1])) {
                 foreach ($file_match[1] as $class_index => $class) {
-                    $items = Str::of($class)->replace("\n", '')->replace("\t", '')->explode(' ')->filter()->values();
+                    $items = Str::of($class)->replace("\r\n", '')->replace("\n", '')->replace("\t", '')->explode(' ')->filter()->values();
 
-                    $prefixed_items = Str::of($prefixed_match[1][$class_index])->replace("\n", '')->replace("\t", '')->explode(' ')->filter()->values();
+                    $prefixed_items = Str::of($prefixed_match[1][$class_index])->replace("\r\n", '')->replace("\n", '')->replace("\t", '')->explode(' ')->filter()->values();
 
                     $items->each(function (string $item, $item_index) use ($file, $prefixed_items) {
                         $prefixed_item = $prefixed_items->get($item_index);
