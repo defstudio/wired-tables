@@ -76,6 +76,12 @@ class Column extends Configuration implements Arrayable
         return is_callable($this->get(Config::sort_closure));
     }
 
+    public function url(string $url, string $target = null): static
+    {
+        return $this->set(Config::url, $url)
+            ->set(Config::url_target, $target);
+    }
+
     public function applySortClosure(Builder $query, Sorting $dir): void
     {
         $this->get(Config::sort_closure)($query, $dir);

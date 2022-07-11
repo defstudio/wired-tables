@@ -10,18 +10,27 @@ use DefStudio\WiredTables\WiredTable;
 /** @var ComponentAttributeBag $attributes */
 
 $attributes = $attributes->merge([
-        'wire:key' => "wt-$this->id-row-{$this->getRowId($model)}-cell"
-    ])->class([
-        "px-6 py-3",
-        "font-medium",
-        "whitespace-nowrap",
-        $column->getTextClasses(),
-    ]);
+    'wire:key' => "wt-$this->id-row-{$this->getRowId($model)}-cell"
+])->class([
+    "px-6 py-3",
+    "font-medium",
+    "whitespace-nowrap",
+    $column->getTextClasses(),
+]);
 ?>
 
 @props(['column', 'model'])
 
 <td wire:key="wt-{{$this->id}}-row-{{$this->getRowId($model)}}-cell"
     {{$attributes->class(["px-6 py-3 font-medium whitespace-nowrap", $column->getTextClasses()])}}
->{{$column->render()}}</td>
+>
+    @if($url = $column->get(\DefStudio\WiredTables\Enums\Config::url))
+        <a href="{{$url}}" {{($url_target = \DefStudio\WiredTables\Enums\Config::url_target) ? "target='$url_target'": ''}}>
+            {{$column->render()}}
+        </a>
+    @else
+        {{$column->render()}}
+    @endif
+
+</td>
 
