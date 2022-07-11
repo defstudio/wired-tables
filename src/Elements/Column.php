@@ -76,9 +76,12 @@ class Column extends Configuration implements Arrayable
         return is_callable($this->get(Config::sort_closure));
     }
 
-    public function url(string $url, string $target = null): static
+    /**
+     * @param Closure(mixed $value, Model $model, Column $column): (string|null) $urlClosure
+     */
+    public function url(Closure $urlClosure, string $target = null): static
     {
-        return $this->set(Config::url, $url)
+        return $this->set(Config::url, $urlClosure)
             ->set(Config::url_target, $target);
     }
 
@@ -134,6 +137,19 @@ class Column extends Configuration implements Arrayable
     public function value(): mixed
     {
         return data_get($this->model, Str::of($this->dbColumn())->replace('->', '.'));
+    }
+
+    public function getUrl(): string|null
+    {
+        $urlClosure = $this->get(Config::url);
+
+        if($urlClosure === null){
+            return null;
+        }
+
+        $value = $this->value();
+
+        return $urlClosure($value, $this->model, $this);
     }
 
     public function render(): HtmlString

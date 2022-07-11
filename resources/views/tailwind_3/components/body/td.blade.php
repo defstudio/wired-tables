@@ -24,7 +24,7 @@ $attributes = $attributes->merge([
 <td wire:key="wt-{{$this->id}}-row-{{$this->getRowId($model)}}-cell"
     {{$attributes->class(["px-6 py-3 font-medium whitespace-nowrap", $column->getTextClasses()])}}
 >
-    @if($url = $column->get(\DefStudio\WiredTables\Enums\Config::url))
+    @if($url = $column->getUrl())
         <a href="{{$url}}" {{($url_target = \DefStudio\WiredTables\Enums\Config::url_target) ? "target='$url_target'": ''}}>
             {{$column->render()}}
         </a>
