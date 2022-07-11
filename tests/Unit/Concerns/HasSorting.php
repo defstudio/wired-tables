@@ -1,4 +1,6 @@
-<?php /** @noinspection PhpUnhandledExceptionInspection */
+<?php
+
+/** @noinspection PhpUnhandledExceptionInspection */
 
 /** @noinspection MultipleExpectChainableInspection */
 
@@ -66,7 +68,7 @@ test("cached sorting is cleared if column doesn't exist", function () {
     $table = fakeTable();
     invade($table)->applySorting(Car::query());
 
-    expect( Cache::get("httplocalhost-42-state-sorting"))->toBe([]);
+    expect(Cache::get("httplocalhost-42-state-sorting"))->toBe([]);
 });
 
 test("cached sorting is cleared if column is not sortable", function () {
@@ -75,12 +77,13 @@ test("cached sorting is cleared if column is not sortable", function () {
 
     $table = fakeTable();
 
-    try{
+    try {
         invade($table)->applySorting(Car::query());
-    }catch (SortingException ){}
+    } catch (SortingException) {
+    }
 
 
-    expect( Cache::get("httplocalhost-42-state-sorting"))->toBe([]);
+    expect(Cache::get("httplocalhost-42-state-sorting"))->toBe([]);
 });
 
 it('tells if multiple sorting is enabled', function () {

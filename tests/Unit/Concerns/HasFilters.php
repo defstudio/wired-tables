@@ -1,4 +1,6 @@
-<?php /** @noinspection InvalidTestNameCaseInspection */
+<?php
+
+/** @noinspection InvalidTestNameCaseInspection */
 
 /** @noinspection MultipleExpectChainableInspection */
 
