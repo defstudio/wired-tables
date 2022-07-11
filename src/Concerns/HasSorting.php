@@ -45,11 +45,13 @@ trait HasSorting
 
         if ($column === null) {
             $this->clearSorting($columnName);
+
             throw SortingException::columnNotFound($columnName);
         }
 
         if (!$column->isSortable()) {
             $this->clearSorting($columnName);
+
             throw SortingException::columnNotSortable($column->name());
         }
 
@@ -122,6 +124,7 @@ trait HasSorting
 
             if (!$column->isSortable()) {
                 $this->clearSorting($columnName);
+
                 throw SortingException::columnNotSortable($column->name());
             }
 
@@ -136,6 +139,7 @@ trait HasSorting
 
                 if ($column->getRelationNesting() > 1) {
                     $this->clearSorting($columnName);
+
                     throw SortingException::autosortNotSupportedForNestedRelations($column->getRelation());
                 }
 
@@ -143,6 +147,7 @@ trait HasSorting
 
                 if (!method_exists($model, $relation)) {
                     $this->clearSorting($columnName);
+
                     throw SortingException::relationDoesntExist($relation);
                 }
 
@@ -150,7 +155,7 @@ trait HasSorting
                 match ($relation::class) {
                     BelongsTo::class => $this->applySortingToBelongsTo($query, $column, $relation, $dir),
                     MorphTo::class => $this->applySortingToMorphTo($query, $column, $relation, $dir),
-                    default =>  $this->clearSorting($columnName) && throw SortingException::autosortRelationNotSupported($relation::class),
+                    default => $this->clearSorting($columnName) && throw SortingException::autosortRelationNotSupported($relation::class),
                 };
 
                 return;
