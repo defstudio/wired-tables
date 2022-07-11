@@ -11,8 +11,8 @@ test('all tailwind classes are prefixed', function () {
     ];
 
     foreach ($patterns as $pattern) {
-        foreach (listFolderFiles(__DIR__ . "/../../../resources/views/tailwind_3") as $file) {
-            $prefixed_file = Str::of($file)->replace('resources/views/tailwind_3', 'resources/views/tailwind_3_prefixed')->toString();
+        foreach (listFolderFiles(__DIR__ . DIRECTORY_SEPARATOR . "..". DIRECTORY_SEPARATOR. "..". DIRECTORY_SEPARATOR. "..". DIRECTORY_SEPARATOR. "resources". DIRECTORY_SEPARATOR. "views". DIRECTORY_SEPARATOR. "tailwind_3") as $file) {
+            $prefixed_file = Str::of($file)->replace("resources". DIRECTORY_SEPARATOR. "views". DIRECTORY_SEPARATOR. "tailwind_3", "resources". DIRECTORY_SEPARATOR. "views". DIRECTORY_SEPARATOR. "tailwind_3_prefixed")->toString();
 
             expect($prefixed_file)->toBeFile();
 
