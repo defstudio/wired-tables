@@ -1,6 +1,7 @@
 <?php
 
 use DefStudio\WiredTables\Concerns\PreservesState;
+
 use function Livewire\invade;
 use function Pest\Laravel\actingAs;
 

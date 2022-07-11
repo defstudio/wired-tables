@@ -37,6 +37,7 @@ enum Config
     case view_params;
     case url;
     case url_target;
+    case date_format;
 
     case method;
     case handler;
