@@ -44,14 +44,10 @@ trait HasSorting
         $column = $this->getColumn($columnName);
 
         if ($column === null) {
-            $this->clearSorting($columnName);
-
             throw SortingException::columnNotFound($columnName);
         }
 
         if (!$column->isSortable()) {
-            $this->clearSorting($columnName);
-
             throw SortingException::columnNotSortable($column->name());
         }
 
@@ -119,18 +115,17 @@ trait HasSorting
             $column = $this->getColumn($columnName);
 
             if (empty($column)) {
+                $this->clearSorting($columnName);
                 return;
             }
 
             if (!$column->isSortable()) {
                 $this->clearSorting($columnName);
-
                 throw SortingException::columnNotSortable($column->name());
             }
 
             if ($column->hasSortClosure()) {
                 $column->applySortClosure($query, $dir);
-
                 return;
             }
 
@@ -139,7 +134,6 @@ trait HasSorting
 
                 if ($column->getRelationNesting() > 1) {
                     $this->clearSorting($columnName);
-
                     throw SortingException::autosortNotSupportedForNestedRelations($column->getRelation());
                 }
 
@@ -147,7 +141,6 @@ trait HasSorting
 
                 if (!method_exists($model, $relation)) {
                     $this->clearSorting($columnName);
-
                     throw SortingException::relationDoesntExist($relation);
                 }
 
