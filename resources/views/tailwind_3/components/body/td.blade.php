@@ -31,6 +31,5 @@ $attributes = $attributes->merge([
     @else
         {{$column->render()}}
     @endif
-
 </td>
 
