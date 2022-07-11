@@ -44,14 +44,10 @@ trait HasSorting
         $column = $this->getColumn($columnName);
 
         if ($column === null) {
-            $this->clearSorting($columnName);
-
             throw SortingException::columnNotFound($columnName);
         }
 
         if (!$column->isSortable()) {
-            $this->clearSorting($columnName);
-
             throw SortingException::columnNotSortable($column->name());
         }
 
@@ -119,6 +115,8 @@ trait HasSorting
             $column = $this->getColumn($columnName);
 
             if (empty($column)) {
+                $this->clearSorting($columnName);
+
                 return;
             }
 

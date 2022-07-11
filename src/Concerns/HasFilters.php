@@ -141,15 +141,6 @@ trait HasFilters
     public function applyFilters(Builder|Relation $query): void
     {
         $this->activeFilters()
-                ->each(function (Filter $filter) use ($query) {
-                    try {
-                        $filter->apply($query);
-                    } catch (FilterException $exception) {
-                        $this->filterValues[$filter->key()] = null;
-                        $this->storeState('filters', $this->filterValues);
-
-                        throw  $exception;
-                    }
-                });
+            ->each(fn (Filter $filter) => $filter->apply($query));
     }
 }

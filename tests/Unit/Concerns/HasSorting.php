@@ -1,5 +1,7 @@
 <?php
 
+/** @noinspection PhpUnhandledExceptionInspection */
+
 /** @noinspection MultipleExpectChainableInspection */
 
 /** @noinspection SqlRedundantOrderingDirection */
@@ -58,6 +60,31 @@ test('cached sorting is cleared along with sorting', function () {
     $table->clearSorting('foo');
 
     expect(Cache::get('httplocalhost-42-state-sorting'))->toBe([]);
+});
+
+test("cached sorting is cleared if column doesn't exist", function () {
+    actingAs(new User(['id' => 42]));
+    Cache::put("httplocalhost-42-state-sorting", ['foo' => 'asc']);
+
+    $table = fakeTable();
+    invade($table)->applySorting(Car::query());
+
+    expect(Cache::get("httplocalhost-42-state-sorting"))->toBe([]);
+});
+
+test("cached sorting is cleared if column is not sortable", function () {
+    actingAs(new User(['id' => 42]));
+    Cache::put("httplocalhost-42-state-sorting", ['Not Sortable' => 'asc']);
+
+    $table = fakeTable();
+
+    try {
+        invade($table)->applySorting(Car::query());
+    } catch (SortingException) {
+    }
+
+
+    expect(Cache::get("httplocalhost-42-state-sorting"))->toBe([]);
 });
 
 it('tells if multiple sorting is enabled', function () {
@@ -124,7 +151,6 @@ it('can sort two columns', function () {
     ]);
 });
 
-
 it('can sort by a morph relation if there are no related records', function () {
     $table = fakeTable(new class () extends WiredTable {
         protected function query(): Builder|Relation
@@ -143,7 +169,6 @@ it('can sort by a morph relation if there are no related records', function () {
 
     expect($table)->rawQuery()->toBe('select * from "cars" limit 10 offset 0');
 });
-
 
 it('can sort by a morph relation with related records', function () {
     $car_1 = Car::factory()->create();

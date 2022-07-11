@@ -2,7 +2,6 @@
 
 use DefStudio\WiredTables\Concerns\PreservesState;
 
-use function Livewire\invade;
 use function Pest\Laravel\actingAs;
 
 it('can generate a state key', function () {

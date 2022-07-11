@@ -331,6 +331,7 @@ it('can retrieve its relation nesting', function () {
     expect($column->getRelationNesting())->toBe(3);
 });
 
+
 it('can set a column type to boolean', function () {
     $column = new Column(fakeTable(), "Foo Bar");
 
@@ -351,4 +352,28 @@ it('can set a column type to carbon', function () {
     expect($column)
         ->get(Config::type)->toBe(ColumnType::carbon)
         ->get(Config::date_format)->toBe('m/Y');
+});
+
+
+it('can have an associated url', function () {
+    $column = new Column(fakeTable(), 'Test');
+
+    expect($column)
+       ->get(Config::url)->toBeNull()
+       ->get(Config::url_target)->toBeNull();
+
+    $column->url(fn ($value) => "http://test.$value.dev", '_blank');
+
+    expect($column)
+        ->get(Config::url)->toBeCallable()
+        ->get(Config::url_target)->toBe('_blank');
+});
+
+it('can retrieve a column url', function () {
+    $column = new Column(fakeTable(), 'Name');
+    $column->url(fn ($value) => "http://test.$value.dev", '_blank');
+
+    $column->setModel(new Car(['name' => 'foo']));
+
+    expect($column->getUrl())->toBe("http://test.foo.dev");
 });

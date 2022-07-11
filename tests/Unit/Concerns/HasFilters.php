@@ -1,5 +1,7 @@
 <?php
 
+/** @noinspection InvalidTestNameCaseInspection */
+
 /** @noinspection MultipleExpectChainableInspection */
 
 /** @noinspection SqlDialectInspection */
