@@ -143,7 +143,7 @@ class Column extends Configuration implements Arrayable
     {
         $urlClosure = $this->get(Config::url);
 
-        if($urlClosure === null){
+        if ($urlClosure === null) {
             return null;
         }
 
