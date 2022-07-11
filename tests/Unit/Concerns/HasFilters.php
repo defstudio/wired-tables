@@ -15,6 +15,7 @@ use DefStudio\WiredTables\WiredTable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\Cache;
+
 use function Pest\Laravel\actingAs;
 
 test('filters are booted', function () {

@@ -9,6 +9,7 @@ namespace DefStudio\WiredTables\Elements;
 use Closure;
 use DefStudio\WiredTables\Concerns\HasTextConfiguration;
 use DefStudio\WiredTables\Configurations\Configuration;
+use DefStudio\WiredTables\Enums\ColumnType;
 use DefStudio\WiredTables\Enums\Config;
 use DefStudio\WiredTables\Enums\Sorting;
 use DefStudio\WiredTables\WiredTable;
@@ -85,6 +86,17 @@ class Column extends Configuration implements Arrayable
             ->set(Config::url_target, $target);
     }
 
+    public function carbon(string $format): static
+    {
+        return $this->set(Config::type, ColumnType::carbon)
+            ->set(Config::date_format, $format);
+    }
+
+    public function boolean(): static
+    {
+        return $this->set(Config::type, ColumnType::boolean);
+    }
+
     public function applySortClosure(Builder $query, Sorting $dir): void
     {
         $this->get(Config::sort_closure)($query, $dir);
@@ -154,8 +166,6 @@ class Column extends Configuration implements Arrayable
 
     public function render(): HtmlString
     {
-        $value = $this->value();
-
         if (!empty($view = $this->get(Config::view))) {
             $html = Blade::render(
                 $view,
@@ -170,8 +180,14 @@ class Column extends Configuration implements Arrayable
         }
 
         if (!empty($formatClosure = $this->get(Config::format_closure))) {
-            $value = $formatClosure($value, $this->model, $this);
+            return new HtmlString($formatClosure($this->value(), $this->model, $this));
         }
+
+        $value = match ($this->get(Config::type)) {
+            ColumnType::carbon => $this->value()->format($this->get(Config::date_format)),
+            ColumnType::boolean => Blade::render('wired-tables::values.boolean', ['value' => !!$this->value()]),
+            default => $this->value(),
+        };
 
         return new HtmlString($value);
     }

@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 
 uses(TestCase::class)->in(__DIR__ . "/Unit");
 uses(TestCase::class)->in(__DIR__ . "/Regression");
-uses(TestCase::class)->in(__DIR__ . "/Feature");
 
 function enableDebug(): void
 {
