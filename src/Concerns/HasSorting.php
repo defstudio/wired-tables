@@ -44,10 +44,12 @@ trait HasSorting
         $column = $this->getColumn($columnName);
 
         if ($column === null) {
+            $this->clearSorting($columnName);
             throw SortingException::columnNotFound($columnName);
         }
 
         if (!$column->isSortable()) {
+            $this->clearSorting($columnName);
             throw SortingException::columnNotSortable($column->name());
         }
 
@@ -69,7 +71,7 @@ trait HasSorting
         $this->storeState('sorting', $this->sorting);
     }
 
-    public function clearSorting(string $columnName = null): void
+    public function clearSorting(string $columnName = null): bool
     {
         if ($columnName) {
             unset($this->sorting[$columnName]);
@@ -77,7 +79,7 @@ trait HasSorting
             $this->sorting = [];
         }
 
-        $this->storeState('sorting', $this->sorting);
+        return $this->storeState('sorting', $this->sorting);
     }
 
     public function getSortDirection(Column|string $column): Sorting
@@ -119,6 +121,7 @@ trait HasSorting
             }
 
             if (!$column->isSortable()) {
+                $this->clearSorting($columnName);
                 throw SortingException::columnNotSortable($column->name());
             }
 
@@ -132,12 +135,14 @@ trait HasSorting
                 $model = $query->getModel();
 
                 if ($column->getRelationNesting() > 1) {
+                    $this->clearSorting($columnName);
                     throw SortingException::autosortNotSupportedForNestedRelations($column->getRelation());
                 }
 
                 $relation = $column->getRelation();
 
                 if (!method_exists($model, $relation)) {
+                    $this->clearSorting($columnName);
                     throw SortingException::relationDoesntExist($relation);
                 }
 
@@ -145,7 +150,7 @@ trait HasSorting
                 match ($relation::class) {
                     BelongsTo::class => $this->applySortingToBelongsTo($query, $column, $relation, $dir),
                     MorphTo::class => $this->applySortingToMorphTo($query, $column, $relation, $dir),
-                    default => throw SortingException::autosortRelationNotSupported($relation::class),
+                    default =>  $this->clearSorting($columnName) && throw SortingException::autosortRelationNotSupported($relation::class),
                 };
 
                 return;

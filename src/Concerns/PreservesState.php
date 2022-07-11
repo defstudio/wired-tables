@@ -43,18 +43,18 @@ trait PreservesState
         return Cache::get($this->getStateKey($user, $key), $default);
     }
 
-    protected function storeState(string $key, mixed $value): void
+    protected function storeState(string $key, mixed $value): bool
     {
         if (!$this->config(Config::preserve_state, false)) {
-            return;
+            return true;
         }
 
         $user = Auth::user();
 
         if (!$user) {
-            return;
+            return true;
         }
 
-        Cache::put($this->getStateKey($user, $key), $value);
+        return Cache::put($this->getStateKey($user, $key), $value);
     }
 }
