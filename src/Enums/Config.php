@@ -38,6 +38,7 @@ enum Config
     case url;
     case url_target;
     case date_format;
+    case wrapText;
 
     case method;
     case handler;

@@ -9,27 +9,30 @@ use DefStudio\WiredTables\WiredTable;
 /** @var Model $model */
 /** @var ComponentAttributeBag $attributes */
 
+
+$content = $column->render();
+
 $attributes = $attributes->merge([
     'wire:key' => "wt-$this->id-row-{$this->getRowId($model)}-cell"
 ])->class([
     "px-6 py-3",
     "font-medium",
     "whitespace-nowrap",
+    "whitespace-nowrap" => !$column->get(\DefStudio\WiredTables\Enums\Config::wrapText),
+    "min-w-[15rem]" => $column->get(\DefStudio\WiredTables\Enums\Config::wrapText) && \Illuminate\Support\Str::of($content->toHtml())->trim()->isNotEmpty(),
     $column->getTextClasses(),
 ]);
 ?>
 
 @props(['column', 'model'])
 
-<td wire:key="wt-{{$this->id}}-row-{{$this->getRowId($model)}}-cell"
-    {{$attributes->class(["px-6 py-3 font-medium whitespace-nowrap", $column->getTextClasses()])}}
->
+<td wire:key="wt-{{$this->id}}-row-{{$this->getRowId($model)}}-cell" {{$attributes}}>
     @if($url = $column->getUrl())
         <a href="{{$url}}" {{($url_target = $column->get(\DefStudio\WiredTables\Enums\Config::url_target)) ? "target='$url_target'": ''}}>
-            {{$column->render()}}
+            {{$content}}
         </a>
     @else
-        {{$column->render()}}
+        {{$content}}
     @endif
 </td>
 

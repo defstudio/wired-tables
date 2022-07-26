@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\HtmlString;
+
 use function Spatie\Snapshots\assertMatchesSnapshot;
 
 test('defaults', function () {
@@ -74,6 +75,16 @@ it('can be set as sortable', function () {
     $column->sortable();
 
     expect($column->get(Config::is_sortable))->toBeTrue();
+});
+
+it('can be set as wrappable', function () {
+    $column = new Column(fakeTable(), "Foo Bar");
+
+    expect($column->get(Config::wrapText))->toBeFalse();
+
+    $column->wrapText();
+
+    expect($column->get(Config::wrapText))->toBeTrue();
 });
 
 it('can be set as sortable through a closure', function () {

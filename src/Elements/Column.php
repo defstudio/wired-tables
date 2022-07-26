@@ -61,6 +61,11 @@ class Column extends Configuration implements Arrayable
         return $this->get(Config::id);
     }
 
+    public function wrapText(bool $enable = true): static
+    {
+        return $this->set(Config::wrapText, $enable);
+    }
+
     public function sortable(callable $sortClosure = null): static
     {
         return $this->set(Config::is_sortable, true)
