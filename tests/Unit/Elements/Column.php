@@ -80,7 +80,7 @@ it('can be set as sortable', function () {
 it('can be set as wrappable', function () {
     $column = new Column(fakeTable(), "Foo Bar");
 
-    expect($column->get(Config::wrapText))->toBeFalse();
+    expect($column->get(Config::wrapText))->toBeNull();
 
     $column->wrapText();
 
