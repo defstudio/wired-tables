@@ -55,7 +55,7 @@ trait BuildsQuery
 
     public function getTotalRowsCountProperty(): int
     {
-        if($this->rows instanceof LengthAwarePaginator){
+        if ($this->rows instanceof LengthAwarePaginator) {
             return $this->rows->total();
         }
 
