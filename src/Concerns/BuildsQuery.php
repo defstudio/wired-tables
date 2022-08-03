@@ -53,6 +53,15 @@ trait BuildsQuery
         return $query->paginate($this->pageSize);
     }
 
+    public function getTotalRowsCountProperty(): int
+    {
+        if($this->rows instanceof LengthAwarePaginator){
+            return $this->rows->total();
+        }
+
+        return $this->rows->count();
+    }
+
     public function getRowsProperty(): Collection|LengthAwarePaginator
     {
         return $this->paginatedResults();

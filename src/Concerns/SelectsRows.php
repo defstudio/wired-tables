@@ -35,6 +35,11 @@ trait SelectsRows
         $this->selection = collect($ids)->mapWithKeys(fn (int|string $id) => [$id => true])->toArray();
     }
 
+    public function selectAllRows(): void
+    {
+        $this->selectRows($this->rows()->pluck('id')->toArray());
+    }
+
     public function selectVisibleRows(): void
     {
         $this->selectRows($this->getVisibleRowsIds());

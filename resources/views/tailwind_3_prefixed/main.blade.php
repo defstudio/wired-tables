@@ -8,6 +8,18 @@ use DefStudio\WiredTables\WiredTable;
 <x-wired-tables::wrapper wire:key="wt-{{$this->id}}-wrapper" class="tw-min-h-[300px]">
     <x-wired-tables::top wire:key="wt-{{$this->id}}-top"/>
 
+    @if($this->allSelected && count($this->selectedIds()) < $this->totalRowsCount)
+        <div class="tw-px-6 tw-tracking-wider">
+            <span>
+               {{count($this->selectedIds())}} rows selected so far,
+            </span>
+            <span wire:click="selectAllRows" class="tw-underline tw-cursor-pointer">
+                 select all {{$this->totalRowsCount}} rows
+            </span>
+        </div>
+
+    @endif
+
     <div class="tw-overflow-auto">
         <x-wired-tables::table wire:key="wt-{{$this->id}}" class="tw-my-3">
             <x-slot name="header">
