@@ -6,6 +6,9 @@ use DefStudio\WiredTables\WiredTable;
 ?>
 
 @if($this->shouldShowActionsSelector())
+    @php($visibleActions = collect($this->actions)->filter(fn(DefStudio\WiredTables\Elements\Action $action) => $action->isVisible()))
+    @if($this->config(\DefStudio\WiredTables\Enums\Config::group_actions))
+
     <div {{$attributes->class('tw-relative')}} wire:key="wt-{{$this->id}}-actions-wrapper" x-data="{show: false}">
         <button
             wire:key="wt-{{$this->id}}-actions-dropdown"
@@ -23,7 +26,6 @@ use DefStudio\WiredTables\WiredTable;
              class="tw-absolute tw-table tw-right-0 tw-top-[calc(100%_+_10px)] tw-bg-white tw-z-10 tw-shadow-md tw-border tw-border-gray-300 tw-py-0.5 tw-px-1 tw-rounded tw-text-sm tw-text-gray-700"
              x-cloak
         >
-            @php($visibleActions = collect($this->actions)->filter(fn(DefStudio\WiredTables\Elements\Action $action) => $action->isVisible()))
             @foreach($visibleActions->chunk($this->config(\DefStudio\WiredTables\Enums\Config::actions_columns, $visibleActions->count() > 3 ? 3 : 1)) as $action_group)
                 <div class="tw-table-row">
                     @foreach($action_group as $index => $action)
@@ -40,4 +42,17 @@ use DefStudio\WiredTables\WiredTable;
         </div>
     </div>
 
+    @else
+        <div {{$attributes->class('tw-flex')}} wire:key="wt-{{$this->id}}-actions-wrapper">
+            @foreach($visibleActions as $index => $action)
+                <?php /** @var \DefStudio\WiredTables\Elements\Action $action */ ?>
+                <div wire:key="wt-{{$this->id}}-action-{{$index}}-wrapper" class="tw-table-cell tw-p-1">
+                    <button wire:key="wt-{{$this->id}}-action-{{$index}}"
+                            @click="show = false; $wire.call('{{$action->method()}}' {{$action->methodArguments()->map(fn(string $arg) => ", '$arg'")->join('')}})"
+                            class="tw-bg-transparent tw-border focus-visible:tw-outline-0 tw-border-solid tw-p-2 tw-whitespace-nowrap tw-bg-gray-100 hover:tw-bg-gray-200 tw-w-full tw-rounded focus:tw-border-indigo-300 focus:tw-ring focus:tw-ring-indigo-200 focus:tw-ring-opacity-50"
+                    >{{$action->name()}}</button>
+                </div>
+            @endforeach
+        </div>
+    @endif
 @endif
