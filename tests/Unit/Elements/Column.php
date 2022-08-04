@@ -238,7 +238,7 @@ it('can render a boolean value', function () {
     $column->setModel($model);
 
     assertMatchesSnapshot($column->render()->toHtml());
-})->skip(PHP_OS_FAMILY === "Windows");
+})->skip(defined('PHP_WINDOWS_VERSION_MAJOR'));
 
 it('can check if it is a relation column', function () {
     $column = new Column(fakeTable(), "Name");
