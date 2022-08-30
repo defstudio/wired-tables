@@ -16,6 +16,7 @@ use DefStudio\WiredTables\WiredTable;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
@@ -136,6 +137,10 @@ class Column extends Configuration implements Arrayable
     public function format(Closure $formatClosure): static
     {
         return $this->set(Config::format_closure, $formatClosure);
+    }
+
+    public function date(string $format = null): static{
+        return $this->format(fn($value) => (new Carbon($value))->format($format, config('wired-tables.date_format', 'Y-m-d')));
     }
 
     public function toArray(): array

@@ -9,6 +9,8 @@ return [
      */
     'style' => 'tailwind_3',
 
+    'date_format' => 'Y-m-d',
+
     'defaults' => [
         'table' => [
             'row_id_field' => 'id',
@@ -28,6 +30,6 @@ return [
         ],
         'header' => [
             'dark' => false,
-        ]
+        ],
     ],
 ];
