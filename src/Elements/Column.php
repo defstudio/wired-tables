@@ -139,8 +139,9 @@ class Column extends Configuration implements Arrayable
         return $this->set(Config::format_closure, $formatClosure);
     }
 
-    public function date(string $format = null): static{
-        return $this->format(fn($value) => (new Carbon($value))->format($format, config('wired-tables.date_format', 'Y-m-d')));
+    public function date(string $format = null): static
+    {
+        return $this->format(fn ($value) => (new Carbon($value))->format($format, config('wired-tables.date_format', 'Y-m-d')));
     }
 
     public function toArray(): array
