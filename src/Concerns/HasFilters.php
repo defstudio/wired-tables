@@ -143,4 +143,9 @@ trait HasFilters
         $this->activeFilters()
             ->each(fn (Filter $filter) => $filter->apply($query));
     }
+
+    public function getFilterValue(string $key, string|int|bool $default = null): string
+    {
+        return $this->filterValues[$key] ?? $default;
+    }
 }
