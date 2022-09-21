@@ -116,8 +116,8 @@ trait HasFilters
     public function activeFilters(): Collection
     {
         return collect($this->_filters)
-            ->each(function(Filter $filter){
-                if(!$filter->isVisible()){
+            ->each(function (Filter $filter) {
+                if (!$filter->isVisible()) {
                     $this->clearFilter($filter->key());
                 }
             })
