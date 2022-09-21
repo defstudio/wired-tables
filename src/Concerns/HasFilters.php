@@ -116,6 +116,11 @@ trait HasFilters
     public function activeFilters(): Collection
     {
         return collect($this->_filters)
+            ->each(function(Filter $filter){
+                if(!$filter->isVisible()){
+                    $this->clearFilter($filter->key());
+                }
+            })
             ->filter(fn (Filter $filter) => $filter->isActive())
             ->keyBy(fn (Filter $filter) => $filter->key());
     }
@@ -144,7 +149,7 @@ trait HasFilters
             ->each(fn (Filter $filter) => $filter->apply($query));
     }
 
-    public function getFilterValue(string $key, string|int|bool $default = null): string
+    public function getFilterValue(string $key, string|int|bool $default = null): string|int|bool|null
     {
         return $this->filterValues[$key] ?? $default;
     }
