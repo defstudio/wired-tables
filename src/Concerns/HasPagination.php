@@ -21,12 +21,17 @@ trait HasPagination
 
     public function bootedHasPagination(): void
     {
-        $this->setPageSize($this->config(Config::default_page_size));
+        if (empty($this->pageSize)) {
+            $this->pageSize = $this->getState('page-size', $this->config(Config::default_page_size));
+        }
+
+        $this->setPageSize($this->pageSize);
     }
 
     public function updatedPageSize(): void
     {
         $this->resetPage();
+        $this->storeState('page-size', $this->pageSize);
     }
 
     public function setPageSize(int|string $size): void
