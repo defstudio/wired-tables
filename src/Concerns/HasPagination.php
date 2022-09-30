@@ -16,16 +16,13 @@ trait HasPagination
 {
     use WithPagination;
 
-    public int|string $pageSize;
+    public int|string|null $pageSize = null;
     protected string $paginationTheme = 'tailwind';
 
     public function bootedHasPagination(): void
     {
-        if (empty($this->pageSize)) {
-            $this->pageSize = $this->getState('page-size', $this->config(Config::default_page_size));
-        }
-
-        $this->setPageSize($this->pageSize);
+        $pageSize = $this->getState('page-size', $this->pageSize ?? $this->config(Config::default_page_size));
+        $this->setPageSize($pageSize);
     }
 
     public function updatedPageSize(): void
@@ -40,8 +37,12 @@ trait HasPagination
             throw PaginationException::unallowedSize($size);
         }
 
+        $oldPageSize = $this->pageSize;
         $this->pageSize = $size;
-        $this->updatedPageSize();
+
+        if($this->pageSize !== $oldPageSize){
+            $this->updatedPageSize();
+        }
     }
 
     public function paginationEnabled(): bool
