@@ -42,7 +42,7 @@ test('cached sorting can be overridden by a query string', function () {
     expect(Cache::get('httplocalhost-42-state-sorting'))->toBe(['foo' => 'desc']);
 });
 
-test('cached sorting is updated when sorting changes', function () {
+test('cached sorting is updated', function () {
     actingAs(new User(['id' => 42]));
     $table = fakeTable();
     $table->sorting = ['Name' => 'asc'];
