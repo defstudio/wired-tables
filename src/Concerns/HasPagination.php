@@ -40,7 +40,7 @@ trait HasPagination
         $oldPageSize = $this->pageSize;
         $this->pageSize = $size;
 
-        if($this->pageSize !== $oldPageSize){
+        if ($this->pageSize !== $oldPageSize) {
             $this->updatedPageSize();
         }
     }
