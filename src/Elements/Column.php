@@ -93,11 +93,11 @@ class Column extends Configuration implements Arrayable
     }
 
     /**
-     * @param Closure(mixed $value, Model $model, Column $column): (string|array|null) $eventClosure
+     * @param Closure(mixed $value, Model $model, Column $column): (string|array|null) $emitClosure
      */
-    public function event(Closure $eventClosure, string $target = null): static
+    public function emit(Closure $emitClosure, string $target = null): static
     {
-        return $this->set(Config::event, $eventClosure);
+        return $this->set(Config::emit, $emitClosure);
     }
 
     public function carbon(string $format): static
@@ -188,17 +188,17 @@ class Column extends Configuration implements Arrayable
         return $urlClosure($value, $this->model, $this);
     }
 
-    public function getEvent(): array|string|null
+    public function getEmit(): array|string|null
     {
-        $eventClosure = $this->get(Config::event);
+        $emitClosure = $this->get(Config::emit);
 
-        if ($eventClosure === null) {
+        if ($emitClosure === null) {
             return null;
         }
 
         $value = $this->value();
 
-        return $eventClosure($value, $this->model, $this);
+        return $emitClosure($value, $this->model, $this);
     }
 
     public function render(): HtmlString

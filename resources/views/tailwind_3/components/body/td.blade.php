@@ -24,11 +24,11 @@ $attributes = $attributes->merge([
 ]);
 
 
-if ($event = $column->getEvent()) {
-    $event = \Illuminate\Support\Arr::wrap($event);
+if ($emit = $column->getEmit()) {
+    $emit = \Illuminate\Support\Arr::wrap($emit);
 
+    $params = collect($emit)->map(fn ($value) => "'$value'")->join(',');
     $attributes = $attributes->merge([
-        $params = collect($event)->map(fn($value) => "'$value'")->join(',');
         'wire:click' => "\$emit($params)"
     ])
 }
