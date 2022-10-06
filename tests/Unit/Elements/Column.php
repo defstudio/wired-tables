@@ -353,6 +353,18 @@ it('can set a column type to boolean', function () {
     expect($column->get(Config::type))->toBe(ColumnType::boolean);
 });
 
+
+
+it('can set a column type to enum', function () {
+    $column = new Column(fakeTable(), "Foo Bar");
+
+    expect($column->get(Config::type))->toBeNull();
+
+    $column->enum();
+
+    expect($column->get(Config::type))->toBe(ColumnType::enum);
+});
+
 it('can set a column type to carbon', function () {
     $column = new Column(fakeTable(), "Foo Bar");
 
