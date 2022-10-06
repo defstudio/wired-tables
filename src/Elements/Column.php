@@ -92,6 +92,14 @@ class Column extends Configuration implements Arrayable
             ->set(Config::url_target, $target);
     }
 
+    /**
+     * @param Closure(mixed $value, Model $model, Column $column): (string|array|null) $eventClosure
+     */
+    public function event(Closure $eventClosure, string $target = null): static
+    {
+        return $this->set(Config::event, $eventClosure);
+    }
+
     public function carbon(string $format): static
     {
         return $this->set(Config::type, ColumnType::carbon)
@@ -178,6 +186,19 @@ class Column extends Configuration implements Arrayable
         $value = $this->value();
 
         return $urlClosure($value, $this->model, $this);
+    }
+
+    public function getEvent(): array|string|null
+    {
+        $eventClosure = $this->get(Config::event);
+
+        if ($eventClosure === null) {
+            return null;
+        }
+
+        $value = $this->value();
+
+        return $eventClosure($value, $this->model, $this);
     }
 
     public function render(): HtmlString

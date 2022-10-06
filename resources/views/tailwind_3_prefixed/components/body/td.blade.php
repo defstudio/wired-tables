@@ -21,6 +21,15 @@ $attributes = $attributes->merge([
         "tw-min-w-[15rem]" => $column->get(\DefStudio\WiredTables\Enums\Config::wrapText) && \Illuminate\Support\Str::of($content->toHtml())->trim()->isNotEmpty(),
         $column->getTextClasses(),
     ]);
+
+if ($event = $column->getEvent()) {
+    $event = \Illuminate\Support\Arr::wrap($event);
+
+    $attributes = $attributes->merge([
+        $params = collect($event)->map(fn($value) => "'$value'")->join(',');
+    'wire:click' => "\$emit($params)"
+    ])
+}
 ?>
 
 @props(['column', 'model'])

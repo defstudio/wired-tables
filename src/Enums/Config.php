@@ -35,6 +35,7 @@ enum Config
     case search_closure;
     case view;
     case view_params;
+    case event;
     case url;
     case url_target;
     case date_format;
