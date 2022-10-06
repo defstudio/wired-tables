@@ -105,7 +105,7 @@ class Column extends Configuration implements Arrayable
 
     public function enum(): static
     {
-        return $this->set(Config::type, ColumnType::boolean);
+        return $this->set(Config::type, ColumnType::enum);
     }
 
     public function applySortClosure(Builder $query, Sorting $dir): void
