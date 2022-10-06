@@ -6,4 +6,5 @@ enum ColumnType
 {
     case carbon;
     case boolean;
+    case enum;
 }

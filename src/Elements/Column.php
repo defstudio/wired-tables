@@ -103,6 +103,11 @@ class Column extends Configuration implements Arrayable
         return $this->set(Config::type, ColumnType::boolean);
     }
 
+    public function enum(): static
+    {
+        return $this->set(Config::type, ColumnType::boolean);
+    }
+
     public function applySortClosure(Builder $query, Sorting $dir): void
     {
         $this->get(Config::sort_closure)($query, $dir);
@@ -197,6 +202,7 @@ class Column extends Configuration implements Arrayable
         $value = match ($this->get(Config::type)) {
             ColumnType::carbon => $this->value()->format($this->get(Config::date_format)),
             ColumnType::boolean => Blade::render('wired-tables::values.boolean', ['value' => !!$this->value()]),
+            ColumnType::enum => $this->value()->value(),
             default => $this->value(),
         };
 
