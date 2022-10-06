@@ -30,6 +30,7 @@ if ($emit = $column->getEmit()) {
     $params = collect($emit)->map(fn ($value) => "'$value'")->join(',');
     $attributes = $attributes->merge([
         'wire:click' => "\$emit($params)"
+        'class' => 'cursor-pointer'
     ])
 }
 ?>
