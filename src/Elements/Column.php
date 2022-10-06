@@ -202,7 +202,7 @@ class Column extends Configuration implements Arrayable
         $value = match ($this->get(Config::type)) {
             ColumnType::carbon => $this->value()->format($this->get(Config::date_format)),
             ColumnType::boolean => Blade::render('wired-tables::values.boolean', ['value' => !!$this->value()]),
-            ColumnType::enum => $this->value()->value(),
+            ColumnType::enum => $this->value()->value,
             default => $this->value(),
         };
 
