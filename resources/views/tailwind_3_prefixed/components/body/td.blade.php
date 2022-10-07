@@ -25,10 +25,14 @@ $attributes = $attributes->merge([
 if ($emit = $column->getEmit()) {
     $emit = \Illuminate\Support\Arr::wrap($emit);
 
-    $params = collect($emit)->map(fn ($value) => "'$value'")->join(',');
+    $params = collect($emit)
+        ->map(fn ($value) => is_array($value) ? json_encode($value) : "'$value'")
+        ->join(',');
+
     $attributes = $attributes->merge([
-        'wire:click' => "\$emit($params)"
-    ])
+        'wire:click' => "\$emit($params)",
+        'class' => 'cursor-pointer',
+    ]);
 }
 ?>
 
