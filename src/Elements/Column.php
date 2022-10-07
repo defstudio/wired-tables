@@ -42,6 +42,33 @@ class Column extends Configuration implements Arrayable
         $this->set(Config::is_searchable, false);
     }
 
+    protected function runClosure(Closure $formatClosure): mixed
+    {
+        $reflection = new \ReflectionFunction($formatClosure);
+
+        if ($reflection->getNumberOfParameters() === 0) {
+            return $formatClosure($this->value(), $this->model, $this);
+        }
+
+
+        $firstParameter = $reflection->getParameters()[0];
+        $firstParameterType = $firstParameter->getType();
+
+        if ($firstParameterType === null) {
+            return $formatClosure($this->value(), $this->model, $this);
+        }
+
+        if ($firstParameterType::class !== \ReflectionNamedType::class) {
+            return $formatClosure($this->value(), $this->model, $this);
+        }
+
+        if (!is_subclass_of($firstParameterType->getName(), Model::class)) {
+            return $formatClosure($this->value(), $this->model, $this);
+        }
+
+        return $formatClosure($this->model, $this);
+    }
+
     public function setModel(Model $model): void
     {
         $this->model = $model;
@@ -67,7 +94,10 @@ class Column extends Configuration implements Arrayable
         return $this->set(Config::wrapText, $enable);
     }
 
-    public function sortable(callable $sortClosure = null): static
+    /**
+     * @param null|Closure(Builder $query, Sorting $dir): void $sortClosure
+     */
+    public function sortable(Closure $sortClosure = null): static
     {
         return $this->set(Config::is_sortable, true)
             ->set(Config::sort_closure, $sortClosure);
@@ -84,7 +114,7 @@ class Column extends Configuration implements Arrayable
     }
 
     /**
-     * @param Closure(mixed $value, Model $model, Column $column): (string|null) $urlClosure
+     * @param (Closure(mixed $value, Model $model, Column $column): (string|null))|(Closure(Model $model, Column $column): (string|null)) $urlClosure
      */
     public function url(Closure $urlClosure, string $target = null): static
     {
@@ -93,7 +123,7 @@ class Column extends Configuration implements Arrayable
     }
 
     /**
-     * @param Closure(mixed $value, Model $model, Column $column): (string|array|null) $emitClosure
+     * @param (Closure(mixed $value, Model $model, Column $column): (string|array|null))|(Closure(Model $model, Column $column): (string|array|null)) $emitClosure
      */
     public function emit(Closure $emitClosure, string $target = null): static
     {
@@ -143,7 +173,7 @@ class Column extends Configuration implements Arrayable
     }
 
     /**
-     * @param Closure(mixed $value, Model $model, Column $column): (string|HtmlString) $formatClosure
+     * @param (Closure(mixed $value, Model $model, Column $column): (string|HtmlString))|(Closure(Model $model, Column $column): (string|HtmlString)) $formatClosure
      *
      * @return static
      */
@@ -183,9 +213,7 @@ class Column extends Configuration implements Arrayable
             return null;
         }
 
-        $value = $this->value();
-
-        return $urlClosure($value, $this->model, $this);
+        return $this->runClosure($urlClosure);
     }
 
     public function getEmit(): array|string|null
@@ -196,9 +224,7 @@ class Column extends Configuration implements Arrayable
             return null;
         }
 
-        $value = $this->value();
-
-        return $emitClosure($value, $this->model, $this);
+        return $this->runClosure($emitClosure);
     }
 
     public function render(): HtmlString
@@ -217,7 +243,7 @@ class Column extends Configuration implements Arrayable
         }
 
         if (!empty($formatClosure = $this->get(Config::format_closure))) {
-            return new HtmlString($formatClosure($this->value(), $this->model, $this));
+            return new HtmlString($this->runClosure($formatClosure));
         }
 
         $value = match ($this->get(Config::type)) {
@@ -259,6 +285,9 @@ class Column extends Configuration implements Arrayable
         return Str::of($this->dbColumn())->afterLast('.');
     }
 
+    /**
+     * @param (Closure(mixed $value, Model $model, Column $column): bool)|(Closure(Model $model, Column $column): bool)|bool $when
+     */
     public function hidden(Closure|bool $when = true): static
     {
         return $this->set(Config::hidden, $when);
@@ -268,7 +297,7 @@ class Column extends Configuration implements Arrayable
     {
         if (!empty($hidden = $this->get(Config::hidden))) {
             if (is_callable($hidden)) {
-                $hidden = $hidden();
+                $hidden = $this->runClosure($hidden);
             }
 
             if ($hidden) {
