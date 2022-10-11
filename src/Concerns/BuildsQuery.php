@@ -27,7 +27,7 @@ trait BuildsQuery
 
     public function rows(): Builder|Relation
     {
-        $query = $this->_query->clone();
+        $query = clone $this->_query;
 
         $this->applyEagerLoading($query);
         $this->applyFilters($query);
@@ -40,7 +40,7 @@ trait BuildsQuery
 
     protected function paginatedResults(): Collection|LengthAwarePaginator
     {
-        $query = $this->rows()->clone();
+        $query = clone $this->rows();
 
         if (!$this->paginationEnabled()) {
             return $query->get();
@@ -75,7 +75,7 @@ trait BuildsQuery
             return "";
         }
 
-        $query ??= $this->rows()->clone();
+        $query ??= clone $this->rows();
 
         return Str::of($query->toSql())
             ->replaceArray('?', collect($query->getBindings())->map(function ($binding) {
@@ -86,7 +86,7 @@ trait BuildsQuery
 
     public function selectedRows(): Builder|Relation
     {
-        $query = $this->_query->clone();
+        $query = clone $this->_query;
 
         $this->applyEagerLoading($query);
         $this->applyRowsSelection($query);
