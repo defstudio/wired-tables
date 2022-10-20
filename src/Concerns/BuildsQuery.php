@@ -79,7 +79,7 @@ trait BuildsQuery
 
     public function selectedRows(): Builder|Relation
     {
-        $query = clone $this->_query;
+        $query = clone $this->query();
 
         $this->applyEagerLoading($query);
         $this->applyRowsSelection($query);
