@@ -61,7 +61,6 @@ function fakeTable(WiredTable $table = null): WiredTable
     $table->bootedHasConfiguration();
     $table->bootedHasSearch();
     $table->bootedHasSorting();
-    $table->bootedBuildsQuery();
     $table->bootedHasColumns();
     $table->bootedHasActions();
     $table->bootedHasFilters();
