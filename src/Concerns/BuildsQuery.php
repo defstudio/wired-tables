@@ -16,13 +16,6 @@ use Illuminate\Support\Stringable;
 
 trait BuildsQuery
 {
-    private Builder|Relation $_query;
-
-    public function bootedBuildsQuery(): void
-    {
-        $this->_query = $this->query();
-    }
-
     abstract protected function query(): Builder|Relation;
 
     public function rows(): Builder|Relation
