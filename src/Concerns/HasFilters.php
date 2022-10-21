@@ -151,6 +151,10 @@ trait HasFilters
 
     public function getFilterValue(string $key, string|int|bool $default = null): string|int|bool|null
     {
+        if (!$this->_filtersLocked && request()->input('updates.0.payload.name') === "filterValues.$key") {
+            return request()->input('updates.0.payload.value', 0);
+        }
+
         return $this->filterValues[$key] ?? $default;
     }
 }

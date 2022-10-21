@@ -16,18 +16,11 @@ use Illuminate\Support\Stringable;
 
 trait BuildsQuery
 {
-    private Builder|Relation $_query;
-
-    public function bootedBuildsQuery(): void
-    {
-        $this->_query = $this->query();
-    }
-
     abstract protected function query(): Builder|Relation;
 
     public function rows(): Builder|Relation
     {
-        $query = clone $this->_query;
+        $query = clone $this->query();
 
         $this->applyEagerLoading($query);
         $this->applyFilters($query);
@@ -86,7 +79,7 @@ trait BuildsQuery
 
     public function selectedRows(): Builder|Relation
     {
-        $query = clone $this->_query;
+        $query = clone $this->query();
 
         $this->applyEagerLoading($query);
         $this->applyRowsSelection($query);

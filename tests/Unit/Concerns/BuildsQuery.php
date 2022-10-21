@@ -13,30 +13,6 @@ use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 
 uses(LazilyRefreshDatabase::class);
 
-test('query is booted', function () {
-    $table = new class () extends WiredTable {
-        protected function query(): Builder|Relation
-        {
-            return Car::query();
-        }
-
-        protected function columns(): void
-        {
-            $this->column('name');
-        }
-    };
-
-    $table->bootedHasConfiguration();
-    $table->bootedHasColumns();
-    $table->bootedHasPagination();
-
-    expect(fn () => $table->rows)->toThrow(Error::class);
-
-    $table->bootedBuildsQuery();
-
-    expect(fn () => $table->rows)->not->toThrow(Error::class);
-});
-
 it('applies eager loading', function () {
     $table = fakeTable();
 
