@@ -184,7 +184,15 @@ class Column extends Configuration implements Arrayable
 
     public function date(string $format = null): static
     {
-        return $this->format(fn ($value) => (new Carbon($value))->format($format ?? config('wired-tables.date_format', 'Y-m-d')));
+        return $this->format(function ($value) use ($format) {
+            if (empty($value)) {
+                return null;
+            }
+
+            $format ??= config('wired-tables.date_format', 'Y-m-d');
+
+            return (new Carbon($value))->format($format);
+        });
     }
 
     public function toArray(): array
