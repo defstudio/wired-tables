@@ -16,6 +16,7 @@ use DefStudio\WiredTables\WiredTable;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\HtmlString;
@@ -146,7 +147,7 @@ class Column extends Configuration implements Arrayable
         return $this->set(Config::type, ColumnType::enum);
     }
 
-    public function applySortClosure(Builder $query, Sorting $dir): void
+    public function applySortClosure(Builder|Relation $query, Sorting $dir): void
     {
         $this->get(Config::sort_closure)($query, $dir);
     }
