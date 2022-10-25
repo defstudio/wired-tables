@@ -221,7 +221,6 @@ it('can render a carbon value', function () {
     $column->setModel($model);
 
 
-
     expect($column->render()->toHtml())->toBe('17/07/1985');
 });
 
@@ -354,7 +353,6 @@ it('can set a column type to boolean', function () {
 });
 
 
-
 it('can set a column type to enum', function () {
     $column = new Column(fakeTable(), "Foo Bar");
 
@@ -382,8 +380,8 @@ it('can have an associated url', function () {
     $column = new Column(fakeTable(), 'Test');
 
     expect($column)
-       ->get(Config::url)->toBeNull()
-       ->get(Config::url_target)->toBeNull();
+        ->get(Config::url)->toBeNull()
+        ->get(Config::url_target)->toBeNull();
 
     $column->url(fn ($value) => "http://test.$value.dev", '_blank');
 
@@ -399,4 +397,14 @@ it('can retrieve a column url', function () {
     $column->setModel(new Car(['name' => 'foo']));
 
     expect($column->getUrl())->toBe("http://test.foo.dev");
+});
+
+it('can set a column type to date', function () {
+    $column = new Column(fakeTable(), "Foo Bar");
+
+    expect($column->get(Config::format_closure))->toBeNull();
+
+    $column->date('d/m/Y');
+
+    expect($column->get(Config::format_closure))->toBeCallable();
 });
