@@ -408,3 +408,18 @@ it('can set a column type to date', function () {
 
     expect($column->get(Config::format_closure))->toBeCallable();
 });
+
+it('can render date correctly', function ($date, $format, $result) {
+    $model = User::make(['purchase_date' => $date]);
+
+    $column = new Column(fakeTable(), "date", 'purchase_date');
+
+    $column->setModel($model);
+    $column->date($format);
+
+    expect($column->render()->toHtml())->toBe($result);
+})->with([
+    'with format' => ['date' => '1995/12/04', 'format' => 'd/m/Y', 'result' => '04/12/1995'],
+    'without format' => ['date' => '1995/12/04', 'format' => null, 'result' => '1995-12-04'],
+    'empty field' => ['date' => null, 'format' => 'd/m/Y', 'result' => null],
+]);
