@@ -419,7 +419,7 @@ it('can render date correctly', function ($date, $format, $result) {
 
     expect($column->render()->toHtml())->toBe($result);
 })->with([
-    'with all data' => ['date' => '1995/12/04', 'format' => 'd/m/Y', 'result' => '04/12/1995'],
+    'with format' => ['date' => '1995/12/04', 'format' => 'd/m/Y', 'result' => '04/12/1995'],
     'without format' => ['date' => '1995/12/04', 'format' => null, 'result' => '1995-12-04'],
     'without date' => ['date' => null, 'format' => 'd/m/Y', 'result' => null],
 ]);
