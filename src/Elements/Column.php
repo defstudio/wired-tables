@@ -48,7 +48,7 @@ class Column extends Configuration implements Arrayable
         $reflection = new \ReflectionFunction($formatClosure);
 
         if ($reflection->getNumberOfParameters() === 0) {
-            return $formatClosure($this->value(), $this->model, $this);
+            return $formatClosure($this->value(), $this->model(), $this);
         }
 
 
@@ -56,23 +56,32 @@ class Column extends Configuration implements Arrayable
         $firstParameterType = $firstParameter->getType();
 
         if ($firstParameterType === null) {
-            return $formatClosure($this->value(), $this->model, $this);
+            return $formatClosure($this->value(), $this->model(), $this);
         }
 
         if ($firstParameterType::class !== \ReflectionNamedType::class) {
-            return $formatClosure($this->value(), $this->model, $this);
+            return $formatClosure($this->value(), $this->model(), $this);
         }
 
         if (!is_subclass_of($firstParameterType->getName(), Model::class)) {
-            return $formatClosure($this->value(), $this->model, $this);
+            return $formatClosure($this->value(), $this->model(), $this);
         }
 
-        return $formatClosure($this->model, $this);
+        return $formatClosure($this->model(), $this);
     }
 
     public function setModel(Model $model): void
     {
         $this->model = $model;
+    }
+
+    public function model(): Model|null
+    {
+        if(!isset($this->model)){
+            return null;
+        }
+
+        return $this->model;
     }
 
     public function name(): string
@@ -211,7 +220,7 @@ class Column extends Configuration implements Arrayable
 
     public function value(): mixed
     {
-        return data_get($this->model, Str::of($this->dbColumn())->replace('->', '.'));
+        return data_get($this->model(), Str::of($this->dbColumn())->replace('->', '.'));
     }
 
     public function getUrl(): string|null
@@ -242,7 +251,7 @@ class Column extends Configuration implements Arrayable
             $html = Blade::render(
                 $view,
                 [
-                    'model' => $this->model,
+                    'model' => $this->model(),
                     'value' => $this->value(),
                     'column' => $this,
                 ] + $this->get(Config::view_params)
