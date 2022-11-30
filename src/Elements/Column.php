@@ -77,7 +77,7 @@ class Column extends Configuration implements Arrayable
 
     public function model(): Model|null
     {
-        if(!isset($this->model)){
+        if (!isset($this->model)) {
             return null;
         }
 
