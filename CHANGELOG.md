@@ -2,6 +2,26 @@
 
 All notable changes to `wired-tables` will be documented in this file.
 
+## v0.0.8 - 2022-11-30
+
+### What's Changed
+
+- Remove missing migrations by @trippo in https://github.com/defstudio/wired-tables/pull/10
+- [feat] cached page size by @fabio-ivona in https://github.com/defstudio/wired-tables/pull/11
+- Bump dependabot/fetch-metadata from 1.3.3 to 1.3.4 by @dependabot in https://github.com/defstudio/wired-tables/pull/12
+- Fix method getFilterValue() by @nicola-posa in https://github.com/defstudio/wired-tables/pull/13
+- fix column date bug + test by @MarioGattolla in https://github.com/defstudio/wired-tables/pull/14
+- fix sort closure by @MarioGattolla in https://github.com/defstudio/wired-tables/pull/15
+- test for column date render by @MarioGattolla in https://github.com/defstudio/wired-tables/pull/16
+- Bump dependabot/fetch-metadata from 1.3.4 to 1.3.5 by @dependabot in https://github.com/defstudio/wired-tables/pull/17
+- Bump ramsey/composer-install from 1 to 2 by @dependabot in https://github.com/defstudio/wired-tables/pull/18
+
+### New Contributors
+
+- @trippo made their first contribution in https://github.com/defstudio/wired-tables/pull/10
+
+**Full Changelog**: https://github.com/defstudio/wired-tables/compare/v0.0.7...v0.0.8
+
 ## v0.0.6 - 2022-08-03
 
 **Full Changelog**: https://github.com/def-studio/wired-tables/compare/v0.0.5...v0.0.6
