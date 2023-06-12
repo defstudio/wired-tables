@@ -45,6 +45,11 @@ class TableConfiguration extends Configuration
         return $this->set(Config::id_field, $field);
     }
 
+    public function compactTable(bool $enable = true): static
+    {
+        return $this->set(Config::compact_table, $enable);
+    }
+
     public function disablePagination(): static
     {
         return $this->set(Config::available_page_sizes, [])

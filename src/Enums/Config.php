@@ -34,6 +34,7 @@ enum Config
     case sort_closure;
     case search_closure;
     case view;
+    case limit;
     case view_params;
     case emit;
     case url;
@@ -56,4 +57,6 @@ enum Config
     case group_actions;
     case filters_columns;
     case group_filters;
+
+    case compact_table;
 }
