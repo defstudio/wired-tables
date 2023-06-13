@@ -45,12 +45,19 @@ if ($emit = $column->getEmit()) {
         <a href="{{$url}}" {{($url_target = $column->get(\DefStudio\WiredTables\Enums\Config::url_target)) ? "target='$url_target'": ''}}>
             {{$content}}
         </a>
-    @elseif($column->get(\DefStudio\WiredTables\Enums\Config::limit))
-        <div @click="expanded=!expanded" x-show="!expanded" class="tw-truncate">
-            {{$content}}
-        </div>
-        <div @click="expanded=!expanded" x-show="expanded" x-cloak>
-            {{$content}}
+    @elseif($column->get(\DefStudio\WiredTables\Enums\Config::limit)  && str($content->toHtml())->toString())
+        <div class="tw-flex">
+            <div x-show="!expanded" class="tw-truncate">
+                {{$content}}
+            </div>
+            <div x-show="expanded" x-cloak>
+                {{$content}}
+            </div>
+            <div>
+                <svg @click="expanded=!expanded" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="tw-ml-2 tw-w-5 tw-h-5" style="cursor: pointer">
+                    <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd"/>
+                </svg>
+            </div>
         </div>
     @else
         {{$content}}

@@ -409,6 +409,16 @@ it('can set a column type to date', function () {
     expect($column->get(Config::format_closure))->toBeCallable();
 });
 
+it('can set a column limit', function () {
+    $column = new Column(fakeTable(), "Foo Bar");
+
+    expect($column->get(Config::limit))->toBeNull();
+
+    $column->limit();
+
+    expect($column->get(Config::limit))->toBe('400');
+});
+
 it('can render date correctly', function ($date, $format, $result) {
     $model = User::make(['purchase_date' => $date]);
 
