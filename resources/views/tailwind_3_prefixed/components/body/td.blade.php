@@ -18,7 +18,7 @@ $attributes = $attributes->merge([
 ])->class([
     "tw-px-4 tw-py-2" => $this->config(\DefStudio\WiredTables\Enums\Config::compact_table),
     "tw-px-6 tw-py-3" => !$this->config(\DefStudio\WiredTables\Enums\Config::compact_table),
-    "tw-whitespace-nowrap" => !$column->get(\DefStudio\WiredTables\Enums\Config::wrapText) && !$this->config(\DefStudio\WiredTables\Enums\Config::compact_table),
+    "tw-whitespace-nowrap" => !$column->get(\DefStudio\WiredTables\Enums\Config::wrapText) && !$this->config(\DefStudio\WiredTables\Enums\Config::compact_table) && !$column->get(\DefStudio\WiredTables\Enums\Config::limit),
     "tw-truncate" => $this->config(\DefStudio\WiredTables\Enums\Config::limit),
     "tw-font-medium",
     "tw-min-w-[15rem]" => $column->get(\DefStudio\WiredTables\Enums\Config::wrapText) && \Illuminate\Support\Str::of($content->toHtml())->trim()->isNotEmpty(),
