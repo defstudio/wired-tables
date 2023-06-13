@@ -99,6 +99,11 @@ class Column extends Configuration implements Arrayable
         return $this->get(Config::id);
     }
 
+    public function limit(string $limit = '400'): static
+    {
+        return $this->set(Config::limit, $limit);
+    }
+
     public function wrapText(bool $enable = true): static
     {
         return $this->set(Config::wrapText, $enable);

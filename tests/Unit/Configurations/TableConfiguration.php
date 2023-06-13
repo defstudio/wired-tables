@@ -43,6 +43,16 @@ it('can disable pagination', function () {
     ]);
 });
 
+it('can set compact table mode', function () {
+    $config = new TableConfiguration();
+
+    $config->compactTable();
+
+    expect($config->toArray())->toMatchArray([
+        'compact_table' => true,
+    ]);
+});
+
 it('can set default page size', function () {
     $config = new TableConfiguration();
 
