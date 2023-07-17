@@ -2,6 +2,10 @@
 
 All notable changes to `wired-tables` will be documented in this file.
 
+## v0.2.0 - 2023-07-17
+
+**Full Changelog**: https://github.com/defstudio/wired-tables/compare/v0.1.2...v0.2.0
+
 ## v0.1.2 - 2023-07-17
 
 ### What's Changed
