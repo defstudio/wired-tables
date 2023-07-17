@@ -25,8 +25,7 @@ class TableConfiguration extends Configuration
 
     private function initDefaults(): void
     {
-        $this
-            ->fontSm()
+        $this->fontSm()
             ->textLeft()
             ->textColorClass('text-gray-800');
 
@@ -54,6 +53,11 @@ class TableConfiguration extends Configuration
     {
         return $this->set(Config::available_page_sizes, [])
             ->set(Config::default_page_size, 'all');
+    }
+
+    public function disableSearch(): static
+    {
+        return $this->set(Config::is_searchable, false);
     }
 
     public function pageSize(int|string $default, array $available = [10, 20, 50, 100, 'all']): static

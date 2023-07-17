@@ -27,6 +27,7 @@ return [
             'filter_selector_columns' => 1,
             'actions_selector_columns' => 1,
             'always_show_actions' => false,
+            'is_searchable' => true,
         ],
         'header' => [
             'dark' => false,

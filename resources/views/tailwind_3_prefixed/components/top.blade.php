@@ -48,7 +48,10 @@ use DefStudio\WiredTables\WiredTable;
     </div>
 
     <div class="tw-flex tw-items-center">
-        <x-wired-tables::search/>
+        @if($this->config(\DefStudio\WiredTables\Enums\Config::is_searchable, true))
+            <x-wired-tables::search/>
+        @endif
+
         <x-wired-tables::filters class="tw-ml-1"/>
 
         <div class="tw-ml-auto tw-flex">
