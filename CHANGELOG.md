@@ -2,6 +2,18 @@
 
 All notable changes to `wired-tables` will be documented in this file.
 
+## v0.1.2 - 2023-07-17
+
+### What's Changed
+
+- Bump dependabot/fetch-metadata from 1.4.0 to 1.5.0 by @dependabot in https://github.com/defstudio/wired-tables/pull/21
+- Bump dependabot/fetch-metadata from 1.5.0 to 1.5.1 by @dependabot in https://github.com/defstudio/wired-tables/pull/22
+- [Feat] CompactTable mode + Column limit config with relative test and view by @MarioGattolla in https://github.com/defstudio/wired-tables/pull/23
+- fix whitespace nowrap in limit case by @MarioGattolla in https://github.com/defstudio/wired-tables/pull/24
+- Bump dependabot/fetch-metadata from 1.5.1 to 1.6.0 by @dependabot in https://github.com/defstudio/wired-tables/pull/25
+
+**Full Changelog**: https://github.com/defstudio/wired-tables/compare/v0.1.1...v0.1.2
+
 ## v0.1.1 - 2023-05-12
 
 ### What's Changed
