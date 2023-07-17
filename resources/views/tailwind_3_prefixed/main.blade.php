@@ -50,7 +50,9 @@ use DefStudio\WiredTables\WiredTable;
                     </x-wired-tables::body.tr>
                 @empty
                     <tr>
-                        <td class="tw-px-6 tw-py-3 tw-text-gray-500 tw-text-center" colspan="{{count($this->columns) + ($this->shouldShowRowsSelector() ? 1 : 0)}}">No data found</td>
+                        <td class="tw-px-6 tw-py-3 tw-text-gray-500 tw-text-center" colspan="{{count($this->columns) + ($this->shouldShowRowsSelector() ? 1 : 0)}}">
+                            {{$this->config(\DefStudio\WiredTables\Enums\Config::empty_message, __('No data found'))}}
+                        </td>
                     </tr>
                 @endforelse
             </x-wired-tables::body>

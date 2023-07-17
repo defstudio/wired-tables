@@ -11,7 +11,7 @@ enum Config
     case text_align_class;
 
     case id_field;
-
+    case empty_message;
     case dark_mode;
     case drop_shadow;
     case support_multiple_sorting;

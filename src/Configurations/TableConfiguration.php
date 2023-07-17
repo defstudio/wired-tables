@@ -65,6 +65,11 @@ class TableConfiguration extends Configuration
         return $this->set(Config::is_searchable, $enable);
     }
 
+    public function emptyMessage(string $message): static
+    {
+        return $this->set(Config::empty_message, $message);
+    }
+
     public function pageSize(int|string $default, array $available = [10, 20, 50, 100, 'all']): static
     {
         return $this->set(Config::available_page_sizes, $available)
