@@ -5,7 +5,7 @@ use DefStudio\WiredTables\WiredTable;
 /** @var WiredTable $this */
 ?>
 
-<x-wired-tables::wrapper id="{{$this->slug}}" wire:key="wt-{{$this->id}}-wrapper" class="min-h-[300px]">
+<x-wired-tables::wrapper id="{{$this->slug}}" wire:key="wt-{{$this->id}}-wrapper">
     <x-wired-tables::top wire:key="wt-{{$this->id}}-top"/>
 
     @if($this->allSelected && count($this->selectedIds()) < $this->totalRowsCount)
