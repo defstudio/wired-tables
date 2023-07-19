@@ -9,7 +9,7 @@ use DefStudio\WiredTables\WiredTable;
     <x-wired-tables::top wire:key="wt-{{$this->id}}-top"/>
 
     @if($this->allSelected && count($this->selectedIds()) < $this->totalRowsCount)
-        <div class="tw-px-6 tw-tracking-wider">
+        <div class="tw-px-6 tw-tracking-wider mb-3">
             <span>
                {{count($this->selectedIds())}} rows selected so far,
             </span>
@@ -21,7 +21,7 @@ use DefStudio\WiredTables\WiredTable;
     @endif
 
     <div class="tw-overflow-auto">
-        <x-wired-tables::table wire:key="wt-{{$this->id}}" class="tw-my-3">
+        <x-wired-tables::table wire:key="wt-{{$this->id}}" class="tw-mb-3">
             <x-slot name="header">
                 <x-wired-tables::header wire:key="wt-{{$this->id}}-header">
                     <tr>
