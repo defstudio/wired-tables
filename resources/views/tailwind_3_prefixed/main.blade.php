@@ -20,8 +20,11 @@ use DefStudio\WiredTables\WiredTable;
 
     @endif
 
-    <div class="tw-overflow-auto">
-        <x-wired-tables::table wire:key="wt-{{$this->id}}" class="tw-mb-3">
+    <div @class([
+         'tw-overflow-auto tw-mb-3',
+         'tw-rounded-md' => $this->config(\DefStudio\WiredTables\Enums\Config::rounded)
+    ])>
+        <x-wired-tables::table wire:key="wt-{{$this->id}}">
             <x-slot name="header">
                 <x-wired-tables::header wire:key="wt-{{$this->id}}-header">
                     <tr>

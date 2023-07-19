@@ -28,6 +28,7 @@ return [
             'actions_selector_columns' => 1,
             'always_show_actions' => false,
             'is_searchable' => true,
+            'rounded' => false,
         ],
         'header' => [
             'dark' => false,

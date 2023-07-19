@@ -86,6 +86,11 @@ class TableConfiguration extends Configuration
         return $this->set(Config::striped, $enable);
     }
 
+    public function rounded(bool $enable = true): static
+    {
+        return $this->set(Config::rounded, $enable);
+    }
+
     public function dropShadow(bool $enable = true): static
     {
         return $this->set(Config::drop_shadow, $enable);

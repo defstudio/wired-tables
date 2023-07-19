@@ -14,6 +14,7 @@ enum Config
     case empty_message;
     case dark_mode;
     case drop_shadow;
+    case rounded;
     case support_multiple_sorting;
     case default_sorting;
     case enable_row_dividers;
