@@ -93,7 +93,12 @@ class TableConfiguration extends Configuration
 
     public function dropShadow(bool $enable = true): static
     {
-        return $this->set(Config::drop_shadow, $enable);
+        return $this->set(Config::wrapper_shadow, $enable);
+    }
+
+    public function dropTableShadow(bool $enable = true): static
+    {
+        return $this->set(Config::table_shadow, $enable);
     }
 
     public function hover(bool $enable = true): static

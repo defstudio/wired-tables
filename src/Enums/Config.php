@@ -13,7 +13,8 @@ enum Config
     case id_field;
     case empty_message;
     case dark_mode;
-    case drop_shadow;
+    case wrapper_shadow;
+    case table_shadow;
     case rounded;
     case support_multiple_sorting;
     case default_sorting;

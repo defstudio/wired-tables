@@ -19,6 +19,7 @@ return [
             'striped' => true,
             'row_dividers' => false,
             'drop_shadow' => false,
+            'drop_table_shadow' => false,
             'hover' => false,
             'multiple_sorting' => false,
             'debug' => false,
