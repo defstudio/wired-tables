@@ -13,7 +13,7 @@ use DefStudio\WiredTables\WiredTable;
 $content = $column->render();
 
 $attributes = $attributes->merge([
-    'wire:key' => "wt-$this->id-row-{$this->getRowId($model)}-cell"
+    'wire:key' => "wt-$this->id()-row-{$this->getRowId($model)}-cell"
 ])->class([
     "px-6 py-3",
     "font-medium",
@@ -39,7 +39,7 @@ if ($emit = $column->getEmit()) {
 
 @props(['column', 'model'])
 
-<td wire:key="wt-{{$this->id}}-row-{{$this->getRowId($model)}}-cell" {{$attributes}}>
+<td wire:key="wt-{{$this->id()}}-row-{{$this->getRowId($model)}}-cell" {{$attributes}}>
     @if($url = $column->getUrl())
         <a href="{{$url}}" {{($url_target = $column->get(\DefStudio\WiredTables\Enums\Config::url_target)) ? "target='$url_target'": ''}}>
             {{$content}}

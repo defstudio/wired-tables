@@ -15,10 +15,10 @@ use DefStudio\WiredTables\WiredTable;
 @props(['model'])
 
 @if($this->shouldShowRowsSelector())
-    <td wire:key="wt-{{$this->id}}-row-{{$this->getRowId($model)}}-selection-cell"
+    <td wire:key="wt-{{$this->id()}}-row-{{$this->getRowId($model)}}-selection-cell"
         {{$attributes->class(['pl-6 py-3 text-left'])}}
     >
-        <x-wired-tables::elements.checkbox wire:key="wt-{{$this->id}}-{{$this->getRowId($model)}}-row-selection"
+        <x-wired-tables::elements.checkbox wire:key="wt-{{$this->id()}}-{{$this->getRowId($model)}}-row-selection"
                                            wire:model="selection.{{$this->getRowId($model)}}"
         />
     </td>

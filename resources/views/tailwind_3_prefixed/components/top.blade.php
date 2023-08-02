@@ -6,15 +6,15 @@ use DefStudio\WiredTables\WiredTable;
 ?>
 
 <div class="tw-p-3">
-    <x-wired-tables::debug wire:key="wt-{{$this->id}}-debug"/>
+    <x-wired-tables::debug wire:key="wt-{{$this->id()}}-debug"/>
 
 
-    <div wire:key="wt-{{$this->id}}-info" class="tw-flex">
+    <div wire:key="wt-{{$this->id()}}-info" class="tw-flex">
         @if($this->activeFilters()->isNotEmpty())
             <div class="tw-pb-3 tw-flex">
                 <div class="tw-font-medium tw-py-0.5 tw-text-xs tw-text-gray-500">Filters:</div>
                 @foreach($this->activeFilters() as $filter)
-                    <div wire:key="wt-{{$this->id}}-filter-{{$filter->key()}}-pill"
+                    <div wire:key="wt-{{$this->id()}}-filter-{{$filter->key()}}-pill"
                          class="tw-font-medium tw-ml-1 tw-px-1 tw-py-0.5 tw-text-xs tw-text-indigo-600 tw-bg-indigo-200 hover:tw-bg-indigo-300  focus:tw-bg-indigo-100  tw-rounded-md tw-flex tw-cursor-pointer"
                          wire:click="clearFilter('{{$filter->key()}}')"
                     >
@@ -32,7 +32,7 @@ use DefStudio\WiredTables\WiredTable;
             <div class="tw-pb-3 tw-ml-auto tw-flex">
                 <div class="tw-font-medium tw-py-0.5 tw-text-xs tw-text-gray-500">Sort:</div>
                 @foreach($this->sorting as $columnName => $dir)
-                    <div wire:key="wt-{{$this->id}}-sort-{{$columnName}}-pill"
+                    <div wire:key="wt-{{$this->id()}}-sort-{{$columnName}}-pill"
                          class="tw-font-medium tw-ml-1 tw-px-1 tw-py-0.5 tw-text-xs tw-text-indigo-600 tw-bg-indigo-200 hover:tw-bg-indigo-300  focus:tw-bg-indigo-100  tw-rounded-md tw-flex tw-cursor-pointer"
                          wire:click="clearSorting('{{$columnName}}')"
                     >
@@ -56,7 +56,7 @@ use DefStudio\WiredTables\WiredTable;
 
         <div class="tw-ml-auto tw-flex">
             <x-wired-tables::actions class="tw-mr-1"/>
-            <x-wired-tables::page-size-selector wire:key="wt-{{$this->id}}-page-size-selector-top"/>
+            <x-wired-tables::page-size-selector wire:key="wt-{{$this->id()}}-page-size-selector-top"/>
         </div>
     </div>
 </div>
