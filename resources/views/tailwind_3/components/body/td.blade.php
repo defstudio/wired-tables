@@ -13,7 +13,7 @@ use DefStudio\WiredTables\WiredTable;
 $content = $column->render();
 
 $attributes = $attributes->merge([
-    'wire:key' => "wt-$this->id()-row-{$this->getRowId($model)}-cell"
+    'wire:key' => "wt-{$this->id()}-row-{$this->getRowId($model)}-cell"
 ])->class([
     "px-6 py-3",
     "font-medium",

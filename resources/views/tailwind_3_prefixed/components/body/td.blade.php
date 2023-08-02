@@ -13,7 +13,7 @@ use DefStudio\WiredTables\WiredTable;
 $content = $column->render();
 
 $attributes = $attributes->merge([
-    'wire:key' => "wt-$this->id()-row-{$this->getRowId($model)}-cell",
+    'wire:key' => "wt-{$this->id()}-row-{$this->getRowId($model)}-cell",
     'style' => ($width = $column->get(\DefStudio\WiredTables\Enums\Config::limit)) ? "max-width: {$width}px;" : '',
 ])->class([
     "tw-px-4 tw-py-2" => $this->config(\DefStudio\WiredTables\Enums\Config::compact_table),
