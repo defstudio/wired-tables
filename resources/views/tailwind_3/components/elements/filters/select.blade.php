@@ -20,7 +20,7 @@ use Illuminate\View\ComponentAttributeBag;
 
     <select id="wt-{{$this->id()}}-filter-{{$filter->key()}}"
             name="filterValues[{{$filter->key()}}]"
-            wire:model.debounce="filterValues.{{$filter->key()}}"
+            wire:model.live.debounce="filterValues.{{$filter->key()}}"
             class="bg-transparent border focus-visible:outline-0 border-solid
                    block  border-gray-300 focus:border-indigo-300
                    focus:ring focus:ring-indigo-200 focus:ring-opacity-50

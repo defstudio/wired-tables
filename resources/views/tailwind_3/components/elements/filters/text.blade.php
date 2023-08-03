@@ -20,7 +20,7 @@ use Illuminate\View\ComponentAttributeBag;
     <input id="wt-{{$this->id()}}-filter-{{$filter->key()}}"
            wire:key="wt-{{$this->id()}}-filter-{{$filter->key()}}"
            name="filterValues[{{$filter->key()}}]"
-           wire:model.debounce="filterValues.{{$filter->key()}}"
+           wire:model.live.debounce="filterValues.{{$filter->key()}}"
            placeholder="{{$filter->get(DefStudio\WiredTables\Enums\Config::placeholder)}}"
            class="
                  bg-transparent border focus-visible:outline-0 border-solid

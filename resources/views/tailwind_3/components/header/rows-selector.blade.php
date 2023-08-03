@@ -19,7 +19,7 @@ use DefStudio\WiredTables\WiredTable;
                    "pt-3" => $this->shouldShowColumnFilters(),
                 ])}}
     >
-        <x-wired-tables::elements.checkbox wire:key="wt-{{$this->id()}}-select-all" wire:model="allSelected"/>
+        <x-wired-tables::elements.checkbox wire:key="wt-{{$this->id()}}-select-all" wire:model.live="allSelected"/>
         @if($allSelected)
             <button>Select All</button>
         @endif

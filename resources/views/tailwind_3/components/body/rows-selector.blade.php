@@ -19,7 +19,7 @@ use DefStudio\WiredTables\WiredTable;
         {{$attributes->class(['pl-6 py-3 text-left'])}}
     >
         <x-wired-tables::elements.checkbox wire:key="wt-{{$this->id()}}-{{$this->getRowId($model)}}-row-selection"
-                                           wire:model="selection.{{$this->getRowId($model)}}"
+                                           wire:model.live="selection.{{$this->getRowId($model)}}"
         />
     </td>
 @endif
