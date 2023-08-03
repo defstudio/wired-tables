@@ -20,3 +20,4 @@ use DefStudio\WiredTables\WiredTable;
 
     </div>
 @endif
+

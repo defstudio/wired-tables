@@ -5,7 +5,7 @@
 ])}}>
     {{$slot}}
 
-    @if($footerView = $this->config(\DefStudio\WiredTables\Enums\Config::footer_view)))
+    @if($footerView = $this->config(\DefStudio\WiredTables\Enums\Config::footer_view))
         @include($footerView)
     @endif
 </div>
