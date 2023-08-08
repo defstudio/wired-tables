@@ -114,7 +114,7 @@ trait HasSearch
     private function applySearchInRelations(Builder|Relation $query, string $term): void
     {
         foreach ($this->config(Config::search_in_relations) as $relation => $column) {
-            $query->orWhereHas($relation, fn(Builder|Relation $subquery) => $subquery->where($column, 'like', "%$term%"));
+            $query->orWhereHas($relation, fn (Builder|Relation $subquery) => $subquery->where($column, 'like', "%$term%"));
         }
     }
 }
