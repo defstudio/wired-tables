@@ -7,6 +7,7 @@
 namespace DefStudio\WiredTables\Concerns;
 
 use DefStudio\WiredTables\Elements\Column;
+use DefStudio\WiredTables\Enums\Config;
 use DefStudio\WiredTables\Exceptions\SearchException;
 use DefStudio\WiredTables\WiredTable;
 use Illuminate\Database\Eloquent\Builder;
@@ -64,6 +65,8 @@ trait HasSearch
 
                 $this->applyAutoSearchToColumn($column, $searchQuery, $this->search);
             }
+
+            $this->applySearchInRelations($searchQuery, $this->search);
         });
     }
 
@@ -106,5 +109,12 @@ trait HasSearch
         $query->orWhereHasMorph($relation->getRelationName(), '*', function (Builder|Relation $subquery) use ($column, $term) {
             $subquery->where($column->getField(), 'like', "%$term%");
         });
+    }
+
+    private function applySearchInRelations(Builder|Relation $query, string $term): void
+    {
+        foreach ($this->config(Config::search_in_relations) as $relation => $column) {
+            $query->orWhereHas($relation, fn(Builder|Relation $subquery) => $subquery->where($column, 'like', "%$term%"));
+        }
     }
 }

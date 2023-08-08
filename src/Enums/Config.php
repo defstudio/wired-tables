@@ -35,6 +35,8 @@ enum Config
     case is_sortable;
     case sort_closure;
     case search_closure;
+
+    case search_in_relations;
     case view;
     case limit;
     case view_params;

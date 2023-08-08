@@ -37,7 +37,7 @@ use DefStudio\WiredTables\WiredTable;
                 @foreach($visibleFilters->chunk($this->config(\DefStudio\WiredTables\Enums\Config::filters_columns, $visibleFilters->count() > 2 ? 2 : 1)) as $filter_group)
                     <div class="table-row">
                         @foreach($filter_group as $filter)
-                            <?php /** @var \DefStudio\WiredTables\Elements\Filter $filter */ ?>
+                                <?php /** @var \DefStudio\WiredTables\Elements\Filter $filter */ ?>
                             <div wire:key="wt-{{$this->id()}}-filter-{{$filter->key()}}-container" class="table-cell p-2">
                                 <x-dynamic-component class="mt-1"
                                                      component='wired-tables::elements.filters.{{$filter->type()}}'
@@ -56,7 +56,6 @@ use DefStudio\WiredTables\WiredTable;
                 <x-dynamic-component class="ml-2"
                                      component='wired-tables::elements.filters.{{$filter->type()}}'
                                      :filter="$filter"
-                                     :label="false"
                 />
             @endforeach
         </div>

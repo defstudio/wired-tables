@@ -65,6 +65,11 @@ class TableConfiguration extends Configuration
         return $this->set(Config::is_searchable, $enable);
     }
 
+    public function searchesInRelations(array $relations): static
+    {
+        return $this->set(Config::search_in_relations, $relations);
+    }
+
     public function emptyMessage(string $message): static
     {
         return $this->set(Config::empty_message, $message);
