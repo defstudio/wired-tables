@@ -29,7 +29,7 @@ trait HasActions
         $this->actions();
 
         if ($this->config(Config::excel_export, false)) {
-            $this->action('Excel', '__export_excel');
+            $this->action('_Excel_', '__export_excel');
         }
 
         $this->_actionsLocked = true;
