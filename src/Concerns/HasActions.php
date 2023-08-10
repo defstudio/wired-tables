@@ -8,7 +8,6 @@ use DefStudio\WiredTables\Elements\Action;
 use DefStudio\WiredTables\Elements\Column;
 use DefStudio\WiredTables\Enums\Config;
 use DefStudio\WiredTables\Exceptions\ActionException;
-use DefStudio\WiredTables\Exceptions\ColumnException;
 use DefStudio\WiredTables\WiredTable;
 use Illuminate\Support\Collection;
 

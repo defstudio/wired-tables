@@ -164,7 +164,7 @@ class TableConfiguration extends Configuration
         return $this;
     }
 
-    public function withExcelExport(string $name  ='export'): static
+    public function withExcelExport(string $name = 'export'): static
     {
         $this->set(Config::excel_export, true);
         $this->set(Config::excel_export_filename, $name);
