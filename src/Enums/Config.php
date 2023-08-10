@@ -63,4 +63,9 @@ enum Config
     case group_filters;
 
     case compact_table;
+
+    case excel_export;
+    case excel_export_filename;
+    case export_closure;
+    case skip_export;
 }

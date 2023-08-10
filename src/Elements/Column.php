@@ -34,7 +34,7 @@ class Column extends Configuration implements Arrayable
 
         $this->set(Config::name, $name)
             ->set(Config::db_column, $dbColumn)
-            ->set(Config::id, md5($this->name() . $this->dbColumn() . $table->id()));
+            ->set(Config::id, md5($this->name().$this->dbColumn().$table->id()));
     }
 
     protected function initDefaults(): void
@@ -109,6 +109,16 @@ class Column extends Configuration implements Arrayable
         return $this->set(Config::wrapText, $enable);
     }
 
+    public function exportAs(Closure $formatClosure): static
+    {
+        return $this->set(Config::export_closure, $formatClosure);
+    }
+
+    public function skipExport(): static
+    {
+        return $this->set(Config::skip_export, true);
+    }
+
     /**
      * @param null|Closure(Builder $query, Sorting $dir): void $sortClosure
      */
@@ -175,6 +185,15 @@ class Column extends Configuration implements Arrayable
     public function isSearchable(): bool
     {
         return $this->get(Config::is_searchable);
+    }
+
+    public function isExportable(): bool
+    {
+        if (!$this->isVisible()) {
+            return false;
+        }
+
+        return !$this->get(Config::skip_export, false);
     }
 
     public function hasSearchClosure(): bool
@@ -248,6 +267,15 @@ class Column extends Configuration implements Arrayable
         }
 
         return $this->runClosure($emitClosure);
+    }
+
+    public function renderForExport(): string
+    {
+        if ($closure = $this->get(Config::export_closure)) {
+            return $this->runClosure($closure);
+        }
+
+        return $this->render()->toHtml();
     }
 
     public function render(): HtmlString

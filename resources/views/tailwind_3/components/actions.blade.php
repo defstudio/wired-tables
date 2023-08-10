@@ -30,7 +30,7 @@ use DefStudio\WiredTables\WiredTable;
                 @foreach($visibleActions->chunk($this->config(\DefStudio\WiredTables\Enums\Config::actions_columns, $visibleActions->count() > 3 ? 3 : 1)) as $action_group)
                     <div class="table-row">
                         @foreach($action_group as $index => $action)
-                            <?php /** @var \DefStudio\WiredTables\Elements\Action $action */ ?>
+                                <?php /** @var \DefStudio\WiredTables\Elements\Action $action */ ?>
                             <div wire:key="wt-{{$this->id()}}-action-{{$index}}-wrapper" class="table-cell p-1">
                                 <button wire:key="wt-{{$this->id()}}-action-{{$index}}"
                                         @click="show = false; $wire.call('{{$action->method()}}' {{$action->methodArguments()->map(fn(string $arg) => ", '$arg'")->join('')}})"
@@ -46,13 +46,16 @@ use DefStudio\WiredTables\WiredTable;
     @else
         <div {{$attributes->class('flex')}} wire:key="wt-{{$this->id()}}-actions-wrapper">
             @foreach($visibleActions as $index => $action)
-                <?php /** @var \DefStudio\WiredTables\Elements\Action $action */ ?>
-                <div wire:key="wt-{{$this->id()}}-action-{{$index}}-wrapper" class="table-cell p-1">
-                    <button wire:key="wt-{{$this->id()}}-action-{{$index}}"
-                            @click="show = false; $wire.call('{{$action->method()}}' {{$action->methodArguments()->map(fn(string $arg) => ", '$arg'")->join('')}})"
-                            class="bg-transparent border focus-visible:outline-0 border-solid p-2 whitespace-nowrap bg-gray-100 hover:bg-gray-200 w-full rounded focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                    >{{$action->name()}}</button>
-                </div>
+                    <?php /** @var \DefStudio\WiredTables\Elements\Action $action */ ?>
+
+                <button wire:key="wt-{{$this->id()}}-action-{{$index}}"
+                        @click="show = false; $wire.call('{{$action->method()}}' {{$action->methodArguments()->map(fn(string $arg) => ", '$arg'")->join('')}})"
+                        class="bg-transparent border focus-visible:outline-0
+                               border-solid border-gray-300 p-2 whitespace-nowrap bg-gray-100
+                               hover:bg-gray-200 w-full rounded focus:border-indigo-300
+                               focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                >{{$action->name()}}</button>
+
             @endforeach
         </div>
     @endif

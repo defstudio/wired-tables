@@ -35,4 +35,11 @@ return [
             'dark' => false,
         ],
     ],
+
+    'exporters' => [
+        /**
+         * Exporter for Excel, must implement \DefStudio\WiredTables\Contracts\ExcelExporter
+         */
+        'excel' => \DefStudio\WiredTables\Actions\ExcelExporter::class
+    ]
 ];

@@ -5,8 +5,12 @@
 namespace DefStudio\WiredTables\Concerns;
 
 use DefStudio\WiredTables\Elements\Action;
+use DefStudio\WiredTables\Elements\Column;
+use DefStudio\WiredTables\Enums\Config;
 use DefStudio\WiredTables\Exceptions\ActionException;
+use DefStudio\WiredTables\Exceptions\ColumnException;
 use DefStudio\WiredTables\WiredTable;
+use Illuminate\Support\Collection;
 
 /**
  * @mixin WiredTable
@@ -24,6 +28,11 @@ trait HasActions
     {
         $this->_actionsLocked = false;
         $this->actions();
+
+        if ($this->config(Config::excel_export, false)) {
+            $this->action('Excel', '__export_excel');
+        }
+
         $this->_actionsLocked = true;
     }
 
@@ -79,5 +88,20 @@ trait HasActions
         }
 
         $action->processHandler(...$args);
+    }
+
+    public function __export_excel()
+    {
+        if (!$this->config(Config::excel_export, false)) {
+            return null;
+        }
+
+        $columnsToExport = Collection::make($this->columns);
+
+        return app(config('wired-tables.exporters.excel'))->run(
+            $this->config(Config::excel_export_filename),
+            $this->rows()->get(),
+            $columnsToExport->filter(fn (Column $column) => $column->isExportable()),
+        );
     }
 }
