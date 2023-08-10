@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpDocSignatureInspection */
 
 /** @noinspection PhpUnused */
 
@@ -7,6 +7,7 @@
 namespace DefStudio\WiredTables\Configurations;
 
 use DefStudio\WiredTables\Concerns\HasTextConfiguration;
+use DefStudio\WiredTables\Contracts\ExcelExporter;
 use DefStudio\WiredTables\Enums\Config;
 use DefStudio\WiredTables\Exceptions\ConfigException;
 use Illuminate\Support\Str;
@@ -164,10 +165,14 @@ class TableConfiguration extends Configuration
         return $this;
     }
 
-    public function withExcelExport(string $name = 'export'): static
+    /**
+     * @param class-string<ExcelExporter> $exporter
+     */
+    public function withExcelExport(string $name = 'export', string $exporter = null): static
     {
         $this->set(Config::excel_export, true);
         $this->set(Config::excel_export_filename, $name);
+        $this->set(Config::excel_exporter, $exporter ?? config('wired-tables.exporters.excel'));
 
         return $this;
     }

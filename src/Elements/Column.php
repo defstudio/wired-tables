@@ -269,13 +269,13 @@ class Column extends Configuration implements Arrayable
         return $this->runClosure($emitClosure);
     }
 
-    public function renderForExport(): string
+    public function renderForExport(): string|int|float|bool|\DateTimeInterface|\DateInterval
     {
         if ($closure = $this->get(Config::export_closure)) {
             return $this->runClosure($closure);
         }
 
-        return $this->render()->toHtml();
+        return trim(strip_tags($this->render()->toHtml()));
     }
 
     public function render(): HtmlString

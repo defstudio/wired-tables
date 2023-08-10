@@ -97,7 +97,7 @@ trait HasActions
 
         $columnsToExport = Collection::make($this->columns);
 
-        return app(config('wired-tables.exporters.excel'))->run(
+        return app($this->config(Config::excel_exporter))->run(
             $this->config(Config::excel_export_filename),
             $this->rows()->get(),
             $columnsToExport->filter(fn (Column $column) => $column->isExportable()),

@@ -12,5 +12,5 @@ interface ExcelExporter
      * @param Collection<int, Model> $rows
      * @param Collection<int, Column> $columns
      */
-    public function run(string $filename, Collection $rows, Collection $columns): void;
+    public function run(string $filename, Collection $rows, Collection $columns);
 }
