@@ -7,10 +7,8 @@ use Illuminate\Support\Collection;
 use OpenSpout\Common\Entity\Cell;
 use OpenSpout\Common\Entity\Row;
 use OpenSpout\Common\Entity\Style\Style;
-use OpenSpout\Writer\WriterInterface;
 use OpenSpout\Writer\XLSX\Writer;
 use Spatie\SimpleExcel\SimpleExcelWriter;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ExcelExporter implements \DefStudio\WiredTables\Contracts\ExcelExporter
 {
