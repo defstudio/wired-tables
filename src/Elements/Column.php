@@ -220,7 +220,7 @@ class Column extends Configuration implements Arrayable
     {
 
         return $this
-            ->exportAs(fn($value) => $value)
+            ->exportAs(fn ($value) => $value)
             ->format(function ($value) use ($format) {
                 if (empty($value)) {
                     return null;
