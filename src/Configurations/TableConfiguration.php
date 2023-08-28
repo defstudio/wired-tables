@@ -63,6 +63,11 @@ class TableConfiguration extends Configuration
         return $this->set(Config::is_searchable, false);
     }
 
+    public function scrollableX(bool $enable = true): static
+    {
+        return $this->set(Config::scrollable_x, $enable);
+    }
+
     public function isSearchable(bool $enable = true): static
     {
         return $this->set(Config::is_searchable, $enable);

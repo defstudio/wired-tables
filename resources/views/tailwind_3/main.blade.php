@@ -21,9 +21,10 @@ use DefStudio\WiredTables\WiredTable;
     @endif
 
     <div @class([
-         'overflow-auto mb-3',
-         'rounded-md' => $this->config(\DefStudio\WiredTables\Enums\Config::rounded),
-         'shadow-md' => $this->config(\DefStudio\WiredTables\Enums\Config::table_shadow),
+         'mb-3',
+         'overflow-auto' => $this->config(\DefStudio\WiredTables\Enums\Config::scrollable_x, false),
+         'rounded-md' => $this->config(\DefStudio\WiredTables\Enums\Config::rounded, false),
+         'shadow-md' => $this->config(\DefStudio\WiredTables\Enums\Config::table_shadow, false),
     ])>
         <x-wired-tables::table wire:key="wt-{{$this->id()}}" class="">
             <x-slot name="header">

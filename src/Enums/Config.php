@@ -16,6 +16,7 @@ enum Config
     case wrapper_shadow;
     case table_shadow;
     case rounded;
+    case scrollable_x;
     case support_multiple_sorting;
     case default_sorting;
     case enable_row_dividers;

@@ -30,6 +30,7 @@ return [
             'always_show_actions' => false,
             'is_searchable' => true,
             'rounded' => false,
+            'scrollable_x' => false,
         ],
         'header' => [
             'dark' => false,
