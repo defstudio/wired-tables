@@ -94,6 +94,11 @@ trait HasFilters
             ->reject(fn (Filter $filter) => $this->filterValues[$filter->key()])
             ->each(fn (Filter $filter) => $this->filterValues[$filter->key()] = null);
 
+        collect($this->_filters)
+            ->reject(fn (Filter $filter) => $filter->type() === Filter::TYPE_CHECKBOX)
+            ->reject(fn (Filter $filter) => filled($this->filterValues[$filter->key()]))
+            ->each(fn (Filter $filter) => $this->filterValues[$filter->key()] = null);
+
         $this->storeState('filters', $this->filterValues);
     }
 
