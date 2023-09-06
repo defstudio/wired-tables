@@ -166,6 +166,10 @@ class Column extends Configuration implements Arrayable
         return $this->set(Config::type, ColumnType::boolean);
     }
 
+    public function clamp(int $rows = 1): static{
+        return $this->set(Config::clamp, $rows);
+    }
+
     public function enum(): static
     {
         return $this->set(Config::type, ColumnType::enum);
@@ -372,4 +376,6 @@ class Column extends Configuration implements Arrayable
     {
         //TODO
     }
+
+
 }

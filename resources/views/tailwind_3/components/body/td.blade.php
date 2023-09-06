@@ -42,10 +42,14 @@ if ($emit = $column->getEmit()) {
 <td wire:key="wt-{{$this->id()}}-row-{{$this->getRowId($model)}}-cell" {{$attributes}}>
     @if($url = $column->getUrl())
         <a href="{{$url}}" {{($url_target = $column->get(\DefStudio\WiredTables\Enums\Config::url_target)) ? "target='$url_target'": ''}}>
-            {{$content}}
+            <x-wired-tables::body.content :column="$column">
+                {{$content}}
+            </x-wired-tables::body.content>
         </a>
     @else
-        {{$content}}
+        <x-wired-tables::body.content :column="$column">
+            {{$content}}
+        </x-wired-tables::body.content>
     @endif
 </td>
 
