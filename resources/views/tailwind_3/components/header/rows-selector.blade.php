@@ -20,7 +20,7 @@ use DefStudio\WiredTables\WiredTable;
                 ])}}
     >
         <x-wired-tables::elements.checkbox wire:key="wt-{{$this->id}}-select-all" wire:model="allSelected"/>
-        @if($allSelected)
+        @if($this->allSelected)
             <button>Select All</button>
         @endif
     </th>
