@@ -2,6 +2,14 @@
 
 All notable changes to `wired-tables` will be documented in this file.
 
+## v0.2.6 - 2023-09-25
+
+### What's Changed
+
+- Bump actions/checkout from 3 to 4 by @dependabot in https://github.com/defstudio/wired-tables/pull/26
+
+**Full Changelog**: https://github.com/defstudio/wired-tables/compare/v0.2.5...v0.2.6
+
 ## v0.2.5 - 2023-07-19
 
 **Full Changelog**: https://github.com/defstudio/wired-tables/compare/v0.2.4...v0.2.5
