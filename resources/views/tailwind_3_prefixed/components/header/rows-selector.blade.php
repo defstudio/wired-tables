@@ -21,7 +21,7 @@ use DefStudio\WiredTables\WiredTable;
     >
         <x-wired-tables::elements.checkbox wire:key="wt-{{$this->id}}-select-all" wire:model="allSelected"/>
         @if($this->allSelected && $this->rows->hasPages())
-            <button class="tw-text-gray-500 tw-font-normal tw-text-xs hover:tw-text-gray-700">Select All</button>
+            <button role="button" class="tw-text-gray-500 tw-font-normal tw-text-xs hover:tw-text-gray-700">Select All</button>
         @endif
     </th>
 @endif
