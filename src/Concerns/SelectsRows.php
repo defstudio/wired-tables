@@ -42,7 +42,7 @@ trait SelectsRows
 
     public function selectVisibleRows(): void
     {
-        $this->selectRows($this->getVisibleRowsIds());
+        $this->selectRows([...$this->getVisibleRowsIds(), ...$this->selectedIds()]);
     }
 
     public function getVisibleRowsIds(): array

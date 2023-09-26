@@ -13,15 +13,19 @@ use DefStudio\WiredTables\WiredTable;
 @if($this->shouldShowRowsSelector())
     <th scope="col"
         wire:key="wt-{{$this->id}}-select-all-header"
-        {{$attributes->class([
-                   "px-6 text-left align-middle",
-                   "py-3" => !$this->shouldShowColumnFilters(),
-                   "pt-3" => $this->shouldShowColumnFilters(),
-                ])}}
+            {{$attributes->class([
+                       "px-6 text-left align-middle",
+                       "py-3" => !$this->shouldShowColumnFilters(),
+                       "pt-3" => $this->shouldShowColumnFilters(),
+                    ])}}
     >
+            <?php
+            if (empty($this->selectedIds()) || collect($this->getVisibleRowsIds())->reject(fn (int $id) => collect($this->selectedIds())->contains($id))->isNotEmpty()) {
+                $this->allSelected = false;
+            } else {
+                $this->allSelected = true;
+            }
+            ?>
         <x-wired-tables::elements.checkbox wire:key="wt-{{$this->id}}-select-all" wire:model="allSelected"/>
-        @if($this->allSelected && $this->rows->hasPages())
-            <button role="button" class="text-gray-500 font-normal text-xs hover:text-gray-700">Select All</button>
-        @endif
     </th>
 @endif

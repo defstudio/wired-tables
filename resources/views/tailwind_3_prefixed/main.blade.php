@@ -8,7 +8,7 @@ use DefStudio\WiredTables\WiredTable;
 <x-wired-tables::wrapper id="{{$this->slug}}" wire:key="wt-{{$this->id}}-wrapper">
     <x-wired-tables::top wire:key="wt-{{$this->id}}-top"/>
 
-    @if($this->allSelected && count($this->selectedIds()) < $this->totalRowsCount)
+    @if(count($this->selectedIds()) < $this->totalRowsCount)
         <div class="tw-px-6 tw-tracking-wider mb-3">
             <span>
                {{count($this->selectedIds())}} rows selected so far,
