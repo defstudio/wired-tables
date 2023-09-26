@@ -19,6 +19,13 @@ use DefStudio\WiredTables\WiredTable;
                    "pt-3" => $this->shouldShowColumnFilters(),
                 ])}}
     >
+            <?php
+            if (empty($this->selectedIds()) || collect($this->getVisibleRowsIds())->reject(fn (int $id) => collect($this->selectedIds())->contains($id))->isNotEmpty()) {
+                $this->allSelected = false;
+            } else {
+                $this->allSelected = true;
+            }
+            ?>
         <x-wired-tables::elements.checkbox wire:key="wt-{{$this->id()}}-select-all" wire:model.live="allSelected"/>
     </th>
 @endif
