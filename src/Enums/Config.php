@@ -5,7 +5,6 @@ namespace DefStudio\WiredTables\Enums;
 enum Config
 {
     case debug;
-    case footer_component;
 
     case font_size_class;
     case text_color_class;
