@@ -192,4 +192,9 @@ class TableConfiguration extends Configuration
 
         return $this;
     }
+
+    public function withFooterComponent(string $component): static
+    {
+        return $this->set(Config::footer_view, $component);
+    }
 }
