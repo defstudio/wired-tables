@@ -66,9 +66,5 @@ use DefStudio\WiredTables\WiredTable;
 
     <x-wired-tables::pagination class="tw-mt-auto" wire:key="wt-{{$this->id}}-pagination"/>
 
-    @if($footer_component = $this->config(\DefStudio\WiredTables\Enums\Config::footer_component))
-        <x-dynamic-component :name="$footer_component" wire:key="wt-{{$this->id}}-footer"/>
-    @endif
-
 </x-wired-tables::wrapper>
 

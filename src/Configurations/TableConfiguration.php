@@ -152,6 +152,13 @@ class TableConfiguration extends Configuration
         return $this;
     }
 
+    public function footerView(string $view): static
+    {
+        $this->set(Config::footer_view, $view);
+
+        return $this;
+    }
+
     public function debug(bool $enable = true): static
     {
         if (config('app.debug')) {
@@ -159,10 +166,5 @@ class TableConfiguration extends Configuration
         }
 
         return $this;
-    }
-
-    public function withFooterComponent(string $component): static
-    {
-        return $this->set(Config::footer_view, $component);
     }
 }
