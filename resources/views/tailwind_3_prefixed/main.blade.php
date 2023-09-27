@@ -65,5 +65,7 @@ use DefStudio\WiredTables\WiredTable;
     </div>
 
     <x-wired-tables::pagination class="tw-mt-auto" wire:key="wt-{{$this->id}}-pagination"/>
+
+    {{$slot}}
 </x-wired-tables::wrapper>
 
