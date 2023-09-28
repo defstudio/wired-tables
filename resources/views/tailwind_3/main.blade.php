@@ -20,12 +20,14 @@ use DefStudio\WiredTables\WiredTable;
 
     @endif
 
-    <div @class([
-         'mb-3',
-         'overflow-auto' => $this->config(\DefStudio\WiredTables\Enums\Config::scrollable_x, false),
-         'rounded-md' => $this->config(\DefStudio\WiredTables\Enums\Config::rounded, false),
-         'shadow-md' => $this->config(\DefStudio\WiredTables\Enums\Config::table_shadow, false),
-    ])>
+    <div @if($poll = $this->config(\DefStudio\WiredTables\Enums\Config::poll))wire:poll.{{$poll}}ms@endif
+         @class([
+            'mb-3',
+            'overflow-auto' => $this->config(\DefStudio\WiredTables\Enums\Config::scrollable_x, false),
+            'rounded-md' => $this->config(\DefStudio\WiredTables\Enums\Config::rounded, false),
+            'shadow-md' => $this->config(\DefStudio\WiredTables\Enums\Config::table_shadow, false),
+         ])
+    >
         <x-wired-tables::table wire:key="wt-{{$this->id()}}" class="">
             <x-slot name="header">
                 <x-wired-tables::header wire:key="wt-{{$this->id()}}-header">

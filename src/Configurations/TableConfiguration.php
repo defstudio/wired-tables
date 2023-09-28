@@ -192,4 +192,9 @@ class TableConfiguration extends Configuration
 
         return $this;
     }
+
+    public function poll(int $milliseconds = 1000): static
+    {
+        return $this->set(Config::poll, $milliseconds);
+    }
 }

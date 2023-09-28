@@ -5,11 +5,12 @@ namespace DefStudio\WiredTables\Enums;
 enum Config
 {
     case debug;
+    case footer_view;
+    case poll;
 
     case font_size_class;
     case text_color_class;
     case text_align_class;
-    case footer_view;
     case id_field;
     case empty_message;
     case dark_mode;
