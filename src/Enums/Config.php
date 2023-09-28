@@ -6,6 +6,7 @@ enum Config
 {
     case debug;
     case footer_view;
+    case poll;
 
     case font_size_class;
     case text_color_class;

@@ -154,9 +154,7 @@ class TableConfiguration extends Configuration
 
     public function footerView(string $view): static
     {
-        $this->set(Config::footer_view, $view);
-
-        return $this;
+        return $this->set(Config::footer_view, $view);
     }
 
     public function debug(bool $enable = true): static
@@ -166,5 +164,10 @@ class TableConfiguration extends Configuration
         }
 
         return $this;
+    }
+
+    public function poll(int $milliseconds = 1000): static
+    {
+        return $this->set(Config::poll, $milliseconds);
     }
 }
