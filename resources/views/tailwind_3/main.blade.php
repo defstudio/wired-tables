@@ -20,7 +20,7 @@ use DefStudio\WiredTables\WiredTable;
 
     @endif
 
-    <div @if($poll = $this->config(\DefStudio\WiredTables\Enums\Config::poll))wire:poll.{{$poll}}ms@endif
+    <div {{($poll = $this->config(\DefStudio\WiredTables\Enums\Config::poll)) ? "wire:poll.{$poll}ms" : ""}}
          @class([
             'mb-3',
             'overflow-auto' => $this->config(\DefStudio\WiredTables\Enums\Config::scrollable_x, false),
