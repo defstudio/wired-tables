@@ -72,4 +72,5 @@ enum Config
     case excel_export_filename;
     case export_closure;
     case skip_export;
+    case row_selection;
 }
