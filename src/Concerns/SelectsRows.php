@@ -22,7 +22,7 @@ trait SelectsRows
 
     public function shouldShowRowsSelector(): bool
     {
-        if($this->config(Config::row_selection)){
+        if($this->config(Config::row_selection)) {
             return true;
         }
 
