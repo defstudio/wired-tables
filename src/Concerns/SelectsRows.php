@@ -22,6 +22,10 @@ trait SelectsRows
 
     public function shouldShowRowsSelector(): bool
     {
+        if($this->config(Config::row_selection)){
+            return true;
+        }
+
         return collect($this->_actions)->some(fn (Action $action) => $action->requiresRowsSelection());
     }
 

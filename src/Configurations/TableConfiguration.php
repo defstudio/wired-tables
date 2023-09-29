@@ -166,6 +166,11 @@ class TableConfiguration extends Configuration
         return $this;
     }
 
+    public function withRowsSelection(bool $enable): static
+    {
+        return $this->set(Config::row_selection, $enable);
+    }
+
     public function poll(int $milliseconds = 1000): static
     {
         return $this->set(Config::poll, $milliseconds);

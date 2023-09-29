@@ -63,4 +63,6 @@ enum Config
     case group_filters;
 
     case compact_table;
+
+    case row_selection;
 }
