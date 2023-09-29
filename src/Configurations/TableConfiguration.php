@@ -166,7 +166,7 @@ class TableConfiguration extends Configuration
         return $this;
     }
 
-    public function withRowsSelection(bool $enable): static
+    public function withRowsSelection(bool $enable = true): static
     {
         return $this->set(Config::row_selection, $enable);
     }
