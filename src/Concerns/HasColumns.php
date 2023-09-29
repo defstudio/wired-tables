@@ -48,8 +48,21 @@ trait HasColumns
             throw ColumnException::duplicatedColumn($name);
         }
 
-        $this->_columns[] = $column = new Column($this, $name, $dbColumn);
+        $column = new Column($this, $name, $dbColumn);
 
+        $processedColumn = $this->registeringColumn($column);
+
+        if ($processedColumn === false) {
+            return $column;
+        }
+
+        $this->_columns[] = $processedColumn;
+
+        return $processedColumn;
+    }
+
+    protected function registeringColumn(Column $column): false|Column
+    {
         return $column;
     }
 
