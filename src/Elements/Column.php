@@ -21,7 +21,6 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
-use Nette\Utils\Html;
 
 class Column extends Configuration implements Arrayable
 {
@@ -74,6 +73,7 @@ class Column extends Configuration implements Arrayable
     public function setModel(Model $model): static
     {
         $this->model = $model;
+
         return $this;
     }
 
