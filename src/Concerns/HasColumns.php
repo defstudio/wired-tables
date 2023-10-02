@@ -5,9 +5,11 @@
 namespace DefStudio\WiredTables\Concerns;
 
 use DefStudio\WiredTables\Elements\Column;
+use DefStudio\WiredTables\Enums\Config;
 use DefStudio\WiredTables\Exceptions\ColumnException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\HtmlString;
 
 trait HasColumns
 {
@@ -83,5 +85,31 @@ trait HasColumns
         $relations = array_filter($relations);
 
         $query->with($relations);
+    }
+
+    public function getColumnSum(string $name): HtmlString
+    {
+        if (empty($name)) {
+            return new HtmlString();
+        }
+
+        $column = $this->getColumn($name);
+
+        $with_sum = $column->get(Config::with_sum);
+
+        if (!$with_sum) {
+            return new HtmlString();
+        }
+
+        $rows = $column->get(Config::sum_only_visible)
+            ? $this->rows
+            : $this->filteredRows;
+
+
+        if ($with_sum === true) {
+            return new HtmlString($rows->sum(fn ($model) => $column->setModel($model)->render()->toHtml()));
+        }
+
+        return new HtmlString($rows->sum(fn ($model) => $column->setModel($model)->runClosure($with_sum)));
     }
 }

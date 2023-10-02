@@ -1,6 +1,8 @@
 <?php
 
 use DefStudio\WiredTables\WiredTable;
+use DefStudio\WiredTables\Elements\Column;
+use DefStudio\WiredTables\Enums\Config;
 
 /** @var WiredTable $this */
 ?>
@@ -20,12 +22,12 @@ use DefStudio\WiredTables\WiredTable;
 
     @endif
 
-    <div {{($poll = $this->config(\DefStudio\WiredTables\Enums\Config::poll)) ? "wire:poll.{$poll}ms" : ""}}
-         @class([
-            'overflow-auto mb-3',
-            'rounded-md' => $this->config(\DefStudio\WiredTables\Enums\Config::rounded),
-            'shadow-md' => $this->config(\DefStudio\WiredTables\Enums\Config::table_shadow),
-         ])
+    <div {{($poll = $this->config(Config::poll)) ? "wire:poll.{$poll}ms" : ""}}
+        @class([
+           'overflow-auto mb-3',
+           'rounded-md' => $this->config(Config::rounded),
+           'shadow-md' => $this->config(Config::table_shadow),
+        ])
     >
         <x-wired-tables::table wire:key="wt-{{$this->id}}" class="">
             <x-slot name="header">
@@ -57,11 +59,30 @@ use DefStudio\WiredTables\WiredTable;
                 @empty
                     <tr>
                         <td class="px-6 py-3 text-gray-500 text-center" colspan="{{count($this->columns) + ($this->shouldShowRowsSelector() ? 1 : 0)}}">
-                            {{$this->config(\DefStudio\WiredTables\Enums\Config::empty_message, __('No data found'))}}
+                            {{$this->config(Config::empty_message, __('No data found'))}}
                         </td>
                     </tr>
                 @endforelse
             </x-wired-tables::body>
+
+            <x-slot name="footer">
+                @if(collect($this->columns)->some(fn(Column $column) => !!$column->get(Config::with_sum)))
+                    <x-wired-tables::footer wire:key="wt-{{$this->id}}-footer">
+                        <tr class="border-t">
+                            @if($this->shouldShowRowsSelector())
+                                <td></td>
+                            @endif
+
+                            @foreach($this->columns as $column)
+                                @continue(!$column->isVisible())
+
+                                <x-wired-tables::footer.td :column="$column"/>
+                            @endforeach
+                        </tr>
+                    </x-wired-tables::footer>
+                @endif
+
+            </x-slot>
 
         </x-wired-tables::table>
     </div>

@@ -14,4 +14,6 @@ use Illuminate\View\ComponentAttributeBag;
     {{$header}}
 
     {{$slot}}
+
+    {{$footer}}
 </table>

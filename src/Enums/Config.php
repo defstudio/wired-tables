@@ -65,4 +65,7 @@ enum Config
     case compact_table;
 
     case row_selection;
+
+    case with_sum;
+    case sum_only_visible;
 }
