@@ -73,6 +73,7 @@ class Column extends Configuration implements Arrayable
     public function setModel(Model $model): static
     {
         $this->model = $model;
+
         return $this;
     }
 
