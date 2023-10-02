@@ -3,7 +3,7 @@
 use DefStudio\WiredTables\Elements\Column;
 use Illuminate\View\ComponentAttributeBag;
 use DefStudio\WiredTables\WiredTable;
-use Illuminate\Database\Eloquent\Model
+use Illuminate\Database\Eloquent\Model;
 
 /** @var WiredTable $this */
 /** @var Column $column */
