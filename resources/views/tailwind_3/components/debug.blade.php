@@ -48,7 +48,7 @@ use Illuminate\View\ComponentAttributeBag;
                 <div x-show="section === 'sorting'">@dump($this->sorting)</div>
                 <div x-show="section === 'pagination'">
                     @if($this->paginationEnabled())
-                        @dump(['page' => $this->page, 'page size' => $this->pageSize])
+                        @dump(['page' => $this->rows->currentPage(), 'page size' => $this->pageSize])
                     @else
                         @dump("Pagination disabled")
                     @endif
