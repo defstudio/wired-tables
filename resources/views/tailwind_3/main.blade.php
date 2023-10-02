@@ -64,6 +64,25 @@ use DefStudio\WiredTables\WiredTable;
                 @endforelse
             </x-wired-tables::body>
 
+            <x-slot name="footer">
+                @if(collect($this->columns)->some(fn(\DefStudio\WiredTables\Elements\Column $column) => !!$column->get(\DefStudio\WiredTables\Enums\Config::with_sum)))
+                    <x-wired-tables::footer wire:key="wt-{{$this->id}}-footer">
+                        <tr class="border-t">
+                            @if($this->shouldShowRowsSelector())
+                                <td></td>
+                            @endif
+
+                            @foreach($this->columns as $column)
+                                @continue(!$column->isVisible())
+
+                                <x-wired-tables::footer.td :column="$column"/>
+                            @endforeach
+                        </tr>
+                    </x-wired-tables::footer>
+                @endif
+
+            </x-slot>
+
         </x-wired-tables::table>
     </div>
 

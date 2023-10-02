@@ -26,6 +26,7 @@ use Livewire\Component;
 
 /**
  * @property-read Collection|LengthAwarePaginator $rows
+ * @property-read Collection $filteredRows
  * @property-read int $totalRowsCount
  * @property-read Collection $selectedRows
  * @property-read string $slug

@@ -70,9 +70,10 @@ class Column extends Configuration implements Arrayable
         return $formatClosure($this->model(), $this);
     }
 
-    public function setModel(Model $model): void
+    public function setModel(Model $model): static
     {
         $this->model = $model;
+        return $this;
     }
 
     public function model(): Model|null
@@ -376,5 +377,11 @@ class Column extends Configuration implements Arrayable
     public function withFilter(string $filterName)
     {
         //TODO
+    }
+
+    public function withSum(Closure|bool $closure = true, bool $only_visible = false): static
+    {
+        return $this->set(Config::with_sum, $closure)
+            ->set(Config::sum_only_visible, $only_visible);
     }
 }

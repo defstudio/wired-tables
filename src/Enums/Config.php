@@ -73,4 +73,7 @@ enum Config
     case export_closure;
     case skip_export;
     case row_selection;
+
+    case with_sum;
+    case sum_only_visible;
 }

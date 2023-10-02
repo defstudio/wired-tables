@@ -55,6 +55,11 @@ trait BuildsQuery
         return $this->rows->count();
     }
 
+    public function getFilteredRowsProperty(): Collection
+    {
+        return $this->rows()->get();
+    }
+
     public function getRowsProperty(): Collection|LengthAwarePaginator
     {
         return $this->paginatedResults();
