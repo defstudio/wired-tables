@@ -87,8 +87,12 @@ trait HasFilters
         return collect($this->_filters)->first(fn (Filter $filter) => $filter->name() === $name);
     }
 
-    public function updatedFilterValues(): void
+    public function updatedFilterValues($value, $key): void
     {
+        if ($this->paginationEnabled()) {
+            $this->setPage(1);
+        }
+
         collect($this->_filters)
             ->filter(fn (Filter $filter) => $filter->type() === Filter::TYPE_CHECKBOX)
             ->reject(fn (Filter $filter) => $this->filterValues[$filter->key()])

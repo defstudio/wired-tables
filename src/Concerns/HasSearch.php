@@ -32,6 +32,10 @@ trait HasSearch
 
     public function updatedSearch(): void
     {
+        if ($this->paginationEnabled()) {
+            $this->setPage(1);
+        }
+
         $this->storeState('search', $this->search);
     }
 
