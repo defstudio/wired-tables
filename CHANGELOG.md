@@ -2,6 +2,14 @@
 
 All notable changes to `wired-tables` will be documented in this file.
 
+## v0.2.24 - 2023-10-17
+
+### What's Changed
+
+- Bump stefanzweifel/git-auto-commit-action from 4 to 5 by @dependabot in https://github.com/defstudio/wired-tables/pull/27
+
+**Full Changelog**: https://github.com/defstudio/wired-tables/compare/v0.2.23...v0.2.24
+
 ## v0.2.23 - 2023-10-02
 
 **Full Changelog**: https://github.com/defstudio/wired-tables/compare/v0.2.22...v0.2.23
