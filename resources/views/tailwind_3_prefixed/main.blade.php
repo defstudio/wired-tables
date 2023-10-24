@@ -20,7 +20,7 @@ use DefStudio\WiredTables\WiredTable;
 
     @endif
 
-    <div @if($poll = $this->config(\DefStudio\WiredTables\Enums\Config::poll))wire:poll.{{$poll}}ms@endif
+    <div @if($poll = $this->config(\DefStudio\WiredTables\Enums\Config::poll))wire:poll.{{$poll}}ms @endif
         @class([
            'tw-overflow-auto tw-mb-3',
            'tw-rounded-md' => $this->config(\DefStudio\WiredTables\Enums\Config::rounded),
@@ -64,7 +64,7 @@ use DefStudio\WiredTables\WiredTable;
             </x-wired-tables::body>
 
             <x-slot name="footer">
-                @if(collect($this->columns)->some(fn(Column $column) => !!$column->get(Config::with_sum)))
+                @if(collect($this->columns)->some(fn(\DefStudio\WiredTables\Elements\Column $column) => !!$column->get(\DefStudio\WiredTables\Enums\Config::with_sum)))
                     <x-wired-tables::footer wire:key="wt-{{$this->id}}-footer">
                         <tr class="tw-border-t">
                             @if($this->shouldShowRowsSelector())
