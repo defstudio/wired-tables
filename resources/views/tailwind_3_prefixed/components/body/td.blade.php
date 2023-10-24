@@ -37,10 +37,13 @@ if ($emit = $column->getEmit()) {
         'class' => 'cursor-pointer',
     ]);
 }
+
+$clamp_width = $column->get(\DefStudio\WiredTables\Enums\Config::clamp);
+
 ?>
 @props(['column', 'model'])
 
-<td x-data="{expanded: false}" wire:key="wt-{{$this->id}}-row-{{$this->getRowId($model)}}-cell" {{$attributes}}>
+<td x-data="{expanded: false}" wire:key="wt-{{$this->id}}-row-{{$this->getRowId($model)}}-cell" {{$attributes}} @if($clamp_width)style="max-width: {{$clamp_width}}px" @endif>
     @if($url = $column->getUrl())
         <a href="{{$url}}" {{($url_target = $column->get(\DefStudio\WiredTables\Enums\Config::url_target)) ? "target='$url_target'": ''}}>
             {{$content}}

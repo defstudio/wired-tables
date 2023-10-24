@@ -54,6 +54,7 @@ enum Config
     case display_on_column;
     case type;
     case options;
+    case clamp;
     case placeholder;
 
     case with_row_selection;

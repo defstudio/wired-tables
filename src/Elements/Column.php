@@ -158,6 +158,11 @@ class Column extends Configuration implements Arrayable
         return $this->set(Config::type, ColumnType::boolean);
     }
 
+    public function clamp(int $px = 270): static
+    {
+        return $this->set(Config::clamp, $px);
+    }
+
     public function enum(): static
     {
         return $this->set(Config::type, ColumnType::enum);
