@@ -2,6 +2,14 @@
 
 All notable changes to `wired-tables` will be documented in this file.
 
+## v0.0.27 - 2023-10-24
+
+### What's Changed
+
+- fix errors on prefix by @MarioGattolla in https://github.com/defstudio/wired-tables/pull/28
+
+**Full Changelog**: https://github.com/defstudio/wired-tables/compare/v0.2.26...v0.0.27
+
 ## v0.2.26 - 2023-10-24
 
 **Full Changelog**: https://github.com/defstudio/wired-tables/compare/v0.2.25...v0.2.26
