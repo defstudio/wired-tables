@@ -17,7 +17,6 @@ $attributes = $attributes->merge([
 ])->class([
     "px-4 py-2" => $this->config(\DefStudio\WiredTables\Enums\Config::compact_table),
     "px-6 py-3" => !$this->config(\DefStudio\WiredTables\Enums\Config::compact_table),
-    "px-6 py-3",
     "font-medium",
     "whitespace-nowrap" => !$column->get(\DefStudio\WiredTables\Enums\Config::wrapText) && !$this->config(\DefStudio\WiredTables\Enums\Config::compact_table),
     "min-w-[15rem]" => $column->get(\DefStudio\WiredTables\Enums\Config::wrapText) && \Illuminate\Support\Str::of($content->toHtml())->trim()->isNotEmpty(),
