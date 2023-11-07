@@ -25,7 +25,7 @@ $classes = "uppercase font-medium whitespace-nowrap tracking-wider {$column->get
                     "pt-3" => $this->shouldShowColumnFilters() && !$this->config(Config::compact_table),
 
                     "px-4" => $this->config(Config::compact_table),
-                    "py-2" => $this->shouldShowColumnFilters() && $this->config(Config::compact_table),
+                    "py-2" => !$this->shouldShowColumnFilters() && $this->config(Config::compact_table),
                     "pt-2" => $this->shouldShowColumnFilters() && $this->config(Config::compact_table),
                  ])}}>
     @if($column->isSortable())
