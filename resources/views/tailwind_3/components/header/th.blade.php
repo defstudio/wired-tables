@@ -19,9 +19,14 @@ $classes = "uppercase font-medium whitespace-nowrap tracking-wider {$column->get
 
 ?>
 <th scope="col" {{$attributes->class([
-                    "px-6 relative",
-                    "py-3" => !$this->shouldShowColumnFilters(),
-                    "pt-3" => $this->shouldShowColumnFilters(),
+                    "relative",
+                    "px-6" => !$this->config(Config::compact_table),
+                    "py-3" => !$this->shouldShowColumnFilters() && !$this->config(Config::compact_table),
+                    "pt-3" => $this->shouldShowColumnFilters() && !$this->config(Config::compact_table),
+
+                    "px-4" => $this->config(Config::compact_table),
+                    "py-2" => $this->shouldShowColumnFilters() && $this->config(Config::compact_table),
+                    "pt-2" => $this->shouldShowColumnFilters() && $this->config(Config::compact_table),
                  ])}}>
     @if($column->isSortable())
         <button wire:key="wt-th-sort-{{$column->id()}}"
