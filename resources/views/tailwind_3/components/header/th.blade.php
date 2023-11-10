@@ -24,9 +24,9 @@ $classes = "uppercase font-medium whitespace-nowrap tracking-wider {$column->get
                     "py-3" => !$this->shouldShowColumnFilters() && !$this->config(Config::compact_table),
                     "pt-3" => $this->shouldShowColumnFilters() && !$this->config(Config::compact_table),
 
-                    "px-4" => $this->config(Config::compact_table),
-                    "py-2" => !$this->shouldShowColumnFilters() && $this->config(Config::compact_table),
-                    "pt-2" => $this->shouldShowColumnFilters() && $this->config(Config::compact_table),
+                    "px-2" => $this->config(Config::compact_table),
+                    "py-1" => !$this->shouldShowColumnFilters() && $this->config(Config::compact_table),
+                    "pt-1" => $this->shouldShowColumnFilters() && $this->config(Config::compact_table),
                  ])}}>
     @if($column->isSortable())
         <button wire:key="wt-th-sort-{{$column->id()}}"

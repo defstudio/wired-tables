@@ -15,7 +15,7 @@ $content = $column->render();
 $attributes = $attributes->merge([
     'wire:key' => "wt-$this->id-row-{$this->getRowId($model)}-cell"
 ])->class([
-    "px-4 py-2" => $this->config(\DefStudio\WiredTables\Enums\Config::compact_table),
+    "px-2 py-1" => $this->config(\DefStudio\WiredTables\Enums\Config::compact_table),
     "px-6 py-3" => !$this->config(\DefStudio\WiredTables\Enums\Config::compact_table),
     "font-medium",
     "whitespace-nowrap" => !$column->get(\DefStudio\WiredTables\Enums\Config::wrapText) && !$this->config(\DefStudio\WiredTables\Enums\Config::compact_table),
