@@ -2,6 +2,14 @@
 
 All notable changes to `wired-tables` will be documented in this file.
 
+## v0.2.34 - 2023-11-14
+
+### What's Changed
+
+- fix clamp z_index by @MarioGattolla in https://github.com/defstudio/wired-tables/pull/29
+
+**Full Changelog**: https://github.com/defstudio/wired-tables/compare/v0.2.33...v0.2.34
+
 ## v0.2.33 - 2023-11-10
 
 **Full Changelog**: https://github.com/defstudio/wired-tables/compare/v0.2.32...v0.2.33
