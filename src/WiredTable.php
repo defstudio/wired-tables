@@ -57,7 +57,7 @@ abstract class WiredTable extends Component
      */
     public function getSlugProperty(): string
     {
-        return $this->_cachedSlug ?? $this->computeSlug();
+        return $this->_cachedSlug ??= $this->computeSlug();
     }
 
     protected function computeSlug(): string
