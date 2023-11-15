@@ -18,7 +18,7 @@ trait HasQueryStrings
     private function queryStringKey(string $key): string
     {
         return Str::of($key)
-            ->when($this->slug, fn (Stringable $str, $slug) => $str->prepend($slug, '.'));
+            ->when($this->slug, fn (Stringable $str, $slug) => $str->prepend($slug, '_'));
     }
 
     public function queryString(): array
