@@ -16,7 +16,7 @@ trait HasPagination
 {
     use WithPagination;
 
-    public int|string|null $pageSize = null;
+    public string|null $pageSize = null;
     protected string $paginationTheme = 'tailwind';
 
     public function bootedHasPagination(): void
