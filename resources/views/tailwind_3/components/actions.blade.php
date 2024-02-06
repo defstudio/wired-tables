@@ -44,7 +44,7 @@ use DefStudio\WiredTables\WiredTable;
         </div>
 
     @else
-        <div {{$attributes->class('flex')}} wire:key="wt-{{$this->id()}}-actions-wrapper">
+        <div {{$attributes->class('flex gap-1')}} wire:key="wt-{{$this->id()}}-actions-wrapper">
             @foreach($visibleActions as $index => $action)
                     <?php /** @var \DefStudio\WiredTables\Elements\Action $action */ ?>
 
