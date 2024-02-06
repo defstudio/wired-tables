@@ -12,7 +12,7 @@ use Illuminate\View\ComponentAttributeBag;
 <div wire:key="wt-{{$this->id()}}-filter-{{$filter->key()}}-wrapper" {{$attributes}}>
     @if($this->config(\DefStudio\WiredTables\Enums\Config::group_filters, false))
         <label for="wt-{{$this->id()}}-filter-{{$filter->key()}}"
-               class="block font-medium text-sm text-gray-500"
+               class="block font-medium text-sm text-gray-500 whitespace-nowrap"
         >
             {{$filter->name()}}
         </label>
@@ -38,7 +38,7 @@ use Illuminate\View\ComponentAttributeBag;
                    focus-within:ring-opacity-50
                    rounded-md shadow-sm flex items-center h-10">
 
-            <div>{{$filter->name()}}:</div>
+            <div class="whitespace-nowrap">{{$filter->name()}}:</div>
 
             <select id="wt-{{$this->id()}}-filter-{{$filter->key()}}"
                     name="filterValues[{{$filter->key()}}]"
