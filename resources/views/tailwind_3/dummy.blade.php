@@ -23,6 +23,9 @@
     group-hover:stroke-gray-600 group-hover:stroke-gray-400 group-hover:stroke-gray-200
     group-hover:fill-gray-600 group-hover:fill-gray-400 group-hover:fill-gray-200
 
+    peer
+    peer-hover:opacity-100
+    pointer-events-none
 
     odd:bg-white even:bg-gray-50
 "></div>
