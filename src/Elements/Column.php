@@ -1,4 +1,6 @@
-<?php /** @noinspection PhpDocSignatureInspection */
+<?php
+
+/** @noinspection PhpDocSignatureInspection */
 
 /** @noinspection PhpUnused */
 
