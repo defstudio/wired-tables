@@ -102,8 +102,8 @@ trait HasColumns
         }
 
         $rows = $column->get(Config::sum_target) === Config::sum_target_visible
-            ? $this->filteredRows
-            : $this->rows;
+            ? $this->rows
+            : $this->filteredRows;
 
 
         $sum = $with_sum === true
