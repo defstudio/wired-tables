@@ -101,9 +101,9 @@ trait HasColumns
             return new HtmlString();
         }
 
-        $rows = $column->get(Config::sum_target)
-            ? $this->rows
-            : $this->filteredRows;
+        $rows = $column->get(Config::sum_target) === Config::sum_target_visible
+            ? $this->filteredRows
+            : $this->rows;
 
 
         if ($with_sum === true) {
