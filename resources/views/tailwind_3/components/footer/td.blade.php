@@ -12,9 +12,11 @@ use Illuminate\Database\Eloquent\Model;
 
 
 $attributes = $attributes->class([
-    "px-6 py-3",
+    "px-2 py-1" => $this->config(\DefStudio\WiredTables\Enums\Config::compact_table),
+    "px-6 py-3" => !$this->config(\DefStudio\WiredTables\Enums\Config::compact_table),
     "font-medium",
-    "whitespace-nowrap" => !$column->get(\DefStudio\WiredTables\Enums\Config::wrapText),
+    "whitespace-nowrap" => !$column->get(\DefStudio\WiredTables\Enums\Config::wrapText) && !$this->config(\DefStudio\WiredTables\Enums\Config::compact_table),
+    "min-w-[15rem]" => $column->get(\DefStudio\WiredTables\Enums\Config::wrapText) && \Illuminate\Support\Str::of($content->toHtml())->trim()->isNotEmpty(),
     $column->getTextClasses(),
 ]);
 
