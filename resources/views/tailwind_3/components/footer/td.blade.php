@@ -23,6 +23,10 @@ $attributes = $attributes->class([
 @props(['column', 'model'])
 
 <td wire:key="wt-{{$this->id}}-footer-{{$column->id()}}-cell" {{$attributes}}>
+    @if($format = $column->get(\DefStudio\WiredTables\Enums\Config::sum_format))
+        {{$format($this->getColumnSum($column->name()))}}
+    @else
     {{$this->getColumnSum($column->name())}}
+    @endif
 </td>
 

@@ -1,5 +1,7 @@
 <?php
 
+/** @noinspection PhpDocSignatureInspection */
+
 /** @noinspection PhpUnused */
 
 /** @noinspection PhpMultipleClassDeclarationsInspection */
@@ -380,9 +382,13 @@ class Column extends Configuration implements Arrayable
         //TODO
     }
 
-    public function withSum(Closure|bool $closure = true, bool $only_visible = false): static
+    /**
+     * @param (Closure(int|float $value): int|float)|null $format
+     */
+    public function withSum(Closure|bool $closure = true, bool $only_visible = false, Closure|null $format = null): static
     {
         return $this->set(Config::with_sum, $closure)
-            ->set(Config::sum_only_visible, $only_visible);
+            ->set(Config::sum_target, $only_visible ? Config::sum_target_visible : Config::sum_target_all)
+            ->set(Config::sum_format, $format);
     }
 }

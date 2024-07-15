@@ -75,5 +75,8 @@ enum Config
     case row_selection;
 
     case with_sum;
-    case sum_only_visible;
+    case sum_target;
+    case sum_target_visible;
+    case sum_target_all;
+    case sum_format;
 }
