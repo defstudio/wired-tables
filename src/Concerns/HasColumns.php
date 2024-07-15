@@ -106,10 +106,15 @@ trait HasColumns
             : $this->rows;
 
 
-        if ($with_sum === true) {
-            return new HtmlString($rows->sum(fn ($model) => $column->setModel($model)->value()));
-        }
+        $sum = $with_sum === true
+            ? $rows->sum(fn ($model) => $column->setModel($model)->value())
+            : $rows->sum(fn ($model) => $column->setModel($model)->runClosure($with_sum));
 
-        return new HtmlString($rows->sum(fn ($model) => $column->setModel($model)->runClosure($with_sum)));
+
+        if ($format = $column->get(Config::sum_format)) {
+            return $format($sum);
+        } else {
+            return new HtmlString($sum);
+        }
     }
 }

@@ -352,7 +352,7 @@ class Column extends Configuration implements Arrayable
     }
 
     /**
-     * @param (Closure(int|float $value): int|float)|null $format
+     * @param (Closure(int|float $value): HtmlString)|null $format
      */
     public function withSum(Closure|bool $closure = true, bool $only_visible = false, Closure|null $format = null): static
     {
