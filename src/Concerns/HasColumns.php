@@ -101,13 +101,13 @@ trait HasColumns
             return new HtmlString();
         }
 
-        $rows = $column->get(Config::sum_only_visible)
+        $rows = $column->get(Config::sum_target)
             ? $this->rows
             : $this->filteredRows;
 
 
         if ($with_sum === true) {
-            return new HtmlString($rows->sum(fn ($model) => $column->setModel($model)->render()->toHtml()));
+            return new HtmlString($rows->sum(fn ($model) => $column->setModel($model)->value()));
         }
 
         return new HtmlString($rows->sum(fn ($model) => $column->setModel($model)->runClosure($with_sum)));
