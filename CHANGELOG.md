@@ -2,6 +2,17 @@
 
 All notable changes to `wired-tables` will be documented in this file.
 
+## v0.2.39 - 2024-07-15
+
+### What's Changed
+
+* Bump ramsey/composer-install from 2 to 3 by @dependabot in https://github.com/defstudio/wired-tables/pull/30
+* Bump dependabot/fetch-metadata from 1.6.0 to 2.0.0 by @dependabot in https://github.com/defstudio/wired-tables/pull/31
+* Bump dependabot/fetch-metadata from 2.0.0 to 2.1.0 by @dependabot in https://github.com/defstudio/wired-tables/pull/32
+* Bump dependabot/fetch-metadata from 2.1.0 to 2.2.0 by @dependabot in https://github.com/defstudio/wired-tables/pull/33
+
+**Full Changelog**: https://github.com/defstudio/wired-tables/compare/v0.2.38...v0.2.39
+
 ## v0.2.38 - 2023-11-21
 
 **Full Changelog**: https://github.com/defstudio/wired-tables/compare/v0.2.37...v0.2.38
