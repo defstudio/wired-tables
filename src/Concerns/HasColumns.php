@@ -101,19 +101,26 @@ trait HasColumns
             return new HtmlString();
         }
 
-        $rows = $column->get(Config::sum_target) === Config::sum_target_visible
-            ? $this->rows
-            : $this->filteredRows;
-
-
-        $sum = $with_sum === true
-            ? $rows->sum(fn ($model) => $column->setModel($model)->value())
-            : $rows->sum(fn ($model) => $column->setModel($model)->runClosure($with_sum));
-
-
         if ($format = $column->get(Config::sum_format)) {
-            return $format($sum);
+            $visible_rows_sum = $with_sum === true
+                ? $this->rows->sum(fn ($model) => $column->setModel($model)->value())
+                : $this->rows->sum(fn ($model) => $column->setModel($model)->runClosure($with_sum));
+
+            $filtered_rows_sum = $with_sum === true
+                ? $this->filteredRows->sum(fn ($model) => $column->setModel($model)->value())
+                : $this->filteredRows->sum(fn ($model) => $column->setModel($model)->runClosure($with_sum));
+
+            return $format($visible_rows_sum, $filtered_rows_sum);
         } else {
+            $rows = $column->get(Config::sum_target) === Config::sum_target_visible
+                ? $this->rows
+                : $this->filteredRows;
+
+
+            $sum = $with_sum === true
+                ? $rows->sum(fn ($model) => $column->setModel($model)->value())
+                : $rows->sum(fn ($model) => $column->setModel($model)->runClosure($with_sum));
+
             return new HtmlString($sum);
         }
     }
