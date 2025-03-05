@@ -17,31 +17,33 @@ class ExcelExporter implements \DefStudio\WiredTables\Contracts\ExcelExporter
      */
     public function run(string $filename, Collection $rows, Collection $columns)
     {
-        $writer = SimpleExcelWriter::streamDownload("$filename.xlsx", writerCallback: function (Writer $writer) use ($columns) {
-            $writer->getOptions()
-                ->setColumnWidth(20, ...range(1, $columns->count()));
-        })->addHeader($columns->map(fn (Column $column) => $column->name())->toArray());
+        $writer = SimpleExcelWriter::streamDownload("$filename.xlsx", writerCallback: function (Writer $writerCallback, string $downloadName) use ($rows, $columns) {
+            $writerCallback->openToBrowser($downloadName);
 
-        foreach ($rows->values() as $model) {
-            $writer = $writer->addRow(new Row($columns->map(function (Column $column) use ($model) {
+            $writerCallback->getOptions()->setColumnWidth(20, ...range(1, $columns->count()));
 
-                $column->setModel($model);
+            $writerCallback->addRow(new Row($columns->map(fn (Column $column) => Cell::fromValue($column->name()))->toArray()));
 
-                $value = $column->renderForExport();
+            foreach ($rows->values() as $model) {
+                $writerCallback->addRow(new Row($columns->map(function (Column $column) use ($model) {
 
-                if ($value instanceof Cell) {
-                    return $value;
-                }
+                    $column->setModel($model);
 
-                $style = match (true) {
-                    $value instanceof \DateTimeInterface => (new Style())->setFormat('dd/mm/yyyy'),
-                    default => new Style(),
-                };
+                    $value = $column->renderForExport();
 
-                return Cell::fromValue($value, $style);
-            })->toArray()));
-        }
+                    if ($value instanceof Cell) {
+                        return $value;
+                    }
 
+                    $style = match (true) {
+                        $value instanceof \DateTimeInterface => (new Style())->setFormat('dd/mm/yyyy'),
+                        default => new Style(),
+                    };
+
+                    return Cell::fromValue($value, $style);
+                })->toArray()));
+            }
+        });
 
         return response()->streamDownload(fn () => $writer->close(), "$filename.xlsx");
     }
