@@ -14,7 +14,7 @@ use DefStudio\WiredTables\WiredTable;
 @props(['model'])
 
 <tr wire:loading.class="tw-opacity-50"
-    wire:key="wt-{{$this->id}}-row-{{$this->getRowId($model)}}"
+    wire:key="wt-{{$this->getId()}}-row-{{$this->getRowId($model)}}"
     {{$attributes->class([
             'tw-bg-white' => !$this->config(\DefStudio\WiredTables\Enums\Config::striped),
             'odd:tw-bg-white even:tw-bg-gray-50' => $this->config(\DefStudio\WiredTables\Enums\Config::striped),

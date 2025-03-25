@@ -12,7 +12,7 @@ use DefStudio\WiredTables\WiredTable;
 
 @if($this->shouldShowRowsSelector())
     <th scope="col"
-        wire:key="wt-{{$this->id}}-select-all-header"
+        wire:key="wt-{{$this->getId()}}-select-all-header"
             {{$attributes->class([
                        "tw-px-6 tw-text-left tw-align-middle",
                        "tw-py-3" => !$this->shouldShowColumnFilters(),
@@ -26,6 +26,6 @@ use DefStudio\WiredTables\WiredTable;
                 $this->allSelected = true;
             }
             ?>
-        <x-wired-tables::elements.checkbox wire:key="wt-{{$this->id}}-select-all" wire:model="allSelected"/>
+        <x-wired-tables::elements.checkbox wire:key="wt-{{$this->getId()}}-select-all" wire:model="allSelected"/>
     </th>
 @endif

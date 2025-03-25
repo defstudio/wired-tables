@@ -36,7 +36,7 @@ class Column extends Configuration implements Arrayable
 
         $this->set(Config::name, $name)
             ->set(Config::db_column, $dbColumn)
-            ->set(Config::id, md5($this->name().$this->dbColumn().$table->id));
+            ->set(Config::id, md5($this->name().$this->dbColumn().$table->getId()));
     }
 
     protected function initDefaults(): void

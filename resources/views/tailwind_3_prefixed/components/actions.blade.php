@@ -9,9 +9,9 @@ use DefStudio\WiredTables\WiredTable;
     @php($visibleActions = collect($this->actions)->filter(fn(DefStudio\WiredTables\Elements\Action $action) => $action->isVisible()))
     @if($this->config(\DefStudio\WiredTables\Enums\Config::group_actions))
 
-    <div {{$attributes->class('tw-relative')}} wire:key="wt-{{$this->id}}-actions-wrapper" x-data="{show_actions: false}">
+    <div {{$attributes->class('tw-relative')}} wire:key="wt-{{$this->getId()}}-actions-wrapper" x-data="{show_actions: false}">
         <button
-            wire:key="wt-{{$this->id}}-actions-dropdown"
+            wire:key="wt-{{$this->getId()}}-actions-dropdown"
             {{$attributes->class("tw-flex tw-bg-transparent tw-border focus-visible:tw-outline-0 tw-border-solid tw-border-gray-300 focus:tw-border-indigo-300 focus:tw-ring focus:tw-ring-indigo-200 focus:tw-ring-opacity-50 tw-rounded-md tw-shadow-sm tw-text-sm tw-text-gray-700 tw-px-2 tw-py-2")}}
             @click="show_actions = !show_actions"
         >
@@ -20,7 +20,7 @@ use DefStudio\WiredTables\WiredTable;
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width='1.5' d="M6 8l4 4 4-4"/>
             </svg>
         </button>
-        <div wire:key="wt-{{$this->id}}-actions-container"
+        <div wire:key="wt-{{$this->getId()}}-actions-container"
              x-show="show_actions"
              x-on:click.outside="show_actions = false"
              class="tw-absolute tw-table tw-right-0 tw-top-[calc(100%_+_10px)] tw-bg-white tw-z-10 tw-shadow-md tw-border tw-border-gray-300 tw-py-0.5 tw-px-1 tw-rounded tw-text-sm tw-text-gray-700"
@@ -30,8 +30,8 @@ use DefStudio\WiredTables\WiredTable;
                 <div class="tw-table-row">
                     @foreach($action_group as $index => $action)
                         <?php /** @var \DefStudio\WiredTables\Elements\Action $action */ ?>
-                        <div wire:key="wt-{{$this->id}}-action-{{$index}}-wrapper" class="tw-table-cell tw-p-1">
-                            <button wire:key="wt-{{$this->id}}-action-{{$index}}"
+                        <div wire:key="wt-{{$this->getId()}}-action-{{$index}}-wrapper" class="tw-table-cell tw-p-1">
+                            <button wire:key="wt-{{$this->getId()}}-action-{{$index}}"
                                     @click="show_actions = false; $wire.call('{{$action->method()}}' {{$action->methodArguments()->map(fn(string $arg) => ", '$arg'")->join('')}})"
                                     class="tw-bg-transparent tw-border focus-visible:tw-outline-0 tw-border-solid tw-p-2 tw-whitespace-nowrap tw-bg-gray-100 hover:tw-bg-gray-200 tw-w-full tw-rounded focus:tw-border-indigo-300 focus:tw-ring focus:tw-ring-indigo-200 focus:tw-ring-opacity-50"
                             >{{$action->name()}}</button>
@@ -43,11 +43,11 @@ use DefStudio\WiredTables\WiredTable;
     </div>
 
     @else
-        <div {{$attributes->class('tw-flex')}} wire:key="wt-{{$this->id}}-actions-wrapper">
+        <div {{$attributes->class('tw-flex')}} wire:key="wt-{{$this->getId()}}-actions-wrapper">
             @foreach($visibleActions as $index => $action)
                 <?php /** @var \DefStudio\WiredTables\Elements\Action $action */ ?>
-                <div wire:key="wt-{{$this->id}}-action-{{$index}}-wrapper" class="tw-table-cell tw-p-1">
-                    <button wire:key="wt-{{$this->id}}-action-{{$index}}"
+                <div wire:key="wt-{{$this->getId()}}-action-{{$index}}-wrapper" class="tw-table-cell tw-p-1">
+                    <button wire:key="wt-{{$this->getId()}}-action-{{$index}}"
                             @click="show_actions = false; $wire.call('{{$action->method()}}' {{$action->methodArguments()->map(fn(string $arg) => ", '$arg'")->join('')}})"
                             class="tw-bg-transparent tw-border focus-visible:tw-outline-0 tw-border-solid tw-p-2 tw-whitespace-nowrap tw-bg-gray-100 hover:tw-bg-gray-200 tw-w-full tw-rounded focus:tw-border-indigo-300 focus:tw-ring focus:tw-ring-indigo-200 focus:tw-ring-opacity-50"
                     >{{$action->name()}}</button>

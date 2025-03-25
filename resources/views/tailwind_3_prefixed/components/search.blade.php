@@ -15,8 +15,8 @@ use DefStudio\WiredTables\WiredTable;
                 </svg>
             </div>
 
-            <input wire:key="wt-{{$this->id}}-search"
-                   id="wt-{{$this->id}}-search"
+            <input wire:key="wt-{{$this->getId()}}-search"
+                   id="wt-{{$this->getId()}}-search"
                    type="text"
                    placeholder="search..."
                    class="tw-border focus-visible:tw-outline-0 tw-border-solid tw-border-gray-300  focus:tw-border-indigo-300 focus:tw-ring focus:tw-ring-indigo-200 focus:tw-ring-opacity-50 tw-rounded-md tw-shadow-sm tw-text-sm placeholder:tw-text-slate-400 tw-text-gray-800 tw-px-7 tw-py-2"

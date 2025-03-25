@@ -13,7 +13,7 @@ use DefStudio\WiredTables\WiredTable;
 $content = $column->render();
 
 $attributes = $attributes->merge([
-    'wire:key' => "wt-$this->id-row-{$this->getRowId($model)}-cell"
+    'wire:key' => "wt-{$this->getId()}-row-{$this->getRowId($model)}-cell"
 ])->class([
     "px-2 py-1" => $this->config(\DefStudio\WiredTables\Enums\Config::compact_table),
     "px-6 py-3" => !$this->config(\DefStudio\WiredTables\Enums\Config::compact_table),
@@ -32,7 +32,7 @@ if ($emit = $column->getEmit()) {
         ->join(',');
 
     $attributes = $attributes->merge([
-        'wire:click' => "\$emit($params)",
+        'wire:click' => "\$dispatch($params)",
         'class' => 'cursor-pointer',
     ]);
 }
@@ -42,7 +42,7 @@ $clamp_width = $column->get(\DefStudio\WiredTables\Enums\Config::clamp);
 
 @props(['column', 'model'])
 
-<td wire:key="wt-{{$this->id}}-row-{{$this->getRowId($model)}}-cell" {{$attributes}} @if($clamp_width)style="max-width: {{$clamp_width}}px" @endif>
+<td wire:key="wt-{{$this->getId()}}-row-{{$this->getRowId($model)}}-cell" {{$attributes}} @if($clamp_width)style="max-width: {{$clamp_width}}px" @endif>
     @if($url = $column->getUrl())
         <a href="{{$url}}" {{($url_target = $column->get(\DefStudio\WiredTables\Enums\Config::url_target)) ? "target='$url_target'": ''}}>
             <x-wired-tables::body.content :column="$column">

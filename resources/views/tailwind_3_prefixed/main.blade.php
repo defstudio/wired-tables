@@ -5,8 +5,8 @@ use DefStudio\WiredTables\WiredTable;
 /** @var WiredTable $this */
 ?>
 
-<x-wired-tables::wrapper id="{{$this->slug}}" wire:key="wt-{{$this->id}}-wrapper">
-    <x-wired-tables::top wire:key="wt-{{$this->id}}-top"/>
+<x-wired-tables::wrapper id="{{$this->slug}}" wire:key="wt-{{$this->getId()}}-wrapper">
+    <x-wired-tables::top wire:key="wt-{{$this->getId()}}-top"/>
 
     @if(count($this->selectedIds())>0 && count($this->selectedIds()) < $this->totalRowsCount && $this->rows->hasPages())
         <div class="tw-px-6 tw-tracking-wider mb-3">
@@ -27,11 +27,11 @@ use DefStudio\WiredTables\WiredTable;
            'tw-shadow-md' => $this->config(\DefStudio\WiredTables\Enums\Config::table_shadow),
         ])
     >
-        <x-wired-tables::table wire:key="wt-{{$this->id}}">
+        <x-wired-tables::table wire:key="wt-{{$this->getId()}}">
             <x-slot name="header">
-                <x-wired-tables::header wire:key="wt-{{$this->id}}-header">
+                <x-wired-tables::header wire:key="wt-{{$this->getId()}}-header">
                     <tr>
-                        <x-wired-tables::header.rows-selector wire:key="wt-{{$this->id}}-th-rows-selector"/>
+                        <x-wired-tables::header.rows-selector wire:key="wt-{{$this->getId()}}-th-rows-selector"/>
                         @foreach($this->columns as $column)
                             @continue(!$column->isVisible())
                             @php($column->setParentConfiguration($this->configuration()->header))
@@ -46,7 +46,7 @@ use DefStudio\WiredTables\WiredTable;
             <x-wired-tables::body>
                 @forelse($this->rows as $model)
                     <x-wired-tables::body.tr :model="$model">
-                        <x-wired-tables::body.rows-selector wire:key="wt-{{$this->id}}-th-rows-selector" :model="$model"/>
+                        <x-wired-tables::body.rows-selector wire:key="wt-{{$this->getId()}}-th-rows-selector" :model="$model"/>
                         @foreach($this->columns as $column)
                             @continue(!$column->isVisible())
                             @php($column->setParentConfiguration($this->configuration()))
@@ -65,7 +65,7 @@ use DefStudio\WiredTables\WiredTable;
 
             <x-slot name="footer">
                 @if(collect($this->columns)->some(fn(\DefStudio\WiredTables\Elements\Column $column) => !!$column->get(\DefStudio\WiredTables\Enums\Config::with_sum)))
-                    <x-wired-tables::footer wire:key="wt-{{$this->id}}-footer">
+                    <x-wired-tables::footer wire:key="wt-{{$this->getId()}}-footer">
                         <tr class="tw-border-t">
                             @if($this->shouldShowRowsSelector())
                                 <td></td>
@@ -85,7 +85,7 @@ use DefStudio\WiredTables\WiredTable;
         </x-wired-tables::table>
     </div>
 
-    <x-wired-tables::pagination class="tw-mt-auto" wire:key="wt-{{$this->id}}-pagination"/>
+    <x-wired-tables::pagination class="tw-mt-auto" wire:key="wt-{{$this->getId()}}-pagination"/>
 
 </x-wired-tables::wrapper>
 

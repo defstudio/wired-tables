@@ -16,10 +16,10 @@ test('pagination is mounted', function () {
 test('page is reset when page size changes', function () {
     $table = fakeTable();
 
-    $table->page = 2;
+    $table->getPage() = 2;
     $table->updatedPageSize();
 
-    expect($table->page)->toBe(1);
+    expect($table->getPage())->toBe(1);
 });
 
 it('can change page size', function () {

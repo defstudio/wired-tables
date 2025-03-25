@@ -15,7 +15,7 @@ use function Spatie\Snapshots\assertMatchesSnapshot;
 
 test('defaults', function () {
     $table = fakeTable();
-    $table->id = 1234;
+    $table->getId() = 1234;
     $column = new Column($table, "Test");
 
 
@@ -60,7 +60,7 @@ it('can compute its db column from the name', function () {
 
 it('can return its id', function () {
     $table = fakeTable();
-    $table->id = 1234;
+    $table->getId() = 1234;
     $column = new Column($table, "Test");
 
 
