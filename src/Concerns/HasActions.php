@@ -40,7 +40,7 @@ trait HasActions
         return $this->_actions;
     }
 
-    public function action(string $name, string $method = null): Action
+    public function action(string $name, ?string $method = null): Action
     {
         if ($this->_actionsLocked) {
             throw ActionException::locked();

@@ -69,7 +69,7 @@ trait HasSorting
         $this->storeState('sorting', $this->sorting);
     }
 
-    public function clearSorting(string $columnName = null): bool
+    public function clearSorting(?string $columnName = null): bool
     {
         if ($columnName) {
             unset($this->sorting[$columnName]);
