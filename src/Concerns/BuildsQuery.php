@@ -79,7 +79,7 @@ trait BuildsQuery
             ->replaceArray('?', collect($query->getBindings())->map(function ($binding) {
                 return is_numeric($binding) ? $binding : "'{$binding}'";
             })->toArray())
-            ->when($paginationEnabled, fn (Stringable $str) => $str->append(' limit ', $this->pageSize, ' offset ', $this->pageSize * ($this->rows->currentPage() - 1)));
+            ->when($paginationEnabled, fn (Stringable $str) => $str->append(' limit ', $this->pageSize, ' offset ', intval($this->pageSize) * ($this->rows->currentPage() - 1)));
     }
 
     public function selectedRows(): Builder|Relation

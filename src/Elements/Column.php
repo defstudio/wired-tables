@@ -45,7 +45,7 @@ class Column extends Configuration implements Arrayable
         $this->set(Config::is_searchable, false);
     }
 
-    protected function runClosure(Closure $formatClosure): mixed
+    public function runClosure(Closure $formatClosure): mixed
     {
         $reflection = new \ReflectionFunction($formatClosure);
 
