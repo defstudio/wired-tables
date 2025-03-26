@@ -28,7 +28,7 @@ class Filter extends Configuration
 
     private WiredTable $table;
 
-    public function __construct(WiredTable $table, string $name, string $key = null)
+    public function __construct(WiredTable $table, string $name, ?string $key = null)
     {
         $this->table = $table;
 

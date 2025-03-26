@@ -60,7 +60,7 @@ trait HasFilters
         return $this->_filters;
     }
 
-    public function filter(string $name, string $key = null): Filter
+    public function filter(string $name, ?string $key = null): Filter
     {
         if ($this->_filtersLocked) {
             throw FilterException::locked();
@@ -153,7 +153,7 @@ trait HasFilters
             ->each(fn (Filter $filter) => $filter->apply($query));
     }
 
-    public function getFilterValue(string $key, string|int|bool $default = null): string|int|bool|null
+    public function getFilterValue(string $key, string|int|bool|null $default = null): string|int|bool|null
     {
         if (!$this->_filtersLocked && request()->input('updates.0.payload.name') === "filterValues.$key") {
             return request()->input('updates.0.payload.value', 0);
