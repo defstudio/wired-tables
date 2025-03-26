@@ -116,7 +116,7 @@ class Column extends Configuration implements Arrayable
     /**
      * @param null|Closure(Builder $query, Sorting $dir): void $sortClosure
      */
-    public function sortable(Closure $sortClosure = null): static
+    public function sortable(?Closure $sortClosure = null): static
     {
         return $this->set(Config::is_sortable, true)
             ->set(Config::sort_closure, $sortClosure);
@@ -135,7 +135,7 @@ class Column extends Configuration implements Arrayable
     /**
      * @param (Closure(mixed $value, Model $model, Column $column): (string|null))|(Closure(Model $model, Column $column): (string|null)) $urlClosure
      */
-    public function url(Closure $urlClosure, string $target = null): static
+    public function url(Closure $urlClosure, ?string $target = null): static
     {
         return $this->set(Config::url, $urlClosure)
             ->set(Config::url_target, $target);
@@ -144,7 +144,7 @@ class Column extends Configuration implements Arrayable
     /**
      * @param (Closure(mixed $value, Model $model, Column $column): (string|array|null))|(Closure(Model $model, Column $column): (string|array|null)) $emitClosure
      */
-    public function emit(Closure $emitClosure, string $target = null): static
+    public function emit(Closure $emitClosure, ?string $target = null): static
     {
         return $this->set(Config::emit, $emitClosure);
     }
@@ -175,7 +175,7 @@ class Column extends Configuration implements Arrayable
         $this->get(Config::sort_closure)($query, $dir);
     }
 
-    public function searchable(callable $searchClosure = null): static
+    public function searchable(?callable $searchClosure = null): static
     {
         return $this->set(Config::is_searchable, true)
             ->set(Config::search_closure, $searchClosure);
@@ -206,7 +206,7 @@ class Column extends Configuration implements Arrayable
         return $this->set(Config::format_closure, $formatClosure);
     }
 
-    public function date(string $format = null): static
+    public function date(?string $format = null): static
     {
         return $this->format(function ($value) use ($format) {
             if (empty($value)) {

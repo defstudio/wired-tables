@@ -16,7 +16,7 @@ function enableDebug(): void
     Config::set('app.debug', true);
 }
 
-function fakeTable(WiredTable $table = null): WiredTable
+function fakeTable(?WiredTable $table = null): WiredTable
 {
     $table ??= new class () extends WiredTable {
         protected function configure(TableConfiguration $configuration): void

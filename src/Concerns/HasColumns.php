@@ -40,7 +40,7 @@ trait HasColumns
         return $this->_columns;
     }
 
-    protected function column(string $name, string $dbColumn = null): Column
+    protected function column(string $name, ?string $dbColumn = null): Column
     {
         if ($this->_columnsLocked) {
             throw ColumnException::locked();

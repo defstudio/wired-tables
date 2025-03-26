@@ -65,7 +65,7 @@ trait BuildsQuery
         return $this->paginatedResults();
     }
 
-    public function debugQuery(Builder|Relation $query = null): string
+    public function debugQuery(Builder|Relation|null $query = null): string
     {
         $paginationEnabled = $query === null && $this->paginationEnabled();
 
