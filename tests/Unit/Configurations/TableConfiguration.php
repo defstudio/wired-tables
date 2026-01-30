@@ -2,7 +2,7 @@
 
 use DefStudio\WiredTables\Configurations\TableConfiguration;
 
-test('defaults', function() {
+test('defaults', function () {
     $config = new TableConfiguration();
 
     expect($config->toArray())->toBe([
@@ -35,7 +35,7 @@ test('defaults', function() {
     ]);
 });
 
-it('can disable pagination', function() {
+it('can disable pagination', function () {
     $config = new TableConfiguration();
 
     $config->disablePagination();
@@ -46,7 +46,7 @@ it('can disable pagination', function() {
     ]);
 });
 
-it('can set compact table mode', function() {
+it('can set compact table mode', function () {
     $config = new TableConfiguration();
 
     $config->compactTable();
@@ -56,7 +56,7 @@ it('can set compact table mode', function() {
     ]);
 });
 
-it('can set default page size', function() {
+it('can set default page size', function () {
     $config = new TableConfiguration();
 
     $config->pageSize(100);
@@ -66,7 +66,7 @@ it('can set default page size', function() {
     ]);
 });
 
-it('can set available pages', function() {
+it('can set available pages', function () {
     $config = new TableConfiguration();
 
     $config->pageSize(100, [1, 2, 100, 150]);
@@ -77,7 +77,7 @@ it('can set available pages', function() {
     ]);
 });
 
-it('can disable row stripes', function() {
+it('can disable row stripes', function () {
     $config = new TableConfiguration();
 
     $config->striped(false);
@@ -87,7 +87,7 @@ it('can disable row stripes', function() {
     ]);
 });
 
-it('can enable rows hover effect', function() {
+it('can enable rows hover effect', function () {
     $config = new TableConfiguration();
 
     $config->hover();
@@ -97,7 +97,7 @@ it('can enable rows hover effect', function() {
     ]);
 });
 
-it('can set the number of filters columns', function() {
+it('can set the number of filters columns', function () {
     $config = new TableConfiguration();
 
     $config->filterSelectorColumns(42);
@@ -107,7 +107,7 @@ it('can set the number of filters columns', function() {
     ]);
 });
 
-it('can set the number of actions columns', function() {
+it('can set the number of actions columns', function () {
     $config = new TableConfiguration();
 
     $config->actionsSelectorColumns(42);
@@ -117,7 +117,7 @@ it('can set the number of actions columns', function() {
     ]);
 });
 
-it('can disable row dividers', function() {
+it('can disable row dividers', function () {
     $config = new TableConfiguration();
 
     $config->rowDividers(false);
@@ -127,7 +127,7 @@ it('can disable row dividers', function() {
     ]);
 });
 
-it('can enable multiple sorting', function() {
+it('can enable multiple sorting', function () {
     $config = new TableConfiguration();
 
     $config->multipleSorting();
@@ -137,7 +137,7 @@ it('can enable multiple sorting', function() {
     ]);
 });
 
-it('can enable debug mode', function() {
+it('can enable debug mode', function () {
     enableDebug();
 
     $config = new TableConfiguration();
@@ -148,7 +148,7 @@ it('can enable debug mode', function() {
     ]);
 });
 
-it("can't set debug mode if debug is disabled", function() {
+it("can't set debug mode if debug is disabled", function () {
     $config = new TableConfiguration();
 
     $config->debug();
@@ -156,7 +156,7 @@ it("can't set debug mode if debug is disabled", function() {
     expect($config->toArray())->not->toHaveKey('debug');
 });
 
-it('can set row_id field', function() {
+it('can set row_id field', function () {
     $config = new TableConfiguration();
 
     $config->rowIdField('foo');
@@ -164,7 +164,7 @@ it('can set row_id field', function() {
     expect($config->toArray())->toMatchArray(['id_field' => 'foo']);
 });
 
-it('can set state preserving', function() {
+it('can set state preserving', function () {
     $config = new TableConfiguration();
 
     $config->preserveState(false);

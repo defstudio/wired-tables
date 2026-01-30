@@ -5,7 +5,6 @@
 namespace DefStudio\WiredTables\Concerns;
 
 use DefStudio\WiredTables\Enums\Config;
-use Illuminate\Support\Collection;
 
 trait HasTextConfiguration
 {
