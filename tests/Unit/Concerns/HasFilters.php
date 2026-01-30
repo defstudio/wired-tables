@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Cache;
 
 use function Pest\Laravel\actingAs;
 
-test('filters are booted', function() {
+test('filters are booted', function () {
     $table = fakeTable();
 
     expect($table->filters)
@@ -26,7 +26,7 @@ test('filters are booted', function() {
         ->not->toBeEmpty();
 });
 
-test('filters are mounted', function() {
+test('filters are mounted', function () {
     $table = fakeTable();
 
     expect($table->filterValues)
@@ -34,7 +34,7 @@ test('filters are mounted', function() {
         ->toHaveKey('brand');
 });
 
-test('cached filters are mounted', function() {
+test('cached filters are mounted', function () {
     actingAs(new User(['id' => 42]));
     Cache::put("httplocalhost-42-state-filters", [
         'brand' => 'foo',
@@ -46,7 +46,7 @@ test('cached filters are mounted', function() {
     ]);
 });
 
-test('cached filters can be overridden by a query string', function() {
+test('cached filters can be overridden by a query string', function () {
     actingAs(new User(['id' => 42]));
     Cache::put("httplocalhost-42-state-filters", [
         'brand' => 'foo',
@@ -67,7 +67,7 @@ test('cached filters can be overridden by a query string', function() {
     ]);
 });
 
-test('cached filters are cleared with filter values', function() {
+test('cached filters are cleared with filter values', function () {
     actingAs(new User(['id' => 42]));
     Cache::put("httplocalhost-42-state-filters", [
         'brand' => 'foo',
@@ -81,7 +81,7 @@ test('cached filters are cleared with filter values', function() {
     ]);
 });
 
-test('cached filters are updated when filter values change', function() {
+test('cached filters are updated when filter values change', function () {
     actingAs(new User(['id' => 42]));
     $table = fakeTable();
     $table->filterValues = [
@@ -95,7 +95,7 @@ test('cached filters are updated when filter values change', function() {
     ]);
 });
 
-test('existing filters are not cleared on mount', function() {
+test('existing filters are not cleared on mount', function () {
     $table = fakeTable();
 
     $table->filterValues['brand'] = 'foo';
@@ -107,7 +107,7 @@ test('existing filters are not cleared on mount', function() {
     ]);
 });
 
-test('filters must be defined only inside [->filters()] method', function() {
+test('filters must be defined only inside [->filters()] method', function () {
     $table = fakeTable(new class () extends WiredTable {
         protected function query(): Builder|Relation
         {
@@ -125,11 +125,11 @@ test('filters must be defined only inside [->filters()] method', function() {
         }
     });
 
-    expect(fn() => $table->addFilter())
+    expect(fn () => $table->addFilter())
         ->toThrow(FilterException::class);
 });
 
-test('filters must be unique', function() {
+test('filters must be unique', function () {
     fakeTable(new class () extends WiredTable {
         protected function query(): Builder|Relation
         {
@@ -149,7 +149,7 @@ test('filters must be unique', function() {
     });
 })->throws(FilterException::class);
 
-it('can retrieve a filter', function() {
+it('can retrieve a filter', function () {
     $table = fakeTable();
 
     expect($table->getFilter('brand'))
@@ -157,7 +157,7 @@ it('can retrieve a filter', function() {
         ->name()->toBe('Brand');
 });
 
-it('can retrieve a filter by name', function() {
+it('can retrieve a filter by name', function () {
     $table = fakeTable();
 
     expect($table->getFilterByName('Brand'))
@@ -165,7 +165,7 @@ it('can retrieve a filter by name', function() {
         ->name()->toBe('Brand');
 });
 
-it('cleans up checkbox filters when unckeched', function() {
+it('cleans up checkbox filters when unckeched', function () {
     $table = fakeTable(new class () extends WiredTable {
         protected function query(): Builder|Relation
         {
@@ -190,7 +190,7 @@ it('cleans up checkbox filters when unckeched', function() {
     expect($table->filterValues['check'])->toBeNull();
 });
 
-it('can tell if it has filters', function() {
+it('can tell if it has filters', function () {
     $table = fakeTable(new class () extends WiredTable {
         protected function query(): Builder|Relation
         {
@@ -208,13 +208,13 @@ it('can tell if it has filters', function() {
     expect(fakeTable()->hasFilters())->toBeTrue();
 });
 
-it('can tell if filters selector should be shown', function($table, bool $visible) {
+it('can tell if filters selector should be shown', function ($table, bool $visible) {
     $table = $table();
 
     expect($table->shouldShowFiltersSelector())->toBe($visible);
 })->with([
     'no filters' => [
-        fn() => fakeTable(new class () extends WiredTable {
+        fn () => fakeTable(new class () extends WiredTable {
             protected function query(): Builder|Relation
             {
                 return Car::query();
@@ -228,7 +228,7 @@ it('can tell if filters selector should be shown', function($table, bool $visibl
         false,
     ],
     'no global filters' => [
-        fn() => fakeTable(new class () extends WiredTable {
+        fn () => fakeTable(new class () extends WiredTable {
             protected function query(): Builder|Relation
             {
                 return Car::query();
@@ -247,7 +247,7 @@ it('can tell if filters selector should be shown', function($table, bool $visibl
         false,
     ],
     'hidden filter' => [
-        fn() => fakeTable(new class () extends WiredTable {
+        fn () => fakeTable(new class () extends WiredTable {
             protected function query(): Builder|Relation
             {
                 return Car::query();
@@ -266,18 +266,18 @@ it('can tell if filters selector should be shown', function($table, bool $visibl
         false,
     ],
     'visible filter' => [
-        fn() => fakeTable(),
+        fn () => fakeTable(),
         true,
     ],
 ]);
 
-it('can tell if column filters should be shown', function( $table, bool $visible) {
+it('can tell if column filters should be shown', function ($table, bool $visible) {
     $table = $table();
 
     expect($table->shouldShowColumnFilters())->toBe($visible);
 })->with([
     'no filters' => [
-        fn() => fakeTable(new class () extends WiredTable {
+        fn () => fakeTable(new class () extends WiredTable {
             protected function query(): Builder|Relation
             {
                 return Car::query();
@@ -291,7 +291,7 @@ it('can tell if column filters should be shown', function( $table, bool $visible
         false,
     ],
     'no column filters' => [
-        fn() => fakeTable(new class () extends WiredTable {
+        fn () => fakeTable(new class () extends WiredTable {
             protected function query(): Builder|Relation
             {
                 return Car::query();
@@ -310,7 +310,7 @@ it('can tell if column filters should be shown', function( $table, bool $visible
         false,
     ],
     'hidden filter' => [
-        fn() => fakeTable(new class () extends WiredTable {
+        fn () => fakeTable(new class () extends WiredTable {
             protected function query(): Builder|Relation
             {
                 return Car::query();
@@ -329,7 +329,7 @@ it('can tell if column filters should be shown', function( $table, bool $visible
         false,
     ],
     'visible filter' => [
-        fn() => fakeTable(new class () extends WiredTable {
+        fn () => fakeTable(new class () extends WiredTable {
             protected function query(): Builder|Relation
             {
                 return Car::query();
@@ -349,7 +349,7 @@ it('can tell if column filters should be shown', function( $table, bool $visible
     ],
 ]);
 
-it('can extract active filters', function() {
+it('can extract active filters', function () {
     $table = fakeTable();
 
     expect($table->activeFilters())->toBeEmpty();
@@ -362,7 +362,7 @@ it('can extract active filters', function() {
         ->first()->name()->toBe('Brand');
 });
 
-it('can extract global and column filters', function() {
+it('can extract global and column filters', function () {
     $table = fakeTable(new class () extends WiredTable {
         protected function query(): Builder|Relation
         {
@@ -392,7 +392,7 @@ it('can extract global and column filters', function() {
         ->first()->name()->toBe('Name');
 });
 
-it('can clear filters', function() {
+it('can clear filters', function () {
     $table = fakeTable();
     $table->filterValues['brand'] = 'lamborghini';
 
@@ -401,7 +401,7 @@ it('can clear filters', function() {
     expect($table->filterValues['brand'])->toBeNull();
 });
 
-it('can apply filters', function() {
+it('can apply filters', function () {
     enableDebug();
     $table = fakeTable();
 

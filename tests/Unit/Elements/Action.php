@@ -165,7 +165,7 @@ it('can process its handler', function () {
     expect($processed)->toBeTrue();
 });
 
-test("visibility", function ( $action, bool $visible) {
+test("visibility", function ($action, bool $visible) {
     $action = $action();
 
     expect($action->isVisible())->toBe($visible);
