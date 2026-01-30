@@ -52,7 +52,7 @@
         "lint": "PHP_CS_FIXER_IGNORE_ENV=1 vendor/bin/php-cs-fixer fix -v",
         "test:lint": "PHP_CS_FIXER_IGNORE_ENV=1 vendor/bin/php-cs-fixer fix -v --dry-run",
         "test:types": "vendor/bin/phpstan analyse --ansi",
-        "test:unit": "vendor/bin/pest --colors=always --exclude-group=sandbox",
+        "test:unit": "vendor/bin/pest --no-coverage --colors=always --exclude-group=sandbox",
         "test": [
             "@test:lint",
             "@test:types",

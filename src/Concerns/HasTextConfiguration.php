@@ -17,7 +17,6 @@ trait HasTextConfiguration
             Config::font_size_class,
         ])->map(fn (Config $config) => $this->get($config))
             ->filter()
-            ->when(config("wired-tables.style") === 'tailwind_3_prefixed', fn (Collection $collection) => $collection->map(fn (string $class) => "tw-$class"))
             ->join(' ');
     }
 

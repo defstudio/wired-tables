@@ -87,7 +87,7 @@ trait HasFilters
         return collect($this->_filters)->first(fn (Filter $filter) => $filter->name() === $name);
     }
 
-    public function updatedFilterValues($value, $key): void
+    public function updatedFilterValues(): void
     {
         if ($this->paginationEnabled()) {
             $this->setPage(1);
