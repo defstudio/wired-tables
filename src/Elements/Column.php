@@ -149,7 +149,6 @@ class Column extends Configuration implements Arrayable
         return $this->set(Config::emit, $emitClosure);
     }
 
-
     public function carbon(string $format): static
     {
         return $this->set(Config::type, ColumnType::carbon)
