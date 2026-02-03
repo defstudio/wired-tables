@@ -13,7 +13,7 @@ use DefStudio\WiredTables\WiredTable;
 $content = $column->render();
 
 $attributes = $attributes->merge([
-    'wire:key' => "wt-$this->getId()-row-{$this->getRowId($model)}-cell"
+    'wire:key' => "wt-{$this->getId()}-row-{$this->getRowId($model)}-cell"
 ])->class([
     "px-2 py-1" => $this->config(\DefStudio\WiredTables\Enums\Config::compact_table),
     "px-6 py-3" => !$this->config(\DefStudio\WiredTables\Enums\Config::compact_table),
