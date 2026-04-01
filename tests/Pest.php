@@ -67,7 +67,7 @@ function fakeTable(?WiredTable $table = null): WiredTable
     $table->bootedHasPagination();
     $table->bootedHasFilters();
 
-    $table->forgetComputed('slug');
+    unset($table->slug);
 
     return $table;
 }

@@ -10,16 +10,16 @@ use function Pest\Laravel\actingAs;
 test('pagination is mounted', function () {
     $table = fakeTable();
 
-    expect($table->pageSize)->toBe(10);
+    expect($table->pageSize)->toBe('10');
 });
 
 test('page is reset when page size changes', function () {
     $table = fakeTable();
 
-    $table->page = 2;
+    $table->setPage(2);
     $table->updatedPageSize();
 
-    expect($table->page)->toBe(1);
+    expect($table->paginators)->toBe(['page' => 1]);
 });
 
 it('can change page size', function () {
@@ -28,7 +28,7 @@ it('can change page size', function () {
     $table->setPageSize(20);
     ;
 
-    expect($table->pageSize)->toBe(20);
+    expect($table->pageSize)->toBe('20');
 });
 
 it('prevents invalid page sizes', function () {
@@ -54,7 +54,7 @@ test('cached page size is mounted', function () {
 
     $table = fakeTable();
 
-    expect($table->pageSize)->toBe(50);
+    expect($table->pageSize)->toBe('50');
 });
 
 test('cached page size is updated', function () {
@@ -65,5 +65,5 @@ test('cached page size is updated', function () {
     $table = fakeTable();
     $table->setPageSize(20);
 
-    expect(Cache::get("httplocalhost-42-state-page-size"))->toBe(20);
+    expect(Cache::get("httplocalhost-42-state-page-size"))->toBe('20');
 });

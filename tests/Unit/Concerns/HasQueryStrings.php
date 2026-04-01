@@ -16,8 +16,8 @@ it('can compute slugged query strings', function () {
 
 
     expect($table->queryString())->toBe([
-        "search" => ['except' => '', 'as' => 'foo.search'],
-        "sorting" => ['except' => [], 'as' => 'foo.sort'],
-        "filterValues" => ['except' => '', 'as' => 'foo.filters'],
+        "search" => ['except' => '', 'as' => 'foo_search'],
+        "sorting" => ['except' => [], 'as' => 'foo_sort'],
+        "filterValues" => ['except' => '', 'as' => 'foo_filters'],
     ]);
 });
