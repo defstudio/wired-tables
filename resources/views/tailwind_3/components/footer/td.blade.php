@@ -24,7 +24,7 @@ $attributes = $attributes->class([
 
 @props(['column', 'model'])
 
-<td wire:key="wt-{{$this->id}}-footer-{{$column->id()}}-cell" {{$attributes}}>
+<td wire:key="wt-{{$this->getId()}}-footer-{{$column->id()}}-cell" {{$attributes}}>
     {{$this->getColumnSum($column->name())}}
 </td>
 

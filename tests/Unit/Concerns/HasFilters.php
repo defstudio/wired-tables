@@ -208,11 +208,13 @@ it('can tell if it has filters', function () {
     expect(fakeTable()->hasFilters())->toBeTrue();
 });
 
-it('can tell if filters selector should be shown', function (WiredTable $table, bool $visible) {
+it('can tell if filters selector should be shown', function ($table, bool $visible) {
+    $table = $table();
+
     expect($table->shouldShowFiltersSelector())->toBe($visible);
 })->with([
     'no filters' => [
-        'table' => fn () => fakeTable(new class () extends WiredTable {
+        fn () => fakeTable(new class () extends WiredTable {
             protected function query(): Builder|Relation
             {
                 return Car::query();
@@ -223,10 +225,10 @@ it('can tell if filters selector should be shown', function (WiredTable $table, 
                 $this->column('Name');
             }
         }),
-        'visible' => false,
+        false,
     ],
     'no global filters' => [
-        'table' => fn () => fakeTable(new class () extends WiredTable {
+        fn () => fakeTable(new class () extends WiredTable {
             protected function query(): Builder|Relation
             {
                 return Car::query();
@@ -242,10 +244,10 @@ it('can tell if filters selector should be shown', function (WiredTable $table, 
                 $this->filter('Name')->displayOnColumn();
             }
         }),
-        'visible' => false,
+        false,
     ],
     'hidden filter' => [
-        'table' => fn () => fakeTable(new class () extends WiredTable {
+        fn () => fakeTable(new class () extends WiredTable {
             protected function query(): Builder|Relation
             {
                 return Car::query();
@@ -261,19 +263,21 @@ it('can tell if filters selector should be shown', function (WiredTable $table, 
                 $this->filter('Name')->hidden();
             }
         }),
-        'visible' => false,
+        false,
     ],
     'visible filter' => [
-        'table' => fn () => fakeTable(),
-        'visible' => true,
+        fn () => fakeTable(),
+        true,
     ],
 ]);
 
-it('can tell if column filters should be shown', function (WiredTable $table, bool $visible) {
+it('can tell if column filters should be shown', function ($table, bool $visible) {
+    $table = $table();
+
     expect($table->shouldShowColumnFilters())->toBe($visible);
 })->with([
     'no filters' => [
-        'table' => fn () => fakeTable(new class () extends WiredTable {
+        fn () => fakeTable(new class () extends WiredTable {
             protected function query(): Builder|Relation
             {
                 return Car::query();
@@ -284,10 +288,10 @@ it('can tell if column filters should be shown', function (WiredTable $table, bo
                 $this->column('Name');
             }
         }),
-        'visible' => false,
+        false,
     ],
     'no column filters' => [
-        'table' => fn () => fakeTable(new class () extends WiredTable {
+        fn () => fakeTable(new class () extends WiredTable {
             protected function query(): Builder|Relation
             {
                 return Car::query();
@@ -303,10 +307,10 @@ it('can tell if column filters should be shown', function (WiredTable $table, bo
                 $this->filter('Name');
             }
         }),
-        'visible' => false,
+        false,
     ],
     'hidden filter' => [
-        'table' => fn () => fakeTable(new class () extends WiredTable {
+        fn () => fakeTable(new class () extends WiredTable {
             protected function query(): Builder|Relation
             {
                 return Car::query();
@@ -322,10 +326,10 @@ it('can tell if column filters should be shown', function (WiredTable $table, bo
                 $this->filter('Name')->displayOnColumn()->hidden();
             }
         }),
-        'visible' => false,
+        false,
     ],
     'visible filter' => [
-        'table' => fn () => fakeTable(new class () extends WiredTable {
+        fn () => fakeTable(new class () extends WiredTable {
             protected function query(): Builder|Relation
             {
                 return Car::query();
@@ -341,7 +345,7 @@ it('can tell if column filters should be shown', function (WiredTable $table, bo
                 $this->filter('Name')->displayOnColumn();
             }
         }),
-        'visible' => true,
+        true,
     ],
 ]);
 

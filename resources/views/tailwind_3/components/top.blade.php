@@ -6,15 +6,15 @@ use DefStudio\WiredTables\WiredTable;
 ?>
 
 <div class="p-3">
-    <x-wired-tables::debug wire:key="wt-{{$this->id}}-debug"/>
+    <x-wired-tables::debug wire:key="wt-{{$this->getId()}}-debug"/>
 
 
-    <div wire:key="wt-{{$this->id}}-info" class="flex">
+    <div wire:key="wt-{{$this->getId()}}-info" class="flex">
         @if($this->activeFilters()->isNotEmpty())
             <div class="pb-3 flex">
                 <div class="font-medium py-0.5 text-xs text-gray-500">Filters:</div>
                 @foreach($this->activeFilters() as $filter)
-                    <div wire:key="wt-{{$this->id}}-filter-{{$filter->key()}}-pill"
+                    <div wire:key="wt-{{$this->getId()}}-filter-{{$filter->key()}}-pill"
                          class="font-medium ml-1 px-1 py-0.5 text-xs text-indigo-600 bg-indigo-200 hover:bg-indigo-300  focus:bg-indigo-100  rounded-md flex cursor-pointer"
                          wire:click="clearFilter('{{$filter->key()}}')"
                     >
@@ -32,7 +32,7 @@ use DefStudio\WiredTables\WiredTable;
             <div class="pb-3 ml-auto flex">
                 <div class="font-medium py-0.5 text-xs text-gray-500">Sort:</div>
                 @foreach($this->sorting as $columnName => $dir)
-                    <div wire:key="wt-{{$this->id}}-sort-{{$columnName}}-pill"
+                    <div wire:key="wt-{{$this->getId()}}-sort-{{$columnName}}-pill"
                          class="font-medium ml-1 px-1 py-0.5 text-xs text-indigo-600 bg-indigo-200 hover:bg-indigo-300  focus:bg-indigo-100  rounded-md flex cursor-pointer"
                          wire:click="clearSorting('{{$columnName}}')"
                     >
@@ -56,7 +56,7 @@ use DefStudio\WiredTables\WiredTable;
 
         <div class="ml-auto flex">
             <x-wired-tables::actions class="mr-1"/>
-            <x-wired-tables::page-size-selector wire:key="wt-{{$this->id}}-page-size-selector-top"/>
+            <x-wired-tables::page-size-selector wire:key="wt-{{$this->getId()}}-page-size-selector-top"/>
         </div>
     </div>
 </div>
