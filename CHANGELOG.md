@@ -2,6 +2,23 @@
 
 All notable changes to `wired-tables` will be documented in this file.
 
+## v2.0.0 - 2026-05-27
+
+### What's Changed
+
+* Bump dependabot/fetch-metadata from 2.2.0 to 2.3.0 by @dependabot[bot] in https://github.com/defstudio/wired-tables/pull/34
+* php 8.4 support by @MarioGattolla in https://github.com/defstudio/wired-tables/pull/36
+* Bump dependabot/fetch-metadata from 2.3.0 to 2.4.0 by @dependabot[bot] in https://github.com/defstudio/wired-tables/pull/37
+* Bump stefanzweifel/git-auto-commit-action from 5 to 6 by @dependabot[bot] in https://github.com/defstudio/wired-tables/pull/38
+* Bump actions/checkout from 4 to 5 by @dependabot[bot] in https://github.com/defstudio/wired-tables/pull/39
+* Bump actions/checkout from 5 to 6 by @dependabot[bot] in https://github.com/defstudio/wired-tables/pull/41
+* Bump dependabot/fetch-metadata from 2.4.0 to 2.5.0 by @dependabot[bot] in https://github.com/defstudio/wired-tables/pull/42
+* Bump ramsey/composer-install from 3 to 4 by @dependabot[bot] in https://github.com/defstudio/wired-tables/pull/44
+* Bump dependabot/fetch-metadata from 2.5.0 to 3.0.0 by @dependabot[bot] in https://github.com/defstudio/wired-tables/pull/45
+* Bump dependabot/fetch-metadata from 3.0.0 to 3.1.0 by @dependabot[bot] in https://github.com/defstudio/wired-tables/pull/46
+
+**Full Changelog**: https://github.com/defstudio/wired-tables/compare/v0.2.43...v2.0.0
+
 ## v0.2.43 - 2024-07-15
 
 **Full Changelog**: https://github.com/defstudio/wired-tables/compare/v0.2.42...v0.2.43
