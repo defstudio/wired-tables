@@ -2,6 +2,14 @@
 
 All notable changes to `wired-tables` will be documented in this file.
 
+## v1.0.0 - 2026-05-27
+
+### What's Changed
+
+* Bump dependabot/fetch-metadata from 2.2.0 to 2.3.0 by @dependabot[bot] in https://github.com/defstudio/wired-tables/pull/34
+
+**Full Changelog**: https://github.com/defstudio/wired-tables/compare/v0.2.43...v1.0.0
+
 ## v2.0.0 - 2026-05-27
 
 ### What's Changed
