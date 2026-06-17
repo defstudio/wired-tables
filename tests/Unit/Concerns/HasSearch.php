@@ -135,7 +135,7 @@ it('can search in a morph relation if there are no related records', function ()
 
     $table->search = 'foo';
 
-    expect($table)->rawQuery()->toBe('select * from "cars" where ("name" like \'%foo%\') limit 10 offset 0');
+    expect($table)->rawQuery()->toBe('select * from "cars" where ("name" like \'%foo%\' or 0 >= 1) limit 10 offset 0');
 });
 
 

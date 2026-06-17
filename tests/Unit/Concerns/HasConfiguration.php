@@ -30,7 +30,8 @@ test('default configuration is loaded', function () {
         'preserve_state' => true,
         'striped' => true,
         'enable_row_dividers' => false,
-        'drop_shadow' => false,
+        'wrapper_shadow' => false,
+        'table_shadow' => false,
         'hover' => false,
         'support_multiple_sorting' => false,
         'group_filters' => true,
@@ -38,6 +39,8 @@ test('default configuration is loaded', function () {
         'filters_columns' => 1,
         'actions_columns' => 1,
         'always_show_actions' => false,
+        'is_searchable' => true,
+        'rounded' => false,
     ]);
 
     expect($table->configuration()->header->toArray())->toBe([

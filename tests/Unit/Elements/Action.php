@@ -71,11 +71,13 @@ it('can return its method arguments', function () {
     ]);
 });
 
-it('can compute its method', function (Action $action, string $method) {
+it('can compute its method', function ($action, string $method) {
+    $action = $action();
+
     expect($action->method())->toBe($method);
 })->with([
     'closure' => [
-        'action' => fn () => (new Action(new class () extends WiredTable {
+        fn () => (new Action(new class () extends WiredTable {
             protected function query(): Builder|Relation
             {
                 return Car::query();
@@ -86,10 +88,10 @@ it('can compute its method', function (Action $action, string $method) {
                 $this->column('test');
             }
         }, 'my action'))->handle(fn () => null),
-        'method' => 'handleAction',
+        'handleAction',
     ],
     'method given' => [
-        'action' => fn () => (new Action(new class () extends WiredTable {
+        fn () => (new Action(new class () extends WiredTable {
             protected function query(): Builder|Relation
             {
                 return Car::query();
@@ -104,10 +106,10 @@ it('can compute its method', function (Action $action, string $method) {
             {
             }
         }, 'my action', 'test')),
-        'method' => 'test',
+        'test',
     ],
     'camel' => [
-        'action' => fn () => (new Action(new class () extends WiredTable {
+        fn () => (new Action(new class () extends WiredTable {
             protected function query(): Builder|Relation
             {
                 return Car::query();
@@ -122,10 +124,10 @@ it('can compute its method', function (Action $action, string $method) {
             {
             }
         }, 'my action')),
-        'method' => 'myAction',
+        'myAction',
     ],
     'snake' => [
-        'action' => fn () => (new Action(new class () extends WiredTable {
+        fn () => (new Action(new class () extends WiredTable {
             protected function query(): Builder|Relation
             {
                 return Car::query();
@@ -140,7 +142,7 @@ it('can compute its method', function (Action $action, string $method) {
             {
             }
         }, 'my action')),
-        'method' => 'my_action',
+        'my_action',
     ],
 ]);
 
@@ -163,29 +165,31 @@ it('can process its handler', function () {
     expect($processed)->toBeTrue();
 });
 
-test("visibility", function (Action $action, bool $visible) {
+test("visibility", function ($action, bool $visible) {
+    $action = $action();
+
     expect($action->isVisible())->toBe($visible);
 })->with([
     'hidden by configuration' => [
-        'action' => fn () => (new Action(fakeTable(), 'my action'))->hidden(),
-        'visible' => false,
+        fn () => (new Action(fakeTable(), 'my action'))->hidden(),
+       false,
     ],
     'hidden by closure' => [
-        'action' => fn () => (new Action(fakeTable(), 'my action'))->hidden(fn () => true),
-        'visible' => false,
+       fn () => (new Action(fakeTable(), 'my action'))->hidden(fn () => true),
+        false,
     ],
     'visible by table configuration (row selection not needed)' => [
-        'action' => function () {
+        function () {
             $table = fakeTable();
             $table->configuration()->alwaysShowActions();
             $action = new Action($table, 'my action');
 
             return $action;
         },
-        'visible' => true,
+      true,
     ],
     'visible by table configuration (row selection required)' => [
-        'action' => function () {
+        function () {
             $table = fakeTable();
             $table->configuration()->alwaysShowActions();
             $action = new Action($table, 'my action');
@@ -193,14 +197,14 @@ test("visibility", function (Action $action, bool $visible) {
 
             return $action;
         },
-        'visible' => true,
+        true,
     ],
     'visible if row selection is not needed' => [
-        'action' => fn () => new Action(fakeTable(), 'my action'),
-        'visible' => true,
+        fn () => new Action(fakeTable(), 'my action'),
+        true,
     ],
     'visible if rows are selected' => [
-        'action' => function () {
+        function () {
             $table = fakeTable();
             $table->selectRows([1]);
             $action = new Action($table, 'my action');
@@ -208,10 +212,10 @@ test("visibility", function (Action $action, bool $visible) {
 
             return $action;
         },
-        'visible' => true,
+       true,
     ],
     'hidden if no rows are selected and row selection is required' => [
-        'action' => fn () => (new Action(fakeTable(), 'my action'))->withRowSelection(),
-        'visible' => false,
+        fn () => (new Action(fakeTable(), 'my action'))->withRowSelection(),
+        false,
     ],
 ]);
